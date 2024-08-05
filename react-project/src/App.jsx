@@ -1,10 +1,13 @@
+import {Button }from "@mui/material";
+
+
 function App() {
   
 
   return (
     <>
-      Ceva
-    </>
+      <Button className='login__button' variant="contained" >LogIn</Button>
+      </>
   )
 }
 
