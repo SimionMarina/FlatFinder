@@ -1,9 +1,9 @@
-import React from 'react'
-
+import NewFlat from './NewFlat'
 function Home() {
   return (
     <div>
-      This is the Home page
+     
+      <NewFlat />
     </div>
   )
 }

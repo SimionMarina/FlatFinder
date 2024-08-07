@@ -1,4 +1,4 @@
-import {Button }from "@mui/material";
+import Home from "./COMPONENTS/HOME/Home"
 
 
 function App() {
@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-      <Button className='login__button' variant="contained" >LogIn</Button>
-      </>
+      <Home></Home>
+    </>
   )
 }
 
