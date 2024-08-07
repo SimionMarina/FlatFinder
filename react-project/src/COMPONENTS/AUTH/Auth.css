@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+    /* background-color: #f4f4f4; */
+}
+
+.background__division {
+    display: flex;
+    flex-direction: row;
+}
+/* Left Side */
+.image__section {
+    background: url('../../assets/jenna-he-u-hQlgjrJCk-unsplash.jpg');
+    width: 50%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    color: wheat;
+}
+
+.hero__title {
+    margin: 90px 0 0 50px;
+
+}
+
+.hero__paragraph {
+    margin-left: 50px;
+    font-weight: 100;
+    font-size: large;
+
+
+}
+
+/* Right Side */
+.form__section {
+    width: 50%;
+    padding: 5% 5%;
+    background: linear-gradient(to top,  rgba(183,183,183,255) 15%,rgba(244,244,244,255) 55%); 
+}
+.form__details {
+    width: 100%;
+}
+
+.logo__section {
+    display: flex;
+    margin-bottom: 40px;
+
+}
+
+.bxs-home-heart {
+    font-size: 30px;
+
+}
+
+.form__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.company__title {
+    font-size: 30px;
+
+}
+.form__title {
+    font-size: 35px;
+
+}
+
+
+.inputs__side {
+    width: 97%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+}
+
+.input {
+    max-width: 100%;
+}
+
+.remember__forgot {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.checkbox__text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    /* margin-left: 10px; */
+    margin-top: -9px;
+}
+
+.checkbox {
+    width: 10px;
+}
+
+
+.separator {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 16px 0;  */
+  }
+  
+  .line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgb(162, 162, 162);
+  }
+  
+  .text {
+    position: relative;
+    background-color: rgba(215,215,215,255);
+    padding: 0 8px; 
+    color: black;
+    font-size: 1.25rem; 
+    margin-top: 10px;
+  }
+  
+
+.icon {
+    height: 24px; 
+    width: 24px; 
+}
+
+.icon-container {
+cursor: pointer;
+display: flex;
+align-items: center;
+text-align: center;
+justify-content: center;
+gap: 10px;
+padding: 16px;
+background-color: white;
+border: 1px solid rgb(109, 109, 109);
+border-radius: 8px;
+font-weight: 100;
+color: #060606;
+transition: background-color 0.5s ease, color 1s ease;
+
+}
+
+.icon-container:hover {
+    background-color: rgb(220, 220, 220);
+    color: black;
+    transition-delay: 0.1s; 
+
+}
+  
+  
+
+.navigate {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+
+}
+
+
+.no__account {
+    margin-bottom: 0;
+}
+
+.login__button:hover {
+    background-color: pink;
+}
+
+.forgot__password {
+    cursor: pointer;
+}
+
+.forgot__password:hover {
+    color: rgb(86, 86, 86);
+    border-bottom: 1px solid gray;
+}

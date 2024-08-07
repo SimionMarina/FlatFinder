@@ -6,8 +6,8 @@ function App() {
 
   return (
     <>
-      <Button className='login__button' variant="contained" >LogIn</Button>
-      </>
+
+    </>
   )
 }
 
