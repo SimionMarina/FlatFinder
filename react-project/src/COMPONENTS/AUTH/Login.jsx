@@ -1,6 +1,7 @@
 import React from 'react'
 import 'boxicons/css/boxicons.min.css';
 import Box from '@mui/material/Box';
+
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import FormControl from '@mui/material/FormControl';
@@ -90,9 +91,9 @@ function Login() {
                             <Button className='login__button' variant="contained" sx={{backgroundColor:"black", width: "100%", height:"50px"}} >LogIn</Button>
                         </Stack>
 
-                        <div class="separator">
-                            <div class="line"></div>
-                            <p class="text">or</p>
+                        <div className="separator">
+                            <div className="line"></div>
+                            <p className="text">or</p>
                         </div>
 
                         <div className='icon-container'>

@@ -131,9 +131,9 @@ function Register() {
                             <Button className='login__button' variant="contained" sx={{backgroundColor:"black", width: "100%", height:"50px"}} >LogIn</Button>
                         </Stack>
 
-                        <div class="separator">
-                            <div class="line"></div>
-                            <p class="text">or</p>
+                        <div className="separator">
+                            <div classNamelass="line"></div>
+                            <p className="text">or</p>
                         </div>
 
                         <div className='icon-container'>

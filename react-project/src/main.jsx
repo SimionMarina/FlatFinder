@@ -5,7 +5,9 @@ import './index.css'
 import './COMPONENTS/AUTH/Auth.css'
 import Login from './COMPONENTS/AUTH/Login.jsx'
 import Register from './COMPONENTS/AUTH/Register.jsx'
+import { ThemeProvider,createTheme } from '@mui/material/styles'
 
+const theme =createTheme();
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,12 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+ 
+   
+
     <RouterProvider router={router}></RouterProvider>
 
-  </React.StrictMode>,
+  
+
+ ,
 )
