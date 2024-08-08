@@ -21,8 +21,7 @@ export function AuthProvider({ children }) {
     async function initializeUser(user) {
         setLoading(true);
         if (user) {
-            setCurrentUser(user); // Nu mai este necesar {...user}, poți să setezi direct user
-            setUserLoggedIn(true);
+            setCurrentUser(user); 
         } else {
             setCurrentUser(null);
             setUserLoggedIn(false);

@@ -91,7 +91,7 @@ function Register() {
                 birthDate: formData.birthDate,
                 email: formData.email,
                 role: "user",
-                favorites: []
+                favorites: [],
             });
 
             // Resetează datele formularului
