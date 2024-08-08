@@ -39,7 +39,7 @@ function Register() {
   useEffect(()=> {
     console.log(currentUser)
     if(currentUser) {
-      navigate('/home')
+      navigate('/')
     }
   }, [currentUser])
  
@@ -108,7 +108,7 @@ function Register() {
 
             // Navighează către pagina principală după un mic delay pentru a permite afișarea mesajului
             setTimeout(() => {
-                navigate('/home');
+                navigate('/');
             }, 2000); // 2 secunde pentru a afișa mesajul de succes
 
         } catch (error) {
