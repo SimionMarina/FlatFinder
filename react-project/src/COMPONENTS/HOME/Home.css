@@ -1,0 +1,25 @@
+.add_flat_box {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 35px !important;
+  border-radius: 100%;
+  border: 1px solid blue;
+}
+.add_flat_box > .add_flat_button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  border: none;
+  color: blue;
+  font-size: 30px;
+  padding: 0;
+  margin: 0 !important;
+  background-color: transparent !important;
+}
+
+.add_flat_box > .add_flat_button:hover{
+  border: none;
+}

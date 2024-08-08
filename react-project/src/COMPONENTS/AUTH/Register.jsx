@@ -1,29 +1,139 @@
-import React from 'react'
-import 'boxicons/css/boxicons.min.css';
-import Box from '@mui/material/Box';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import Input from '@mui/material/Input';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import GoogleIcon from '../../assets/GOOGLE-ICON.svg';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import React, { useState, useEffect } from "react";
+import "boxicons/css/boxicons.min.css";
+// import Box from "@mui/material/Box";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import Input from "@mui/material/Input";
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import GoogleIcon from "../../assets/GOOGLE-ICON.svg";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { validationRules } from "../../VALIDATIONS/validation";
+import showToastr from "../../SERVICES/toaster-service";
+import { ToastContainer } from 'react-toastify'
+import {useNavigate, Link} from 'react-router-dom'
 
-
-
-
-
-
-
+import { useAuth } from "../../CONTEXT/authContext";
+import { doCreateUserWithEmailAndPassword } from "../../auth";
+import { db } from "../../firebase";
+import { setDoc, collection, doc } from "firebase/firestore";
 
 function Register() {
+  const label = [];
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email:"",
+    birthDate:"",
+    password:"",
+    confirmPassword:"",
+  })
+  const [isReg, setIsReg] = useState(false);
+  const {currentUser} = useAuth();
+
+
+  useEffect(()=> {
+    console.log(currentUser)
+    if(currentUser) {
+      navigate('/')
+    }
+  }, [currentUser])
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]:value
+    }))
+
+  }
+
+  const handleClick = async () => {
+    console.log(formData);
+    let validationResponse = true;
+
+    // Validate Full Name
+    validationResponse = validationRules['fullName'](formData.fullName) && validationResponse;
+
+    // Validate Email
+    validationResponse = validationRules['email'](formData.email) && validationResponse;
+
+    // Validate Birth Date
+    validationResponse = validationRules['birthDate'](formData.birthDate) && validationResponse;
+
+    // Validate Password
+    validationResponse = validationRules['password'](formData.password) && validationResponse;
+
+    // Validate Confirm Password
+    validationResponse = validationRules['confirmPassword'](formData.confirmPassword, formData.password) && validationResponse;
+
+    if (!validationResponse) {
+        // Validation failed
+        console.log( "Validation failed, correct the errors");
+        return; // Stop execution if validation fails
+    }
+
+    if (!isReg) {
+        setIsReg(true);
+        try {
+            // Crează utilizatorul în Firebase Authentication
+            const user = await doCreateUserWithEmailAndPassword(formData.email, formData.password);
+            console.log('User UID:', user.user.uid);
+
+            // Adaugă datele utilizatorului în Firestore
+            await setDoc(doc(db, "users", user.user.uid), {
+                fullName: formData.fullName,
+                birthDate: formData.birthDate,
+                email: formData.email,
+                role: "user",
+                favorites: []
+            });
+
+            // Resetează datele formularului
+            setFormData({
+                fullName: "",
+                email: "",
+                birthDate: "",
+                password: "",
+                confirmPassword: ""
+            });
+
+            // Afișează mesajul de succes
+            showToastr("success", "Registration successful! You are being redirected.");
+
+            // Navighează către pagina principală după un mic delay pentru a permite afișarea mesajului
+            setTimeout(() => {
+                navigate('/');
+            }, 2000); // 2 secunde pentru a afișa mesajul de succes
+
+        } catch (error) {
+            // Gestionează erorile
+            if (error.code === 'auth/email-already-in-use') {
+                showToastr("error", "Email is already in use. Please use a different email.");
+            } else {
+                console.log( "Error creating user or saving to Firestore. Please try again.");
+            }
+            console.log('Error creating user or saving to Firestore:', error);
+        } finally {
+            setIsReg(false);
+        }
+    }
+};
+
+
+
+
+
+
   return (
     <div>
+        <ToastContainer></ToastContainer>
+
         <div className="background__division">
 
             <div className='image__section'>
@@ -46,12 +156,16 @@ function Register() {
     
     
                     <div >
-                        <Box sx={{ '& > :not(style)': { m: 0 } }} className='inputs__side'>
+                        <div sx={{ '& > :not(style)': { m: 0 } }} className='inputs__side'>
                         <FormControl variant="standard" sx={{ width: '100%'}} >
                                 <InputLabel htmlFor="input-with-icon-adornment"  sx={{color:"black"}}>
                                 First Name & Last Name
                                 </InputLabel>
                                 <Input
+                                name='fullName'
+                                type="text"
+                                value={formData.fullName}
+                                onChange={handleChange}
                                     id="input-with-icon-adornment"
                                     startAdornment={
                                     <InputAdornment position="start">
@@ -66,6 +180,11 @@ function Register() {
                                 Email
                                 </InputLabel>
                                 <Input
+                                 name='email'
+                                 value={formData.email}
+                                onChange={handleChange}
+
+                                 type="email"
                                     id="input-with-icon-adornment"
                                     startAdornment={
                                     <InputAdornment position="start">
@@ -79,6 +198,10 @@ function Register() {
                                 BirthDate
                                 </InputLabel>
                                 <Input
+                                 name='birthDate'
+                                 value={formData.birthDate}
+                                onChange={handleChange}
+
                                 type='date'
                                     id="input-with-icon-adornment"
                                     startAdornment={
@@ -94,6 +217,10 @@ function Register() {
                                 Password
                                 </InputLabel>
                                 <Input  
+                                 name='password'
+                                 value={formData.password}
+                                onChange={handleChange}
+
                                     type='password'
                                     id="input-with-icon-adornment"
                                     startAdornment={
@@ -108,6 +235,10 @@ function Register() {
                                 Confirm Password
                                 </InputLabel>
                                 <Input  
+                                    name='confirmPassword'
+                                    value={formData.confirmPassword}
+                                onChange={handleChange}
+
                                     type='password'
                                     id="input-with-icon-adornment"
                                     startAdornment={
@@ -118,32 +249,32 @@ function Register() {
                                 />
                             </FormControl>
                             
-                        </Box>
+                        </div>
                         <div className='remember__forgot'>
                             <p className='checkbox__text'>      
                                 <Checkbox {...label} className='checkbox' />
-                                Remember me
+                                Accept Terms&Conditions
                             </p>
-                            <p className='forgot__password'>Forgot Password?</p>
+                            {/* <p className='forgot__password'>Forgot Password?</p> */}
                         </div>
 
                         <Stack direction="row" spacing={2}>
-                            <Button className='login__button' variant="contained" sx={{backgroundColor:"black", width: "100%", height:"50px"}} >LogIn</Button>
+                            <Button className='login__button' variant="contained" sx={{backgroundColor:"black", width: "100%", height:"50px"}} onClick={handleClick}  >Register</Button>
                         </Stack>
 
                         <div className="separator">
-                            <div classNamelass="line"></div>
-                            <p className="text">or</p>
+                            <div className="line"></div>
+                            <p className="text register__separator__text">or</p>
                         </div>
 
                         <div className='icon-container'>
                             <img src={GoogleIcon} className='icon' alt="Google Icon" />
-                            Sign In With Google
+                            Sign Up With Google
                         </div>
 
                         <div className='navigate'>
-                           <p className='no__account'> Don't have an account?</p> 
-                           <a href="#">Sign Up here</a>
+                           <p className='no__account'> Already have an account?</p> 
+                           <Link to="/login" className='navigate__button'>Sign In here</Link>
                            
                         </div>
 
@@ -153,10 +284,14 @@ function Register() {
 
             </div>
         </div>
-        
-    </div>
 
-  )
+
+            </div>
+         
+  );
+
 }
+
+
 
 export default Register;
