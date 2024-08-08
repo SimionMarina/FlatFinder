@@ -15,6 +15,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 function Register() {
+  const handleClick = (e) => {
+    console.log(e.target)
+  }
   const label = [];
   return (
     <div>
@@ -141,6 +144,7 @@ function Register() {
 
               <Stack direction="row" spacing={2}>
                 <Button
+                  onClick={handleClick}
                   className="login__button"
                   variant="contained"
                   sx={{
