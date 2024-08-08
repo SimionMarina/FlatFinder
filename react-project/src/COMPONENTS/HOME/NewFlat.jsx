@@ -11,6 +11,9 @@ import {
   Stack,
   Box,
 } from "@mui/material";
+// import { getAuth } from "firebase/auth";
+// import { collection, addDoc } from "firebase/firestore";
+// import { db } from "./firebase";
 import "./Home.css"
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -26,6 +29,34 @@ export default function NewFlat() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+
+    // Fetch the current user from Firebase Auth
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const flatData = {
+        ...formJson,
+        uid: user.uid, // Save the user's uid
+        createdAt: new Date(), // Add a timestamp
+      };
+
+      try {
+        // Save the flat data to Firestore
+        await addDoc(collection(db, "flats"), flatData);
+        console.log("Flat added successfully:", flatData);
+        handleClose();
+      } catch (error) {
+        console.error("Error adding flat:", error);
+      }
+    } else {
+      console.error("No user is signed in.");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -34,7 +65,6 @@ export default function NewFlat() {
           +
         </Button>
       </Box>
-     
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -42,14 +72,7 @@ export default function NewFlat() {
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            // const email = formJson.email;
-            console.log(formJson);
-            handleClose();
-          },
+          onSubmit: handleSubmit,
         }}
       >
         <DialogTitle>Add New Flat</DialogTitle>

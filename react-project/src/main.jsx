@@ -5,12 +5,8 @@ import './index.css'
 import './COMPONENTS/AUTH/Auth.css'
 import Login from './COMPONENTS/AUTH/Login.jsx'
 import Register from './COMPONENTS/AUTH/Register.jsx'
-import { ThemeProvider,createTheme } from '@mui/material/styles'
-import { AuthProvider } from './CONTEXT/authContext.jsx'
 import Home from './COMPONENTS/HOME/Home.jsx'
-
-const theme =createTheme();
-
+import { AuthProvider } from './CONTEXT/authContext.jsx'
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -21,7 +17,7 @@ const router = createBrowserRouter([
     element:<Register></Register>
   },
   {
-    path: "/",
+    path: "/home",
     element:<Home></Home>
   }
 ])

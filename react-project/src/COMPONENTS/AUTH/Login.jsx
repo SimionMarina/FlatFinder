@@ -121,7 +121,7 @@ function Login() {
 
             <div>
               <div
-                sx={{ "& > :not(style)": { m: 0 } }}
+                
                 className="inputs__side"
               >
                 <FormControl variant="standard" sx={{ width: "100%" }}>
