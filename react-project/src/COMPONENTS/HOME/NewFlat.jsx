@@ -13,7 +13,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { getAuth } from "firebase/auth";
+import { useAuth } from "../../CONTEXT/authContext";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase"; // Firebase configuration and initialization
 import "./Home.css";
@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function NewFlat() {
   const [open, setOpen] = React.useState(false);
   const [hasAc, setHasAc] = React.useState(false);
-
+  const { currentUser, userLoggedIn } = useAuth();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -46,14 +46,11 @@ export default function NewFlat() {
     // Add the hasAc checkbox value to formJson
     formJson.hasAc = hasAc;
 
-    // Fetch the current user from Firebase Auth
-    const auth = getAuth();
-    const user = auth.currentUser;
 
-    if (user) {
+    if (currentUser) {
       const flatData = {
         ...formJson,
-        uid: user.uid, // Save the user's uid
+        uid: currentUser.uid, // Save the currentUser's uid
         createdAt: new Date(), // Add a timestamp
       };
 
@@ -66,7 +63,7 @@ export default function NewFlat() {
         console.error("Error adding flat:", error);
       }
     } else {
-      console.error("No user is signed in.");
+      console.error("No currentUser is signed in.");
     }
   };
 
@@ -100,7 +97,7 @@ export default function NewFlat() {
               margin="dense"
               name="city"
               label="City"
-              type="text" // Correct type for text input
+              type="text"
               fullWidth
               variant="outlined"
             />
@@ -109,8 +106,7 @@ export default function NewFlat() {
               margin="dense"
               name="streetName"
               label="Street Name"
-              type="text" // Correct type for text input
-              fullWidth
+              type="text" 
               variant="outlined"
             />
             <TextField
@@ -118,7 +114,7 @@ export default function NewFlat() {
               margin="dense"
               name="streetNumber"
               label="Street Number"
-              type="number" // Number type for numeric input
+              type="number" 
               fullWidth
               variant="outlined"
             />
@@ -129,7 +125,7 @@ export default function NewFlat() {
             margin="dense"
             name="areaSize"
             label="Area Size (sq ft)"
-            type="number" // Number type for numeric input
+            type="number" 
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -154,7 +150,7 @@ export default function NewFlat() {
             margin="dense"
             name="yearBuild"
             label="Year Built"
-            type="number" // Number type for numeric input
+            type="number" 
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -164,7 +160,7 @@ export default function NewFlat() {
             margin="dense"
             name="rentPrice"
             label="Rent Price ($)"
-            type="number" // Number type for numeric input
+            type="number" 
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -174,7 +170,7 @@ export default function NewFlat() {
             margin="dense"
             name="dateAvailable"
             label="Date Available"
-            type="date" // Date type for date input
+            type="date" 
             fullWidth
             variant="outlined"
             InputLabelProps={{
