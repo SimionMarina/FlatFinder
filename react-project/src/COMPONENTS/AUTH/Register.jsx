@@ -36,7 +36,12 @@ function Register() {
   const [isReg, setIsReg] = useState(false);
   const {currentUser} = useAuth();
 
-
+  useEffect(()=> {
+    console.log(currentUser)
+    if(currentUser) {
+      navigate('/home')
+    }
+  }, [currentUser])
  
 
   const handleChange = (e) => {
@@ -103,7 +108,7 @@ function Register() {
 
             // Navighează către pagina principală după un mic delay pentru a permite afișarea mesajului
             setTimeout(() => {
-                navigate('/');
+                navigate('/home');
             }, 2000); // 2 secunde pentru a afișa mesajul de succes
 
         } catch (error) {

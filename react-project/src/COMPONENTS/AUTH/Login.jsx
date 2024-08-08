@@ -31,7 +31,7 @@ function Login() {
   useEffect(()=> {
     console.log(currentUser)
     if(currentUser) {
-      navigate('/')
+      navigate('/home')
     }
   }, [currentUser])
 
@@ -78,7 +78,7 @@ function Login() {
           setCurrentUser(userData);
 
           // Navighează către pagina principală
-          navigate("/");
+          navigate("/home");
           showToastr("success", "Login successful!");
         } else {
           // Utilizatorul nu există în Firestore, tratează eroarea
