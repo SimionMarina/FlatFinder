@@ -37,12 +37,7 @@ function Register() {
   const {currentUser} = useAuth();
 
 
-  useEffect(()=> {
-    console.log(currentUser)
-    if(currentUser) {
-      navigate('/')
-    }
-  }, [currentUser])
+ 
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -156,7 +151,7 @@ function Register() {
     
     
                     <div >
-                        <div sx={{ '& > :not(style)': { m: 0 } }} className='inputs__side'>
+                        <div className='inputs__side'>
                         <FormControl variant="standard" sx={{ width: '100%'}} >
                                 <InputLabel htmlFor="input-with-icon-adornment"  sx={{color:"black"}}>
                                 First Name & Last Name
