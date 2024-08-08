@@ -7,6 +7,7 @@ import Login from './COMPONENTS/AUTH/Login.jsx'
 import Register from './COMPONENTS/AUTH/Register.jsx'
 import Home from './COMPONENTS/HOME/Home.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
+
 const router = createBrowserRouter([
   {
     path: "/login",

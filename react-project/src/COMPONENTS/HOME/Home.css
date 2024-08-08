@@ -23,3 +23,22 @@
 .add_flat_box > .add_flat_button:hover{
   border: none;
 }
+.mobile_meniu{
+  display: none;
+}
+@media only screen and (max-width: 500px){
+  .profile_meniu_container{
+    display: flex;
+  }
+  .mobile_meniu{
+    display: none;
+  }
+}
+@media only screen and (max-width: 300px){
+  .profile_meniu_container{
+    display: none;
+  }
+  .mobile_meniu{
+    display: flex;
+  }
+}

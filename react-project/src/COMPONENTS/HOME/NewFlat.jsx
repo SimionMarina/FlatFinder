@@ -10,17 +10,21 @@ import {
   Slide,
   Stack,
   Box,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
-// import { getAuth } from "firebase/auth";
-// import { collection, addDoc } from "firebase/firestore";
-// import { db } from "./firebase";
-import "./Home.css"
+import { getAuth } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebase"; // Firebase configuration and initialization
+import "./Home.css";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function NewFlat() {
   const [open, setOpen] = React.useState(false);
+  const [hasAc, setHasAc] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,10 +33,18 @@ export default function NewFlat() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleCheckboxChange = (event) => {
+    setHasAc(event.target.checked);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
+
+    // Add the hasAc checkbox value to formJson
+    formJson.hasAc = hasAc;
 
     // Fetch the current user from Firebase Auth
     const auth = getAuth();
@@ -65,6 +77,7 @@ export default function NewFlat() {
           +
         </Button>
       </Box>
+     
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -78,7 +91,7 @@ export default function NewFlat() {
         <DialogTitle>Add New Flat</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To add a new flat you have to complete all fields.
+            To add a new flat, please complete all fields.
           </DialogContentText>
           <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
             <TextField
@@ -87,85 +100,86 @@ export default function NewFlat() {
               margin="dense"
               name="city"
               label="City"
-              type="text"
+              type="text" // Correct type for text input
               fullWidth
               variant="outlined"
             />
             <TextField
-              autoFocus
               required
               margin="dense"
               name="streetName"
               label="Street Name"
-              type="text"
+              type="text" // Correct type for text input
               fullWidth
               variant="outlined"
             />
             <TextField
-              autoFocus
               required
               margin="dense"
               name="streetNumber"
               label="Street Number"
-              type="text"
+              type="number" // Number type for numeric input
               fullWidth
               variant="outlined"
             />
           </Stack>
 
           <TextField
-            autoFocus
             required
             margin="dense"
             name="areaSize"
-            label="Area Size"
-            type="text"
+            label="Area Size (sq ft)"
+            type="number" // Number type for numeric input
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
           />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            name="hasAc"
+
+          {/* Checkbox for Has AC */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={hasAc}
+                onChange={handleCheckboxChange}
+                name="hasAc"
+                color="primary"
+              />
+            }
             label="Has AC"
-            type="text"
-            fullWidth
-            variant="outlined"
             sx={{ marginTop: 2 }}
           />
+
           <TextField
-            autoFocus
             required
             margin="dense"
             name="yearBuild"
-            label="Year Build"
-            type="text"
+            label="Year Built"
+            type="number" // Number type for numeric input
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
           />
           <TextField
-            autoFocus
             required
             margin="dense"
             name="rentPrice"
-            label="Rent Price"
-            type="text"
+            label="Rent Price ($)"
+            type="number" // Number type for numeric input
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
           />
           <TextField
-            autoFocus
             required
             margin="dense"
             name="dateAvailable"
-            label="DateAvailable"
-            type="text"
+            label="Date Available"
+            type="date" // Date type for date input
             fullWidth
             variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
             sx={{ marginTop: 2 }}
           />
         </DialogContent>
