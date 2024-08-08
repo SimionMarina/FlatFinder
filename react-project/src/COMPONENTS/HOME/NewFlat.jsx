@@ -37,6 +37,7 @@ export default function NewFlat() {
   const handleCheckboxChange = (event) => {
     setHasAc(event.target.checked);
   };
+  console.log(currentUser)
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,6 +47,7 @@ export default function NewFlat() {
     // Add the hasAc checkbox value to formJson
     formJson.hasAc = hasAc;
 
+    console.log(currentUser)
 
     if (currentUser) {
       const flatData = {
