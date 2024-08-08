@@ -6,10 +6,10 @@ import './COMPONENTS/AUTH/Auth.css'
 import Login from './COMPONENTS/AUTH/Login.jsx'
 import Register from './COMPONENTS/AUTH/Register.jsx'
 import Home from './COMPONENTS/HOME/Home.jsx'
-
+import { AuthProvider } from './CONTEXT/authContext.jsx'
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element:<Login></Login>
   },
   {
@@ -23,8 +23,16 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+ 
+   
 
-  </React.StrictMode>,
+  <AuthProvider>
+    <RouterProvider router={router}>
+
+    </RouterProvider>
+  </AuthProvider>
 )
+  
+
+ 
+
