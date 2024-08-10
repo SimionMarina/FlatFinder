@@ -1,20 +1,25 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { collection, query, where, getDocs,updateDoc,doc,getDoc,documentId } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
+import { DataGrid } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import { Delete, Edit, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material";
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+
 function FlatsTable({tableType}) {
   const [flats, setFlats] = useState([]);
   const { currentUser} = useAuth();
-  const [loading, setLoading] = useState(true);
-  
+  const [role, setRole] = useState("user");
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(()=>{
+    if(currentUser){
+      setRole(currentUser.role || "user");
+    }
     const fetchFlats = async () => {
-      setLoading(true);
+      
       let searchFlats;
       if(tableType === "all"){
         searchFlats = query(collection(db, "flats"));
@@ -40,11 +45,18 @@ function FlatsTable({tableType}) {
       
 
       setFlats(flatsList);
-      setLoading(false);
+      
+      if (currentUser) {
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        const userData = userDoc.data();
+        if (userData?.favorites) {
+          setFavorites(userData.favorites);
+        }
+      }
     }
-
+    
     fetchFlats();
-  },[tableType, currentUser])
+  },[tableType, currentUser, role])
 
   const handleView = (id) => {
     console.log(id);
@@ -64,36 +76,54 @@ function FlatsTable({tableType}) {
   };
 
   const handleToggleFavorite = async (id) => {
-    // console.log(id)
-    
-    const userCollection = doc(db,'users',currentUser.uid);
-    const data = await getDoc(userCollection);
-    const user = data.data();
-    const favorites = user.favorites
-    if(!favorites.includes(id)){
-      let userToUpdate = doc(db,'users',currentUser.uid);
-      await updateDoc(userToUpdate,{favorites: [...favorites,id]});
+    const userToUpdate = doc(db, 'users', currentUser.uid);
+    let updatedFavorites = [...favorites];
+
+    if (!favorites.includes(id)) {
+      updatedFavorites.push(id);
+      await updateDoc(userToUpdate, { favorites: updatedFavorites });
     } else {
-      console.log("nu a mers")
+      updatedFavorites = updatedFavorites.filter(favId => favId !== id);
+      await updateDoc(userToUpdate, { favorites: updatedFavorites });
     }
-   
+
+    setFavorites(updatedFavorites); 
   };
-  const handleDeleteFavorite = (e) =>{
-    console.log(e)
-  }
+  const handleDeleteFavorite = async (id) => {
+    if (!currentUser) return;
+  
+    try {
+      const userToUpdate = doc(db, 'users', currentUser.uid);
+      const data = await getDoc(userToUpdate);
+      const user = data.data();
+      const updatedFavorites = user.favorites.filter(favId => favId !== id);
+  
+      // Update favorites in database
+      await updateDoc(userToUpdate, { favorites: updatedFavorites });
+  
+      // Update local favorites array
+      setFavorites(updatedFavorites);
+  
+      //when show the favorites table update flats list
+      if (tableType === "favorites") {
+        setFlats(flats.filter(flat => flat.id !== id));
+      }
+    } catch (error) {
+      console.error("Eroare la ștergerea favoritei: ", error);
+    }
+  };
   const columns = [
-    { field: "city", headerName: "City", width: 100 },
-    { field: "streetName", headerName: "Street Name", width: 100 },
-    { field: "streetNumber", headerName: "Street Number", width: 100 },
-    { field: "areaSize", headerName: "Area Size", width: 100 },
-    { field: "hasAc", headerName: "Has AC", width: 100 },
-    { field: "yearBuild", headerName: "Year Built", width: 100 },
-    { field: "rentPrice", headerName: "Rent Price", width: 100 },
-    { field: "dateAvailable", headerName: "Date Available", width: 100 },
+    { field: "city", headerName: "City" },
+    { field: "streetName", headerName: "Street Name" },
+    { field: "streetNumber", headerName: "Street Number" },
+    { field: "areaSize", headerName: "Area Size" },
+    { field: "hasAc", headerName: "Has AC" },
+    { field: "yearBuild", headerName: "Year Built" },
+    { field: "rentPrice", headerName: "Rent Price" },
+    { field: "dateAvailable", headerName: "Date Available" },
     {
       field: "view",
       headerName: "View",
-      width: 80,
       renderCell: (params) => (
         <IconButton onClick={() => handleView(params.row.id)}>
           <Visibility />
@@ -106,10 +136,13 @@ function FlatsTable({tableType}) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
-      width: 100,
       renderCell: (params) => (
         <IconButton onClick={() => handleToggleFavorite(params.row.id)}>
-         <Favorite />
+          {favorites.includes(params.row.id) ? (
+            <Favorite style={{ color: 'red' }} /> // Iconiță roșie dacă e în favorite
+          ) : (
+            <FavoriteBorder />
+          )}
         </IconButton>
       ),
     });
@@ -120,7 +153,6 @@ if (tableType === "myFlats") {
     {
       field: "edit",
       headerName: "Edit",
-      width: 100,
       renderCell: (params) => (
         <IconButton onClick={() => handleEdit(params.row.id)}>
           <Edit />
@@ -130,7 +162,6 @@ if (tableType === "myFlats") {
     {
       field: "delete",
       headerName: "Delete",
-      width: 100,
       renderCell: (params) => (
         <IconButton onClick={() => handleDelete(params.row.id)}>
           <Delete />
@@ -145,17 +176,16 @@ if (tableType == "favorites") {
   columns.push({
     field: "favorite",
     headerName: "Delete Favorite",
-    width: 100,
     renderCell: (params) => (
       <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
-       <HeartBrokenIcon />
+       <HeartBrokenIcon style={{ color: 'red' }}/>
       </IconButton>
     ),
   });
 }
   return (
     <div style={{ height: 400, width: "80%", margin: "auto" }}>
-      <DataGrid rows={flats} columns={columns} pageSize={5} loading={loading} />
+      <DataGrid rows={flats} columns={columns} pageSize={5}/>
     </div>
   )
 }

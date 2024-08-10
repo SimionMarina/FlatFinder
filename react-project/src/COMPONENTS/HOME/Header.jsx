@@ -10,25 +10,20 @@ import {
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signOut } from "firebase/auth";
 import { useAuth } from "../../CONTEXT/authContext";
 import "boxicons/css/boxicons.min.css";
 
 export default function Header() {
-  const auth = getAuth();
-  const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const { currentUser, userLoggedIn } = useAuth();
+  const [role, setRole] = useState("user");
   const navigate = useNavigate();
   useEffect(() => {
-    // Listen for auth state changes
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-
-    // Cleanup the listener on component unmount
-    return () => unsubscribe();
-  }, [auth]);
+    if(currentUser){
+      setRole(currentUser.role || "user");
+    }
+    
+  }, [currentUser, role]);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,13 +34,8 @@ export default function Header() {
   };
 
   const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.error("Error signing out:", error);
-      });
+   
+      console.log("ceva")
   };
 
   return (
@@ -64,7 +54,7 @@ export default function Header() {
             FlatFinder
           </Typography>
         {/* Greetings */}
-        {user && (
+        {currentUser && (
           <Typography variant="h6" sx={{ marginRight: 2,flexGrow: 1 }}>
             <div>
               {userLoggedIn ? (
@@ -79,15 +69,15 @@ export default function Header() {
         )}
 
         {/* Navigation Buttons */}
-        <Button color="inherit" component={Link} to="/">
+        <Button color="inherit" component={Link} onClick={()=>{navigate("/")}}>
           Home
         </Button>
-        <Button color="inherit" component={Link} to="/inbox">
+        <Button color="inherit" component={Link} onClick={()=>{navigate("/inbox")}}>
           Inbox
         </Button>
 
         {/* All Users Button (Admin Only) */}
-        {user && user.isAdmin && (
+        {currentUser && role === "admin" && (
           <Button color="inherit" component={Link} to="/all-users">
             All Users
           </Button>
