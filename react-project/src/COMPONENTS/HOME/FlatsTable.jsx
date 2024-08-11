@@ -102,18 +102,6 @@ function FlatsTable({tableType}) {
     },
     
   ];
-  if (tableType === "all"){
-    columns.push({
-      field: "favorite",
-      headerName: "Favorite",
-      width: 100,
-      renderCell: (params) => (
-        <IconButton onClick={() => handleToggleFavorite(params.row.id)}>
-         <Favorite />
-        </IconButton>
-      ),
-    });
-  }
 // Conditionally add Edit and Delete columns if the table is showing the user's flats
 if (tableType === "myFlats") {
   columns.push(
@@ -144,7 +132,7 @@ if (tableType === "myFlats") {
 if (tableType == "favorites") {
   columns.push({
     field: "favorite",
-    headerName: "Delete Favorite",
+    headerName: "Favorite",
     width: 100,
     renderCell: (params) => (
       <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
