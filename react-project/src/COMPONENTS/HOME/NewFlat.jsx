@@ -109,6 +109,7 @@ export default function NewFlat() {
               name="streetName"
               label="Street Name"
               type="text" 
+              fullWidth
               variant="outlined"
             />
             <TextField
@@ -126,7 +127,7 @@ export default function NewFlat() {
             required
             margin="dense"
             name="areaSize"
-            label="Area Size (sq ft)"
+            label="Area Size"
             type="number" 
             fullWidth
             variant="outlined"
@@ -161,7 +162,7 @@ export default function NewFlat() {
             required
             margin="dense"
             name="rentPrice"
-            label="Rent Price ($)"
+            label="Rent Price"
             type="number" 
             fullWidth
             variant="outlined"

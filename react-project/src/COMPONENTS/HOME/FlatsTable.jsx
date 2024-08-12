@@ -89,6 +89,7 @@ function FlatsTable({tableType}) {
 
     setFavorites(updatedFavorites); 
   };
+
   const handleDeleteFavorite = async (id) => {
     if (!currentUser) return;
   
@@ -112,6 +113,7 @@ function FlatsTable({tableType}) {
       console.error("Eroare la ștergerea favoritei: ", error);
     }
   };
+  
   const columns = [
     { field: "city", headerName: "City" },
     { field: "streetName", headerName: "Street Name" },

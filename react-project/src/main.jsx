@@ -6,6 +6,7 @@ import Login from './COMPONENTS/AUTH/Login.jsx'
 import Register from './COMPONENTS/AUTH/Register.jsx'
 import Home from './COMPONENTS/HOME/Home.jsx'
 import Inbox from './COMPONENTS/HOME/Inbox.jsx'
+import ViewFlat from './COMPONENTS/HOME/ViewFlat.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
 
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/inbox",
     element: <Inbox></Inbox>
+  },
+  {
+    path: "/view-flat",
+    element: <ViewFlat></ViewFlat>
   },
   {
     path: "/",
