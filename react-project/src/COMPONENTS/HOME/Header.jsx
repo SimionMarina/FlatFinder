@@ -22,6 +22,7 @@ export default function Header() {
     if(currentUser){
       setRole(currentUser.role || "user");
     }
+  
     
   }, [currentUser, role]);
 

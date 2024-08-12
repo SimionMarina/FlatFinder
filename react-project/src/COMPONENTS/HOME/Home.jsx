@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NewFlat from "./NewFlat";
 import Header from "./Header";
 import FlatsTable from "./FlatsTable";
 import { Container,Button } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../CONTEXT/authContext";
 
 const theme = createTheme({
   palette: {
@@ -22,10 +24,18 @@ const theme = createTheme({
   },
 });
 function Home() {
+  const {currentUser} = useAuth();
+  const navigate = useNavigate();
   const [tableType, setTableType] = useState("all");
   const handleTableTypeChange = (type) => {
     setTableType(type);
   };
+
+  useEffect(()=> {
+    if(!currentUser) {
+      navigate("/login")
+    }
+  },[])
   return (
     <ThemeProvider theme={theme}>
     <div>
