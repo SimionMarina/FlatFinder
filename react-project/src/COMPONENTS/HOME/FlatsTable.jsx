@@ -136,10 +136,13 @@ function FlatsTable({tableType}) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
-      width: 100,
       renderCell: (params) => (
         <IconButton onClick={() => handleToggleFavorite(params.row.id)}>
-         <Favorite />
+          {favorites.includes(params.row.id) ? (
+            <Favorite style={{ color: 'red' }} /> // Iconiță roșie dacă e în favorite
+          ) : (
+            <FavoriteBorder />
+          )}
         </IconButton>
       ),
     });
@@ -173,7 +176,6 @@ if (tableType == "favorites") {
   columns.push({
     field: "favorite",
     headerName: "Delete Favorite",
-    width: 100,
     renderCell: (params) => (
       <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
        <HeartBrokenIcon style={{ color: 'red' }}/>
