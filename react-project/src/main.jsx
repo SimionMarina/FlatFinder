@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <Inbox></Inbox>
   },
   {
-    path: "/view-flat",
+    path: "/flats/:flatId",
     element: <ViewFlat></ViewFlat>
   },
   {

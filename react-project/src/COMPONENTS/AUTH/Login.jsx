@@ -1,45 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import 'boxicons/css/boxicons.min.css';
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import Input from '@mui/material/Input';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import GoogleIcon from '../../assets/GOOGLE-ICON.svg';
-import { useNavigate, Link } from 'react-router-dom';
-import showToastr from '../../SERVICES/toaster-service';
-import { ToastContainer } from 'react-toastify';
-import { validationRules } from '../../VALIDATIONS/validation';
-import { useAuth } from '../../CONTEXT/authContext';
-import { doSignInWithEmailAndPassword } from '../../auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { useEffect, useState } from "react";
+import "boxicons/css/boxicons.min.css";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import Input from "@mui/material/Input";
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import GoogleIcon from "../../assets/GOOGLE-ICON.svg";
+import { useNavigate, Link } from "react-router-dom";
+import showToastr from "../../SERVICES/toaster-service";
+import { ToastContainer } from "react-toastify";
+import { validationRules } from "../../VALIDATIONS/validation";
+import { useAuth } from "../../CONTEXT/authContext";
+import { doSignInWithEmailAndPassword } from "../../auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 function Login() {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useAuth(); // Folosește corect contextul de autentificare
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const [isSigningIn, setIsSigningIn] = useState(false);
 
-  useEffect(()=> {
-    console.log(currentUser)
-    if(currentUser) {
-      navigate('/')
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
     }
-  }, [currentUser])
+  }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -48,10 +47,12 @@ function Login() {
     let validationResponse = true;
 
     // Validate Email
-    validationResponse = validationRules['email'](formData.email) && validationResponse;
+    validationResponse =
+      validationRules["email"](formData.email) && validationResponse;
 
     // Validate Password
-    validationResponse = validationRules['password'](formData.password) && validationResponse;
+    validationResponse =
+      validationRules["password"](formData.password) && validationResponse;
 
     if (!validationResponse) {
       showToastr("error", "Validation failed, correct the errors");
@@ -62,9 +63,12 @@ function Login() {
       setIsSigningIn(true);
       try {
         // Autentifică utilizatorul
-        const userCredential = await doSignInWithEmailAndPassword(formData.email, formData.password);
+        const userCredential = await doSignInWithEmailAndPassword(
+          formData.email,
+          formData.password
+        );
         const user = userCredential.user;
-        console.log('User:', user);
+        console.log("User:", user);
 
         // Preia datele utilizatorului din Firestore
         const userDoc = doc(db, "users", user.uid);
@@ -72,7 +76,7 @@ function Login() {
 
         if (userSnapshot.exists()) {
           const userData = userSnapshot.data();
-          console.log('User data:', userData);
+          console.log("User data:", userData);
 
           // Setează utilizatorul în contextul de autentificare
           setCurrentUser(userData);
@@ -120,10 +124,7 @@ function Login() {
             </div>
 
             <div>
-              <div
-                
-                className="inputs__side"
-              >
+              <div className="inputs__side">
                 <FormControl variant="standard" sx={{ width: "100%" }}>
                   <InputLabel
                     htmlFor="input-with-icon-adornment"
@@ -200,8 +201,10 @@ function Login() {
               </div>
 
               <div className="navigate login__noAccount">
-                <p className="no__account">Don't have an account?</p>
-                <Link to="/register" className="navigate__button">Sign Up Here</Link>
+                <p className="no__account">Don`t have an account?`</p>
+                <Link to="/register" className="navigate__button">
+                  Sign Up Here
+                </Link>
               </div>
             </div>
           </div>

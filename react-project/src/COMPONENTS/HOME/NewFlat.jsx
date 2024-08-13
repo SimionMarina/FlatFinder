@@ -25,7 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function NewFlat() {
   const [open, setOpen] = React.useState(false);
   const [hasAc, setHasAc] = React.useState(false);
-  const { currentUser, userLoggedIn } = useAuth();
+  const { currentUser } = useAuth();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -37,7 +37,7 @@ export default function NewFlat() {
   const handleCheckboxChange = (event) => {
     setHasAc(event.target.checked);
   };
-  console.log(currentUser)
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,12 +47,12 @@ export default function NewFlat() {
     // Add the hasAc checkbox value to formJson
     formJson.hasAc = hasAc;
 
-    console.log(currentUser)
+ 
 
     if (currentUser) {
       const flatData = {
         ...formJson,
-        uid: currentUser.uid, // Save the currentUser's uid
+        userUid: currentUser.uid, // Save the currentUser's uid
         createdAt: new Date(), // Add a timestamp
       };
 

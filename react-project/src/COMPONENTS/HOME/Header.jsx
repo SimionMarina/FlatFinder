@@ -11,6 +11,7 @@ import {
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../CONTEXT/authContext";
+import { doSignOut } from "../../auth";
 import "boxicons/css/boxicons.min.css";
 
 export default function Header() {
@@ -19,11 +20,9 @@ export default function Header() {
   const [role, setRole] = useState("user");
   const navigate = useNavigate();
   useEffect(() => {
-    if(currentUser){
+    if (currentUser) {
       setRole(currentUser.role || "user");
     }
-  
-    
   }, [currentUser, role]);
 
   const handleMenu = (event) => {
@@ -34,33 +33,30 @@ export default function Header() {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-   
-      console.log("ceva")
-  };
-
   return (
     <AppBar position="static">
       <Toolbar>
         {/* Company Logo */}
         <Typography variant="h6">
-        <i className='bx bxs-home-heart'></i>
+          <i className="bx bxs-home-heart"></i>
         </Typography>
         <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block", margin: "10px"} }}
-          >
-            FlatFinder
-          </Typography>
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{ display: { xs: "none", sm: "block", margin: "10px" } }}
+        >
+          FlatFinder
+        </Typography>
         {/* Greetings */}
         {currentUser && (
-          <Typography variant="h6" sx={{ marginRight: 2,flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ marginRight: 2, flexGrow: 1 }}>
             <div>
               {userLoggedIn ? (
                 <>
-                  <div>Hello, {currentUser ? currentUser.fullName : "User"}</div>
+                  <div>
+                    Hello, {currentUser ? currentUser.fullName : "User"}
+                  </div>
                 </>
               ) : (
                 <></>
@@ -70,10 +66,22 @@ export default function Header() {
         )}
 
         {/* Navigation Buttons */}
-        <Button color="inherit" component={Link} onClick={()=>{navigate("/")}}>
+        <Button
+          color="inherit"
+          component={Link}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
           Home
         </Button>
-        <Button color="inherit" component={Link} onClick={()=>{navigate("/inbox")}}>
+        <Button
+          color="inherit"
+          component={Link}
+          onClick={() => {
+            navigate("/inbox");
+          }}
+        >
           Inbox
         </Button>
 
@@ -93,7 +101,7 @@ export default function Header() {
           aria-haspopup="true"
           onClick={handleMenu}
           color="inherit"
-          sx={{marginRight: "30px"}}
+          sx={{ marginRight: "30px" }}
         >
           <AccountCircle />
         </IconButton>
@@ -111,7 +119,7 @@ export default function Header() {
           }}
           open={Boolean(anchorEl)}
           onClose={handleClose}
-          sx={{marginTop: "40px"}}
+          sx={{ marginTop: "40px" }}
         >
           <MenuItem
             onClick={() => {
@@ -121,7 +129,15 @@ export default function Header() {
           >
             My Profile
           </MenuItem>
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem
+            onClick={() => {
+              doSignOut().then(() => {
+                navigate("/login");
+              });
+            }}
+          >
+            Logout
+          </MenuItem>
           <MenuItem
             onClick={() => {
               handleClose();
