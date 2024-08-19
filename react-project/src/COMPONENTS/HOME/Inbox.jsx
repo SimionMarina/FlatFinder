@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../CONTEXT/authContext";
 import { db } from "../../firebase"; // Firebase configuration and initialization
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -17,7 +17,7 @@ const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [reply, setReply] = useState({});
   const { currentUser } = useAuth();
-
+  
   useEffect(() => {
     const fetchMessages = async () => {
       if (currentUser) {

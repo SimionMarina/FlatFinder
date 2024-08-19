@@ -9,10 +9,11 @@ import {
   DialogTitle,
   Slide,
   Stack,
-  Box,
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import showToastr from "../../SERVICES/toaster-service";
 import { useAuth } from "../../CONTEXT/authContext";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase"; // Firebase configuration and initialization
@@ -26,6 +27,7 @@ export default function NewFlat() {
   const [open, setOpen] = React.useState(false);
   const [hasAc, setHasAc] = React.useState(false);
   const { currentUser } = useAuth();
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,7 +40,6 @@ export default function NewFlat() {
     setHasAc(event.target.checked);
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -46,8 +47,6 @@ export default function NewFlat() {
 
     // Add the hasAc checkbox value to formJson
     formJson.hasAc = hasAc;
-
- 
 
     if (currentUser) {
       const flatData = {
@@ -59,10 +58,18 @@ export default function NewFlat() {
       try {
         // Save the flat data to Firestore
         await addDoc(collection(db, "flats"), flatData);
-        console.log("Flat added successfully:", flatData);
-        handleClose();
+        // Display success message
+        showToastr(
+          "success",
+          "Your flat has been successfully added! You are being redirected."
+        );
+
+        // Reload page after 2 seconds delay to allow the message to be displayed
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       } catch (error) {
-        console.error("Error adding flat:", error);
+        showToastr("error", `Error adding flat: ${error}`);
       }
     } else {
       console.error("No currentUser is signed in.");
@@ -71,12 +78,17 @@ export default function NewFlat() {
 
   return (
     <React.Fragment>
-      <Box className="add_flat_box">
-        <Button variant="outlined" className="add_flat_button" onClick={handleClickOpen}>
+      <ToastContainer></ToastContainer>
+      <div className="add_flat_box">
+        <Button
+          variant="outlined"
+          className="add_flat_button"
+          onClick={handleClickOpen}
+        >
           +
         </Button>
-      </Box>
-     
+      </div>
+
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -108,7 +120,7 @@ export default function NewFlat() {
               margin="dense"
               name="streetName"
               label="Street Name"
-              type="text" 
+              type="text"
               fullWidth
               variant="outlined"
             />
@@ -117,7 +129,7 @@ export default function NewFlat() {
               margin="dense"
               name="streetNumber"
               label="Street Number"
-              type="number" 
+              type="number"
               fullWidth
               variant="outlined"
             />
@@ -128,7 +140,7 @@ export default function NewFlat() {
             margin="dense"
             name="areaSize"
             label="Area Size"
-            type="number" 
+            type="number"
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -153,7 +165,7 @@ export default function NewFlat() {
             margin="dense"
             name="yearBuild"
             label="Year Built"
-            type="number" 
+            type="number"
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -163,7 +175,7 @@ export default function NewFlat() {
             margin="dense"
             name="rentPrice"
             label="Rent Price"
-            type="number" 
+            type="number"
             fullWidth
             variant="outlined"
             sx={{ marginTop: 2 }}
@@ -173,7 +185,7 @@ export default function NewFlat() {
             margin="dense"
             name="dateAvailable"
             label="Date Available"
-            type="date" 
+            type="date"
             fullWidth
             variant="outlined"
             InputLabelProps={{

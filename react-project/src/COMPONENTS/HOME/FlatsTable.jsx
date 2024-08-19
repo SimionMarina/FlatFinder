@@ -134,7 +134,7 @@ function FlatsTable({ tableType }) {
 
   const columns = [
     { field: "city", headerName: "City" },
-    { field: "streetName", headerName: "Street Name" },
+    { field: "streetName", headerName: "Street Name",width: 150 },
     { field: "streetNumber", headerName: "Street Number" },
     { field: "areaSize", headerName: "Area Size" },
     { field: "hasAc", headerName: "Has AC" },
@@ -218,8 +218,20 @@ function FlatsTable({ tableType }) {
     });
   }
   return (
-    <div style={{ height: 400, width: "80%", margin: "auto" }}>
-      <DataGrid rows={flats} columns={columns} pageSize={5} />
+    <div style={{ height: 360, width: "80%", margin: "auto" }}>
+      <DataGrid
+        rows={flats}
+        columns={columns}
+        pageSize={5}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+      />
     </div>
   );
 }
