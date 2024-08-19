@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -9,25 +9,24 @@ import {
   doc,
   getDoc,
   documentId,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
-import {
-  Delete,
-  Edit,
-  Favorite,
-  FavoriteBorder,
-  Visibility,
-} from "@mui/icons-material";
+import { IconButton, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Slide, Stack, Checkbox, FormControlLabel } from "@mui/material";
+import { Delete, Edit, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
+
 function FlatsTable({ tableType }) {
   const [flats, setFlats] = useState([]);
   const { currentUser } = useAuth();
   const [role, setRole] = useState("user");
   const [favorites, setFavorites] = useState([]);
+  const [editFlatId, setEditFlatId] = useState(null);
+  const [editFlatData, setEditFlatData] = useState({});
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,11 +46,9 @@ function FlatsTable({ tableType }) {
         );
         foundFlats = await getDocs(searchFlats);
       } else if (tableType === "favorites" && currentUser) {
-        // Fetch the user's document to get the list of favorite flat UIDs
         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
         const userData = userDoc.data();
         if (userData.favorites && userData.favorites.length > 0) {
-          // Use the list of UIDs to fetch the favorite flats
           searchFlats = query(
             collection(db, "flats"),
             where(documentId(), "in", userData.favorites)
@@ -85,12 +82,47 @@ function FlatsTable({ tableType }) {
     fetchFlats();
   }, [tableType, currentUser, role]);
 
-  const handleEdit = (id) => {
-    console.log(id);
+  const handleEdit = async (id) => {
+    const flatDoc = await getDoc(doc(db, "flats", id));
+    if (flatDoc.exists()) {
+      setEditFlatData(flatDoc.data());
+      setEditFlatId(id);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditFlatData({});
+  };
+
+  const handleChangeEdit = (event) => {
+    const { name, value } = event.target;
+    setEditFlatData({ ...editFlatData, [name]: value });
+  };
+
+  const handleCheckboxChange = (event) => {
+    setEditFlatData({ ...editFlatData, hasAc: event.target.checked });
+  };
+
+  const handleSave = async () => {
+    try {
+      await updateDoc(doc(db, "flats", editFlatId), editFlatData);
+      setFlats(flats.map((flat) => (flat.id === editFlatId ? { ...flat, ...editFlatData } : flat)));
+      handleCloseEditModal();
+    } catch (error) {
+      console.error("Error updating flat: ", error);
+    }
   };
 
   const handleDelete = async (id) => {
     console.log(id);
+    try {
+      await deleteDoc(doc(db, "flats", id));
+      setFlats(flats.filter((flat) => flat.id !== id));
+    } catch (error) {
+      console.error("Error deleting flat: ", error);
+    }
   };
 
   const handleToggleFavorite = async (id) => {
@@ -117,24 +149,21 @@ function FlatsTable({ tableType }) {
       const user = data.data();
       const updatedFavorites = user.favorites.filter((favId) => favId !== id);
 
-      // Update favorites in database
       await updateDoc(userToUpdate, { favorites: updatedFavorites });
 
-      // Update local favorites array
       setFavorites(updatedFavorites);
 
-      //when show the favorites table update flats list
       if (tableType === "favorites") {
         setFlats(flats.filter((flat) => flat.id !== id));
       }
     } catch (error) {
-      console.error("Eroare la ștergerea favoritei: ", error);
+      console.error("Error deleting favorite: ", error);
     }
   };
 
   const columns = [
     { field: "city", headerName: "City" },
-    { field: "streetName", headerName: "Street Name",width: 150 },
+    { field: "streetName", headerName: "Street Name", width: 150 },
     { field: "streetNumber", headerName: "Street Number" },
     { field: "areaSize", headerName: "Area Size" },
     { field: "hasAc", headerName: "Has AC" },
@@ -155,15 +184,13 @@ function FlatsTable({ tableType }) {
       ),
     },
   ];
+
   if (tableType === "all") {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
       renderCell: (params) => {
-        // Checks if flat belongs to current user
         const isOwner = params.row.userUid === currentUser.uid;
-
-        // If flat does not belong to current user shows the favorite icon
         if (!isOwner) {
           return (
             <IconButton onClick={() => handleToggleFavorite(params.row.id)}>
@@ -175,13 +202,11 @@ function FlatsTable({ tableType }) {
             </IconButton>
           );
         }
-
-        // Dacă apartamentul aparține utilizatorului curent, nu afișa nimic
         return null;
       },
     });
   }
-  // Conditionally add Edit and Delete columns if the table is showing the user's flats
+
   if (tableType === "myFlats") {
     columns.push(
       {
@@ -205,8 +230,7 @@ function FlatsTable({ tableType }) {
     );
   }
 
-  // Conditionally add the Favorite column if the table is not "myFlats"
-  if (tableType == "favorites") {
+  if (tableType === "favorites") {
     columns.push({
       field: "favorite",
       headerName: "Delete Favorite",
@@ -217,6 +241,7 @@ function FlatsTable({ tableType }) {
       ),
     });
   }
+
   return (
     <div style={{ height: 360, width: "80%", margin: "auto" }}>
       <DataGrid
@@ -232,6 +257,129 @@ function FlatsTable({ tableType }) {
         }}
         pageSizeOptions={[5]}
       />
+
+      {/* Modal for Editing Flat */}
+      <Dialog
+        open={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        PaperProps={{
+          component: "form",
+          onSubmit: (e) => {
+            e.preventDefault();
+            handleSave();
+          },
+        }}
+      >
+        <DialogTitle>Edit Flat</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              name="city"
+              label="City"
+              type="text"
+              fullWidth
+              variant="outlined"
+              value={editFlatData.city || ''}
+              onChange={handleChangeEdit}
+            />
+            <TextField
+              required
+              margin="dense"
+              name="streetName"
+              label="Street Name"
+              type="text"
+              fullWidth
+              variant="outlined"
+              value={editFlatData.streetName || ''}
+              onChange={handleChangeEdit}
+            />
+            <TextField
+              required
+              margin="dense"
+              name="streetNumber"
+              label="Street Number"
+              type="number"
+              fullWidth
+              variant="outlined"
+              value={editFlatData.streetNumber || ''}
+              onChange={handleChangeEdit}
+            />
+          </Stack>
+
+          <TextField
+            required
+            margin="dense"
+            name="areaSize"
+            label="Area Size"
+            type="number"
+            fullWidth
+            variant="outlined"
+            sx={{ marginTop: 2 }}
+            value={editFlatData.areaSize || ''}
+            onChange={handleChangeEdit}
+          />
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={editFlatData.hasAc || false}
+                onChange={handleCheckboxChange}
+                name="hasAc"
+                color="primary"
+              />
+            }
+            label="Has AC"
+            sx={{ marginTop: 2 }}
+          />
+
+          <TextField
+            required
+            margin="dense"
+            name="yearBuild"
+            label="Year Built"
+            type="number"
+            fullWidth
+            variant="outlined"
+            sx={{ marginTop: 2 }}
+            value={editFlatData.yearBuild || ''}
+            onChange={handleChangeEdit}
+          />
+          <TextField
+            required
+            margin="dense"
+            name="rentPrice"
+            label="Rent Price"
+            type="number"
+            fullWidth
+            variant="outlined"
+            sx={{ marginTop: 2 }}
+            value={editFlatData.rentPrice || ''}
+            onChange={handleChangeEdit}
+          />
+          <TextField
+            required
+            margin="dense"
+            name="dateAvailable"
+            label="Date Available"
+            type="date"
+            fullWidth
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            sx={{ marginTop: 2 }}
+            value={editFlatData.dateAvailable || ''}
+            onChange={handleChangeEdit}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEditModal}>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

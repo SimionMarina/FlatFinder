@@ -201,11 +201,16 @@ transition: background-color 0.5s ease, color 1s ease;
 .forgot__password {
     cursor: pointer;
     margin-bottom: 0;
+    text-decoration: none;
+    border: none;
+    color: #060606;
+
 }
 
 .forgot__password:hover {
     color: rgb(86, 86, 86);
-    border-bottom: 1px solid gray;
+    text-decoration: none;
+
 }
 
 .navigate__button {

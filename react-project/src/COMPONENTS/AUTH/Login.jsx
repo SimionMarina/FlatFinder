@@ -172,7 +172,7 @@ function Login() {
                   <Checkbox className="checkbox" />
                   Remember me
                 </p>
-                <p className="forgot__password">Forgot Password?</p>
+                <p className="forgot__password"><Link to='/ForgotPassword' className="forgot__password">Forgot Password?</Link></p>
               </div>
 
               <Stack direction="row" spacing={2}>
