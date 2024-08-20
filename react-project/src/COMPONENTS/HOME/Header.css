@@ -2,17 +2,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    z-index: 999;
+    font-family:'Times New Roman', Times, serif;
 }
-
 .header__logo__and__greetings {
-    color: beige;
+    color: rgb(0, 0, 0);
     display: flex;
     flex-direction: row;
     align-items: center;
+    font-family:'Times New Roman', Times, serif;
+
 }
 
 .logo__content {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+.navbar__container {
+    background: linear-gradient(to bottom, #ffffff, #e0dfdf); /* Gradient de sus în jos de la alb la gri */
+}
+
+.navigation__buttons {
+    color: black;
 }

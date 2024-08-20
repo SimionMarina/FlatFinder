@@ -3,26 +3,26 @@ import NewFlat from "./NewFlat";
 import Header from "./Header";
 import FlatsTable from "./FlatsTable";
 import { Container,Button } from "@mui/material";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../CONTEXT/authContext";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#FF5733',
-      // light: will be calculated from palette.primary.main,
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
-    },
-    secondary: {
-      main: '#E0C2FF',
-      light: '#F5EBFF',
-      // dark: will be calculated from palette.secondary.main,
-      contrastText: '#47008F',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: '#303a43',
+//       // light: will be calculated from palette.primary.main,
+//       // dark: will be calculated from palette.primary.main,
+//       // contrastText: will be calculated to contrast with palette.primary.main
+//     },
+//     secondary: {
+//       main: '#E0C2FF',
+//       light: '#F5EBFF',
+//       // dark: will be calculated from palette.secondary.main,
+//       contrastText: '#47008F',
+//     },
+//   },
+// });
 function Home() {
   const {currentUser} = useAuth();
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function Home() {
     }
   },[])
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
     <div>
       <Header />
       <Container sx={{display: "flex", gap: "5px",padding: "20px"}}>
@@ -48,7 +48,7 @@ function Home() {
       <FlatsTable tableType={tableType} />
       <NewFlat />
     </div>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 }
 

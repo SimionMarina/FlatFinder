@@ -8,6 +8,7 @@ import Home from './COMPONENTS/HOME/Home.jsx'
 import Inbox from './COMPONENTS/HOME/Inbox.jsx'
 import ViewFlat from './COMPONENTS/HOME/ViewFlat.jsx'
 import ForgotPassword from './COMPONENTS/AUTH/ForgotPassword.jsx'
+import FirstView from './COMPONENTS/HOME/FirstView.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/ForgotPassword",
     element:<ForgotPassword></ForgotPassword>
+  },
+  {
+    path: "/FirstView",
+    element:<FirstView></FirstView>
   }
 ])
 

@@ -37,7 +37,7 @@ export default function Header() {
 
   return (
     <AppBar position="static">
-      <Toolbar>
+      <Toolbar className="navbar__container" sx={{height:"60px"}}>
        
         <div className="header__logo__and__greetings"
           style={{
