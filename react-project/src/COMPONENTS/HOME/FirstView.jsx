@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import './FirstView.css'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../CONTEXT/authContext';
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // const theme = createTheme({
@@ -21,10 +22,18 @@ import { useNavigate } from 'react-router-dom';
 //     },
 //   });
 function FirstView() {
+  const {currentUser} = useAuth();
     const navigate = useNavigate();
     const handleStart = () => {
         navigate("/")
     }
+
+    useEffect(()=> {
+      if(!currentUser) {
+        navigate("/login")
+      }
+
+    },[])
   return (
         
     <div className='background__container'>
