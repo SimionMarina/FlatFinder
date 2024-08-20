@@ -10,6 +10,7 @@ import ViewFlat from './COMPONENTS/HOME/ViewFlat.jsx'
 import ForgotPassword from './COMPONENTS/AUTH/ForgotPassword.jsx'
 import FirstView from './COMPONENTS/HOME/FirstView.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
+import DeleteAccount from './COMPONENTS/HOME/DeleteAccount.jsx'
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/FirstView",
     element:<FirstView></FirstView>
+  },
+  {
+    path: "/delete-account",
+    element:<DeleteAccount></DeleteAccount>
   }
 ])
 
