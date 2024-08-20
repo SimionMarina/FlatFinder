@@ -30,7 +30,8 @@ function FirstView() {
 
     useEffect(()=> {
       if(!currentUser) {
-        navigate("/login")
+        navigate("/login");
+        
       }
 
     },[])
