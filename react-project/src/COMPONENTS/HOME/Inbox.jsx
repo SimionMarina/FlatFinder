@@ -13,11 +13,13 @@ import {
   Container,
 } from "@mui/material";
 import Header from "./Header";
+
 const Inbox = () => {
-  const [messages, setMessages] = useState([]);
+  const [groupedMessages, setGroupedMessages] = useState({});
+  const [flatDetails, setFlatDetails] = useState({});
   const [reply, setReply] = useState({});
   const { currentUser } = useAuth();
-  
+
   useEffect(() => {
     const fetchMessages = async () => {
       if (currentUser) {
@@ -26,7 +28,35 @@ const Inbox = () => {
 
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
-          setMessages(userData.messages || []);
+          const messages = userData.messages || [];
+
+          // Group messages by senderUid
+          const grouped = messages.reduce((acc, message) => {
+            const senderUid = message.senderUid;
+            if (!acc[senderUid]) {
+              acc[senderUid] = [];
+            }
+            acc[senderUid].push(message);
+            return acc;
+          }, {});
+
+          setGroupedMessages(grouped);
+
+          // Fetch flat details
+          const flatIds = [...new Set(messages.map((msg) => msg.flatId))];
+          const flatDetailsPromises = flatIds.map(async (flatId) => {
+            const flatDocRef = doc(db, "flats", flatId);
+            const flatDocSnap = await getDoc(flatDocRef);
+            return { flatId, ...flatDocSnap.data() };
+          });
+
+          const flatDetailsArray = await Promise.all(flatDetailsPromises);
+          const flatDetailsObj = flatDetailsArray.reduce((acc, flat) => {
+            acc[flat.flatId] = flat;
+            return acc;
+          }, {});
+
+          setFlatDetails(flatDetailsObj);
         }
       }
     };
@@ -34,29 +64,27 @@ const Inbox = () => {
     fetchMessages();
   }, [currentUser]);
 
-  const handleReplyChange = (index, value) => {
-    setReply({ ...reply, [index]: value });
+  const handleReplyChange = (senderUid, value) => {
+    setReply({ ...reply, [senderUid]: value });
   };
 
-  const handleSendReply = async (message, index) => {
-    if (!currentUser || !message) return;
+  const handleSendReply = async (senderUid) => {
+    if (!currentUser || !reply[senderUid]) return;
 
-    const senderDocRef = doc(db, "users", message.senderUid);
     const replyMessage = {
-      content: reply[index],
+      content: reply[senderUid],
       senderUid: currentUser.uid,
       senderName: currentUser.fullName,
       senderEmail: currentUser.email,
       createdAt: new Date(),
-      replyToMessageId: message.createdAt, // Optional: link reply to the original message
-      flatId: message.flatId,
     };
 
     try {
+      const senderDocRef = doc(db, "users", senderUid);
       await updateDoc(senderDocRef, {
         messages: arrayUnion(replyMessage),
       });
-      setReply({ ...reply, [index]: "" }); // Clear the reply input
+      setReply({ ...reply, [senderUid]: "" }); // Clear the reply input
       alert("Reply sent successfully!");
     } catch (error) {
       console.error("Error sending reply:", error);
@@ -72,35 +100,48 @@ const Inbox = () => {
           Inbox
         </Typography>
         <Stack spacing={2}>
-          {messages.length === 0 ? (
+          {Object.keys(groupedMessages).length === 0 ? (
             <Typography>No messages found.</Typography>
           ) : (
-            messages.map((message, index) => (
-              <Card key={index}>
+            Object.keys(groupedMessages).map((senderUid) => (
+              <Card key={senderUid}>
                 <CardContent>
                   <Typography variant="h6">
-                    From: {message.senderName}
+                    From: {groupedMessages[senderUid][0].senderName}
                   </Typography>
-                  <Typography variant="body1">{message.content}</Typography>
-                  <Typography variant="caption" color="textSecondary">
-                    Sent on:{" "}
-                    {new Date(
-                      message.createdAt.seconds * 1000
-                    ).toLocaleString()}
-                  </Typography>
+                  {groupedMessages[senderUid].map((message, index) => {
+                    const flat = flatDetails[message.flatId];
+                    return (
+                      <div key={index} style={{ marginBottom: "10px" }}>
+                        <Typography variant="body1">{message.content}</Typography>
+                        {flat && (
+                          <Typography variant="caption" color="textSecondary">
+                            Location: {flat.city}, {flat.streetName} {flat.streetNumber}
+                          </Typography>
+                        )}
+                        <br />
+                        <Typography variant="caption" color="textSecondary">
+                          Sent on:{" "}
+                          {new Date(
+                            message.createdAt.seconds * 1000
+                          ).toLocaleString()}
+                        </Typography>
+                      </div>
+                    );
+                  })}
                 </CardContent>
                 <CardActions>
                   <TextField
                     label="Reply"
                     variant="outlined"
                     fullWidth
-                    value={reply[index] || ""}
-                    onChange={(e) => handleReplyChange(index, e.target.value)}
+                    value={reply[senderUid] || ""}
+                    onChange={(e) => handleReplyChange(senderUid, e.target.value)}
                   />
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => handleSendReply(message, index)}
+                    onClick={() => handleSendReply(senderUid)}
                   >
                     Send Reply
                   </Button>

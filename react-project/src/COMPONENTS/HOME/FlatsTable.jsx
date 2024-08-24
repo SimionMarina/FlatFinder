@@ -166,7 +166,7 @@ function FlatsTable({ tableType }) {
   const columns = [
     { field: "city", headerName: "City",  headerClassName: 'header-style', cellClassName: 'cell-style',width:130 },
     { field: "streetName", headerName: "Street Name", width: 150, headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "streetNumber", headerName: "Street Number" , headerClassName: 'header-style', cellClassName: 'cell-style',width:130},
+    { field: "streetNumber", headerName: "St. Nr." , headerClassName: 'header-style', cellClassName: 'cell-style',width:100},
     { field: "areaSize", headerName: "Area Size", headerClassName: 'header-style', cellClassName: 'cell-style' },
     { field: "hasAc", headerName: "Has AC", headerClassName: 'header-style', cellClassName: 'cell-style' },
     { field: "yearBuild", headerName: "Year Built", headerClassName: 'header-style', cellClassName: 'cell-style'},
@@ -258,7 +258,7 @@ function FlatsTable({ tableType }) {
   }
 
   return (
-    <div style={{ height: 360, width: "80%", margin: "auto" }}>
+    <div style={{ height: 375, width: "80%", margin: "auto" }}>
       <DataGrid
         rows={flats}
         columns={columns}
@@ -266,7 +266,7 @@ function FlatsTable({ tableType }) {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 6,
+              pageSize: 5,
             },
           },
         }}
