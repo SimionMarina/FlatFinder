@@ -18,6 +18,7 @@ import { useAuth } from "../../CONTEXT/authContext";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase"; // Firebase configuration and initialization
 import "./Home.css";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,6 +28,7 @@ export default function NewFlat() {
   const [open, setOpen] = React.useState(false);
   const [hasAc, setHasAc] = React.useState(false);
   const { currentUser } = useAuth();
+  const navigate = useNavigate()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,7 +69,8 @@ export default function NewFlat() {
         // Reload page after 2 seconds delay to allow the message to be displayed
         setTimeout(() => {
           location.reload();
-        }, 2000);
+          navigate("/")
+        }, 500);
       } catch (error) {
         showToastr("error", `Error adding flat: ${error}`);
       }

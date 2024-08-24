@@ -18,6 +18,8 @@ import { IconButton, Button, TextField, Dialog, DialogActions, DialogContent, Di
 import { Delete, Edit, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
+import './FlatsTable.css'
+
 
 function FlatsTable({ tableType }) {
   const [flats, setFlats] = useState([]);
@@ -162,26 +164,29 @@ function FlatsTable({ tableType }) {
   };
 
   const columns = [
-    { field: "city", headerName: "City" },
-    { field: "streetName", headerName: "Street Name", width: 150 },
-    { field: "streetNumber", headerName: "Street Number" },
-    { field: "areaSize", headerName: "Area Size" },
-    { field: "hasAc", headerName: "Has AC" },
-    { field: "yearBuild", headerName: "Year Built" },
-    { field: "rentPrice", headerName: "Rent Price" },
-    { field: "dateAvailable", headerName: "Date Available" },
+    { field: "city", headerName: "City",  headerClassName: 'header-style', cellClassName: 'cell-style',width:130 },
+    { field: "streetName", headerName: "Street Name", width: 150, headerClassName: 'header-style', cellClassName: 'cell-style' },
+    { field: "streetNumber", headerName: "Street Number" , headerClassName: 'header-style', cellClassName: 'cell-style',width:130},
+    { field: "areaSize", headerName: "Area Size", headerClassName: 'header-style', cellClassName: 'cell-style' },
+    { field: "hasAc", headerName: "Has AC", headerClassName: 'header-style', cellClassName: 'cell-style' },
+    { field: "yearBuild", headerName: "Year Built", headerClassName: 'header-style', cellClassName: 'cell-style'},
+    { field: "rentPrice", headerName: "Rent Price", headerClassName: 'header-style', cellClassName: 'cell-style', width:100 },
+    { field: "dateAvailable", headerName: "Date Available", headerClassName: 'header-style', cellClassName: 'cell-style',width:130 },
     {
       field: "view",
       headerName: "View",
+      
       renderCell: (params) => (
-        <IconButton
+        <IconButton 
           onClick={() => {
             navigate(`/flats/${params.row.id}`);
           }}
         >
-          <Visibility />
+          <Visibility className="action__icon" />
         </IconButton>
       ),
+      headerClassName: 'header-style',
+    cellClassName: 'cell-style'
     },
   ];
 
@@ -189,6 +194,9 @@ function FlatsTable({ tableType }) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
+       headerClassName: 'header-style',
+    cellClassName: 'cell-style',
+    width:170,
       renderCell: (params) => {
         const isOwner = params.row.userUid === currentUser.uid;
         if (!isOwner) {
@@ -197,7 +205,7 @@ function FlatsTable({ tableType }) {
               {favorites.includes(params.row.id) ? (
                 <Favorite style={{ color: "red" }} />
               ) : (
-                <FavoriteBorder />
+                <FavoriteBorder className="action__icon" />
               )}
             </IconButton>
           );
@@ -212,18 +220,22 @@ function FlatsTable({ tableType }) {
       {
         field: "edit",
         headerName: "Edit",
+         headerClassName: 'header-style',
+    cellClassName: 'cell-style',
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
-            <Edit />
+            <Edit className="action__icon" />
           </IconButton>
         ),
       },
       {
         field: "delete",
         headerName: "Delete",
+         headerClassName: 'header-style',
+    cellClassName: 'cell-style',
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Delete />
+            <Delete className="action__icon"/>
           </IconButton>
         ),
       }
@@ -234,6 +246,9 @@ function FlatsTable({ tableType }) {
     columns.push({
       field: "favorite",
       headerName: "Delete Favorite",
+      headerClassName: 'header-style',
+      cellClassName: 'cell-style',
+      width:186,
       renderCell: (params) => (
         <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
           <HeartBrokenIcon style={{ color: "red" }} />
@@ -251,7 +266,7 @@ function FlatsTable({ tableType }) {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 6,
             },
           },
         }}

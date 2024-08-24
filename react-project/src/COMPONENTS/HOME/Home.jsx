@@ -38,16 +38,35 @@ function Home() {
   },[])
   return (
     // <ThemeProvider theme={theme}>
-    <div>
-      <Header />
-      <Container sx={{display: "flex", gap: "5px",padding: "20px"}}>
-        <Button variant="contained" onClick={() => handleTableTypeChange("all")}>All flats</Button>
-        <Button variant="contained" onClick={() => handleTableTypeChange("myFlats")} color="secondary">My flats</Button>
-        <Button variant="contained" onClick={() => handleTableTypeChange("favorites")}>Favorite flats</Button>
+    <div className="background__container">
+    <div className="background__image"></div>
+    <div className="background__overlay"></div>
+    <Header />
+    <div className="hero__section__home">
+      <Container sx={{ display: "flex", gap: "5px", padding: "20px" }}>
+        <Button className="table__buttons" variant="contained" onClick={() => handleTableTypeChange("all")}
+              sx={{ backgroundColor: "gray",border:"none", '&:hover': { backgroundColor: "brown" } }}
+
+          >
+          All flats
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => handleTableTypeChange("myFlats")}
+          sx={{ backgroundColor: "red",border:"none", '&:hover': { backgroundColor: "brown" } }}        >
+          My flats
+        </Button>
+        <Button variant="contained" onClick={() => handleTableTypeChange("favorites")}
+                        sx={{ backgroundColor: "gray",border:"none", '&:hover': { backgroundColor: "brown" } }}
+>
+          Favorite flats
+        </Button>
       </Container>
       <FlatsTable tableType={tableType} />
       <NewFlat />
     </div>
+  </div>
+  
     // </ThemeProvider>
   );
 }

@@ -3,6 +3,7 @@ import Header from './Header';
 import './FirstView.css'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../CONTEXT/authContext';
+// import backgroundImage from "../../assets/_6879bbe3-3ecc-4032-b152-0f1fc8a0a51b-removebg-preview.png"
 // import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // const theme = createTheme({
@@ -31,11 +32,25 @@ function FirstView() {
     useEffect(()=> {
       if(!currentUser) {
         navigate("/login");
-        
       }
 
     },[])
   return (
+//     <>    
+//      <Header/>
+//      <div className="rest">
+//        <div className="left">
+//         <div className='hero__text'>
+//            <h1>Welcome to our platform</h1>
+//            <h3>Feel at home</h3>
+//         </div>
+//        </div>
+//        <div className="right">
+//          <img src={backgroundImage} alt="heroImage" className='hero__image' />
+//        </div>
+
+//      </div> 
+// </>
         
     <div className='background__container'>
     <div className='background__image'></div>

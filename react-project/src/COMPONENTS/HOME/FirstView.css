@@ -76,3 +76,33 @@ html, body {
     font-style: italic;
     color: wheat;
 }
+
+
+/*  */
+
+/* 
+.rest {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.left {
+    background-color: rgba(244,232,210,255);
+    width: 50%;
+    height: 91vh;
+}
+
+.right {
+    width: 50%;
+    background-color: rgba(244,232,210,255);
+}
+
+.hero__image{
+    width: 665px;
+}
+
+.hero__text {
+    margin-top: 200px;
+    text-align: center;
+} */
