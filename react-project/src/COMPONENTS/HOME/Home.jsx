@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import NewFlat from "./NewFlat";
-import Header from "./Header";
+import Header from "../HEADER/Header";
 import FlatsTable from "./FlatsTable";
 import { Container,Button } from "@mui/material";
 // import { createTheme, ThemeProvider } from '@mui/material/styles';

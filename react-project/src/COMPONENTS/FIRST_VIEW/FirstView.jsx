@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
+import Header from '../HEADER/Header';
 import './FirstView.css'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../CONTEXT/authContext';

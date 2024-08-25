@@ -11,7 +11,7 @@ import {
   Grid,
 } from "@mui/material";
 import './ViewFlat.css';
-import Header from "./Header";
+import Header from "../HEADER/Header";
 function ViewFlat() {
   const { flatId } = useParams();
   const [flat, setFlat] = useState(null);

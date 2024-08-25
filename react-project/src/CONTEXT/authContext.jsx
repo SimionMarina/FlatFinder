@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState, createContext } from "react";
 import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -36,8 +36,17 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
-  // Adaugă setCurrentUser în valoare
-  const value = { currentUser, userLoggedIn, loading };
+  // Function to reauthenticate the user
+  async function reauthenticate(password) {
+    const user = auth.currentUser;
+    if (!user) throw new Error("No user is currently logged in.");
+
+    // Reauthenticate using the email and the provided password
+    const credential = await signInWithEmailAndPassword(auth, user.email, password);
+    return credential;
+  }
+
+  const value = { currentUser, userLoggedIn, loading, reauthenticate };
 
   return (
     <AuthContext.Provider value={value}>

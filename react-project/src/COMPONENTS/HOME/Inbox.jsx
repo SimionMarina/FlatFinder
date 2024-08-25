@@ -12,7 +12,7 @@ import {
   Stack,
   Container,
 } from "@mui/material";
-import Header from "./Header";
+import Header from "../HEADER/Header";
 
 const Inbox = () => {
   const [groupedMessages, setGroupedMessages] = useState({});
