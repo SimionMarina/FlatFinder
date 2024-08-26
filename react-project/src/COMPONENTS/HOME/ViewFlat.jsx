@@ -64,10 +64,12 @@ function ViewFlat() {
 
   return (
     <>
+    <div className="background__container">
       <Header />
 
-      <Container sx={{marginTop: "20px"}}>
-        <Typography variant="h6" gutterBottom>
+         
+          <Container sx={{marginTop: "50px", color:"white", backdropFilter:"blur(5px)"}}>
+        <Typography variant="h6" gutterBottom sx={{marginBottom:0}}>
           Flat Owner: {currentUser.fullName}
         </Typography>
       </Container>
@@ -78,6 +80,8 @@ function ViewFlat() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
+          color:"white",
+          backdropFilter:"blur(5px)",
         }}
       >
         <Typography variant="h5" gutterBottom>
@@ -151,29 +155,33 @@ function ViewFlat() {
           </Grid>
         </Grid>
       </Container>
-      <Container>
+      <Container sx={{padding:0}}>
         {flat.uid !== currentUser.uid && (
           <Container
             sx={{
-              width: "60%",
+              width: "100%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              marginTop: "20px"
+              // marginTop: "20px",
+              color:"white",
+              backdropFilter:"blur(5px)",
+              padding:0
             }}
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{color:"red", paddingTop:"10px"}}>
               Send a message to the owner
             </Typography>
             <TextField
+              className="send__message__textfield"
               label="Your Message"
               fullWidth
               multiline
               rows={2}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              style={{ marginBottom: "16px" }}
+              style={{ marginBottom: "16px", border:"2px solid black", borderRadius:"7px" }}
             />
 
             <Button variant="contained" onClick={handleSendMessage} fullWidth>
@@ -182,6 +190,7 @@ function ViewFlat() {
           </Container>
         )}
       </Container>
+      </div>
     </>
   );
 }

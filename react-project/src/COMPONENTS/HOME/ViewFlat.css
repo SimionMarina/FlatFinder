@@ -2,3 +2,22 @@
   padding: 5px;
   border-bottom: 1px solid lightgray;
 }
+
+.send__message__textfield .MuiOutlinedInput-root {
+  border: 2px solid black;
+  border-radius: 7px;
+}
+
+.send__message__textfield .MuiOutlinedInput-input::placeholder {
+  color: #ff5733; /* Culoare stridentă pentru placeholder */
+  font-style: italic;
+  opacity: 1; /* Asigură-te că opacitatea este 100% */
+}
+
+.send__message__textfield .MuiOutlinedInput-input {
+  color: white; /* Culoare albă pentru textul tastat */
+}
+
+.send__message__textfield .MuiInputLabel-root {
+  color: #ff5733; /* Optional: Culoare pentru label */
+}

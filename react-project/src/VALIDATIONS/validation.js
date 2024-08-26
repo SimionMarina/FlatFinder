@@ -1,7 +1,7 @@
 import showToastr from "../SERVICES/toaster-service";
 
 const EMAIL_REGEX = new RegExp(/\S+@\S+\.\S+/);
-const NAMES_REGEX = new RegExp(/^[^\d\s]+$/);
+const NAMES_REGEX = new RegExp(/^[^\d\s]+(?:\s[^\d\s]+)+$/);
 const PASSWORD_REGEX = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/);
 const MIN_AGE = 18;
 const MAX_AGE = 100;
