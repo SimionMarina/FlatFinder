@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import {
   collection,
@@ -14,12 +13,12 @@ import {
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Slide, Stack, Checkbox, FormControlLabel } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
 import { Delete, Edit, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
-import './FlatsTable.css'
-
+import EditFlat from "./EditFlat";
+import './FlatsTable.css';
 
 function FlatsTable({ tableType }) {
   const [flats, setFlats] = useState([]);
@@ -27,7 +26,6 @@ function FlatsTable({ tableType }) {
   const [role, setRole] = useState("user");
   const [favorites, setFavorites] = useState([]);
   const [editFlatId, setEditFlatId] = useState(null);
-  const [editFlatData, setEditFlatData] = useState({});
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -84,41 +82,22 @@ function FlatsTable({ tableType }) {
     fetchFlats();
   }, [tableType, currentUser, role]);
 
-  const handleEdit = async (id) => {
-    const flatDoc = await getDoc(doc(db, "flats", id));
-    if (flatDoc.exists()) {
-      setEditFlatData(flatDoc.data());
-      setEditFlatId(id);
-      setIsEditModalOpen(true);
-    }
+  const handleEdit = (id) => {
+    setEditFlatId(id);
+    setIsEditModalOpen(true);
   };
 
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
-    setEditFlatData({});
+    setEditFlatId(null);
   };
 
-  const handleChangeEdit = (event) => {
-    const { name, value } = event.target;
-    setEditFlatData({ ...editFlatData, [name]: value });
-  };
-
-  const handleCheckboxChange = (event) => {
-    setEditFlatData({ ...editFlatData, hasAc: event.target.checked });
-  };
-
-  const handleSave = async () => {
-    try {
-      await updateDoc(doc(db, "flats", editFlatId), editFlatData);
-      setFlats(flats.map((flat) => (flat.id === editFlatId ? { ...flat, ...editFlatData } : flat)));
-      handleCloseEditModal();
-    } catch (error) {
-      console.error("Error updating flat: ", error);
-    }
+  const handleUpdateFlat = async () => {
+    await setFlats(); // Reload flats data to reflect changes
+    handleCloseEditModal();
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
     try {
       await deleteDoc(doc(db, "flats", id));
       setFlats(flats.filter((flat) => flat.id !== id));
@@ -140,6 +119,10 @@ function FlatsTable({ tableType }) {
     }
 
     setFavorites(updatedFavorites);
+
+    if (tableType === "favorites") {
+      setFlats(flats.filter((flat) => flat.id !== id));
+    }
   };
 
   const handleDeleteFavorite = async (id) => {
@@ -164,29 +147,26 @@ function FlatsTable({ tableType }) {
   };
 
   const columns = [
-    { field: "city", headerName: "City",  headerClassName: 'header-style', cellClassName: 'cell-style',width:130 },
+    { field: "city", headerName: "City", headerClassName: 'header-style', cellClassName: 'cell-style', width: 130 },
     { field: "streetName", headerName: "Street Name", width: 150, headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "streetNumber", headerName: "St. Nr." , headerClassName: 'header-style', cellClassName: 'cell-style',width:100},
+    { field: "streetNumber", headerName: "St. Nr.", headerClassName: 'header-style', cellClassName: 'cell-style', width: 100 },
     { field: "areaSize", headerName: "Area Size", headerClassName: 'header-style', cellClassName: 'cell-style' },
     { field: "hasAc", headerName: "Has AC", headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "yearBuild", headerName: "Year Built", headerClassName: 'header-style', cellClassName: 'cell-style'},
-    { field: "rentPrice", headerName: "Rent Price", headerClassName: 'header-style', cellClassName: 'cell-style', width:100 },
-    { field: "dateAvailable", headerName: "Date Available", headerClassName: 'header-style', cellClassName: 'cell-style',width:130 },
+    { field: "yearBuild", headerName: "Year Built", headerClassName: 'header-style', cellClassName: 'cell-style' },
+    { field: "rentPrice", headerName: "Rent Price", headerClassName: 'header-style', cellClassName: 'cell-style', width: 100 },
+    { field: "dateAvailable", headerName: "Date Available", headerClassName: 'header-style', cellClassName: 'cell-style', width: 130 },
     {
       field: "view",
       headerName: "View",
-      
       renderCell: (params) => (
-        <IconButton 
-          onClick={() => {
-            navigate(`/flats/${params.row.id}`);
-          }}
+        <IconButton
+          onClick={() => navigate(`/flats/${params.row.id}`)}
         >
           <Visibility className="action__icon" />
         </IconButton>
       ),
       headerClassName: 'header-style',
-    cellClassName: 'cell-style'
+      cellClassName: 'cell-style'
     },
   ];
 
@@ -194,9 +174,9 @@ function FlatsTable({ tableType }) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
-       headerClassName: 'header-style',
-    cellClassName: 'cell-style',
-    width:170,
+      headerClassName: 'header-style',
+      cellClassName: 'cell-style',
+      width: 170,
       renderCell: (params) => {
         const isOwner = params.row.userUid === currentUser.uid;
         if (!isOwner) {
@@ -220,8 +200,8 @@ function FlatsTable({ tableType }) {
       {
         field: "edit",
         headerName: "Edit",
-         headerClassName: 'header-style',
-    cellClassName: 'cell-style',
+        headerClassName: 'header-style',
+        cellClassName: 'cell-style',
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Edit className="action__icon" />
@@ -231,11 +211,11 @@ function FlatsTable({ tableType }) {
       {
         field: "delete",
         headerName: "Delete",
-         headerClassName: 'header-style',
-    cellClassName: 'cell-style',
+        headerClassName: 'header-style',
+        cellClassName: 'cell-style',
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Delete className="action__icon"/>
+            <Delete className="action__icon" />
           </IconButton>
         ),
       }
@@ -248,7 +228,7 @@ function FlatsTable({ tableType }) {
       headerName: "Delete Favorite",
       headerClassName: 'header-style',
       cellClassName: 'cell-style',
-      width:186,
+      width: 186,
       renderCell: (params) => (
         <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
           <HeartBrokenIcon style={{ color: "red" }} />
@@ -274,127 +254,12 @@ function FlatsTable({ tableType }) {
       />
 
       {/* Modal for Editing Flat */}
-      <Dialog
+      <EditFlat
         open={isEditModalOpen}
         onClose={handleCloseEditModal}
-        PaperProps={{
-          component: "form",
-          onSubmit: (e) => {
-            e.preventDefault();
-            handleSave();
-          },
-        }}
-      >
-        <DialogTitle>Edit Flat</DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              name="city"
-              label="City"
-              type="text"
-              fullWidth
-              variant="outlined"
-              value={editFlatData.city || ''}
-              onChange={handleChangeEdit}
-            />
-            <TextField
-              required
-              margin="dense"
-              name="streetName"
-              label="Street Name"
-              type="text"
-              fullWidth
-              variant="outlined"
-              value={editFlatData.streetName || ''}
-              onChange={handleChangeEdit}
-            />
-            <TextField
-              required
-              margin="dense"
-              name="streetNumber"
-              label="Street Number"
-              type="number"
-              fullWidth
-              variant="outlined"
-              value={editFlatData.streetNumber || ''}
-              onChange={handleChangeEdit}
-            />
-          </Stack>
-
-          <TextField
-            required
-            margin="dense"
-            name="areaSize"
-            label="Area Size"
-            type="number"
-            fullWidth
-            variant="outlined"
-            sx={{ marginTop: 2 }}
-            value={editFlatData.areaSize || ''}
-            onChange={handleChangeEdit}
-          />
-
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={editFlatData.hasAc || false}
-                onChange={handleCheckboxChange}
-                name="hasAc"
-                color="primary"
-              />
-            }
-            label="Has AC"
-            sx={{ marginTop: 2 }}
-          />
-
-          <TextField
-            required
-            margin="dense"
-            name="yearBuild"
-            label="Year Built"
-            type="number"
-            fullWidth
-            variant="outlined"
-            sx={{ marginTop: 2 }}
-            value={editFlatData.yearBuild || ''}
-            onChange={handleChangeEdit}
-          />
-          <TextField
-            required
-            margin="dense"
-            name="rentPrice"
-            label="Rent Price"
-            type="number"
-            fullWidth
-            variant="outlined"
-            sx={{ marginTop: 2 }}
-            value={editFlatData.rentPrice || ''}
-            onChange={handleChangeEdit}
-          />
-          <TextField
-            required
-            margin="dense"
-            name="dateAvailable"
-            label="Date Available"
-            type="date"
-            fullWidth
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            sx={{ marginTop: 2 }}
-            value={editFlatData.dateAvailable || ''}
-            onChange={handleChangeEdit}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditModal}>Cancel</Button>
-          <Button type="submit">Save</Button>
-        </DialogActions>
-      </Dialog>
+        flatId={editFlatId}
+        onUpdate={handleUpdateFlat}
+      />
     </div>
   );
 }

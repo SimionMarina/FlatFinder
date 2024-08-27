@@ -47,77 +47,86 @@ function Profile() {
 
   return (
     <>
-      <Header></Header>
-      <Container
-        sx={{
-          width: '100vw',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          marginTop: '30px',
-        }}
-      >
-        <h3>Account data</h3>
+     <div className='background__container'>
+        <Header></Header>
         <Container
           sx={{
+            width: '60vw',
             display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            marginTop: '140px',
+            backdropFilter:"blur(10px)",
+            color:"white",
+            padding:"20px"
           }}
         >
-          <PermIdentityIcon sx={{ fontSize: '200px', fontWeight: '100' }} />
-          <Container>
-            <Typography>Name: {currentUser.fullName}</Typography>
-            <Typography>Email: {currentUser.email}</Typography>
-            <Typography>Birth date: {currentUser.birthDate}</Typography>
-            <Button variant="contained" onClick={handleUpdateMyProfile}>
-              Update data
-            </Button>
+          <h3>Account data</h3>
+          <Container
+            sx={{
+              display: 'flex',
+              color:"white",
+              flexDirection:"row",
+              justifyContent:"center",
+              alignItems:"center",
+            }}
+          >
+            <PermIdentityIcon sx={{ fontSize: '200px', fontWeight: '100', color:"wheat" }} />
+            <Container >
+              <Typography>Name: {currentUser.fullName}</Typography>
+              <Typography>Email: {currentUser.email}</Typography>
+              <Typography>Birth date: {currentUser.birthDate}</Typography>
+              <Button variant="contained" onClick={handleUpdateMyProfile} style={{marginTop:"30px", color:"black", backgroundColor:"wheat", fontSize:"14px", fontFamily:"inherit"}} className='update__profile__button'>
+                Update data
+              </Button>
+            </Container>
           </Container>
         </Container>
-      </Container>
-
-      {/* Modalul pentru actualizarea datelor */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Update Profile</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Full Name"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            margin="dense"
-            label="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            fullWidth
-            type="email"
-          />
-          <TextField
-            margin="dense"
-            label="Birth Date"
-            name="birthDate"
-            value={formData.birthDate}
-            onChange={handleChange}
-            fullWidth
-            type="date"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSave} variant="contained" color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+  
+        {/* Modalul pentru actualizarea datelor */}
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Update Profile</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Full Name"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              fullWidth
+              type="email"
+            />
+            <TextField
+              margin="dense"
+              label="Birth Date"
+              name="birthDate"
+              value={formData.birthDate}
+              onChange={handleChange}
+              fullWidth
+              type="date"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSave} variant="contained" color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
+     </div>
     </>
   );
 }
