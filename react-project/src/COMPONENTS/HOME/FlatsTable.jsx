@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -13,12 +14,18 @@ import {
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Button } from "@mui/material";
-import { Delete, Edit, Favorite, FavoriteBorder, Visibility } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import {
+  Delete,
+  Edit,
+  Favorite,
+  FavoriteBorder,
+  Visibility,
+} from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
 import EditFlat from "./EditFlat";
-import './FlatsTable.css';
+import "./FlatsTable.css";
 
 function FlatsTable({ tableType }) {
   const [flats, setFlats] = useState([]);
@@ -67,7 +74,7 @@ function FlatsTable({ tableType }) {
         }));
         setFlats(flatsList);
       } else {
-        setFlats(null);
+        setFlats([]);
       }
 
       if (currentUser) {
@@ -92,9 +99,19 @@ function FlatsTable({ tableType }) {
     setEditFlatId(null);
   };
 
-  const handleUpdateFlat = async () => {
-    await setFlats(); // Reload flats data to reflect changes
-    handleCloseEditModal();
+  const handleUpdateFlat = async (updatedFlat) => {
+    try {
+      const flatDocRef = doc(db, "flats", updatedFlat.id);
+      await updateDoc(flatDocRef, {
+        ...updatedFlat,
+      });
+      setFlats(
+        flats.map((flat) => (flat.id === updatedFlat.id ? updatedFlat : flat))
+      );
+      handleCloseEditModal();
+    } catch (error) {
+      console.error("Error updating flat: ", error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -147,26 +164,69 @@ function FlatsTable({ tableType }) {
   };
 
   const columns = [
-    { field: "city", headerName: "City", headerClassName: 'header-style', cellClassName: 'cell-style', width: 130 },
-    { field: "streetName", headerName: "Street Name", width: 150, headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "streetNumber", headerName: "St. Nr.", headerClassName: 'header-style', cellClassName: 'cell-style', width: 100 },
-    { field: "areaSize", headerName: "Area Size", headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "hasAc", headerName: "Has AC", headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "yearBuild", headerName: "Year Built", headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: "rentPrice", headerName: "Rent Price", headerClassName: 'header-style', cellClassName: 'cell-style', width: 100 },
-    { field: "dateAvailable", headerName: "Date Available", headerClassName: 'header-style', cellClassName: 'cell-style', width: 130 },
+    {
+      field: "city",
+      headerName: "City",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+      width: 130,
+    },
+    {
+      field: "streetName",
+      headerName: "Street Name",
+      width: 150,
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+    },
+    {
+      field: "streetNumber",
+      headerName: "St. Nr.",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+      width: 100,
+    },
+    {
+      field: "areaSize",
+      headerName: "Area Size",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+    },
+    {
+      field: "hasAc",
+      headerName: "Has AC",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+    },
+    {
+      field: "yearBuild",
+      headerName: "Year Built",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+    },
+    {
+      field: "rentPrice",
+      headerName: "Rent Price",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+      width: 100,
+    },
+    {
+      field: "dateAvailable",
+      headerName: "Date Available",
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
+      width: 130,
+    },
     {
       field: "view",
       headerName: "View",
       renderCell: (params) => (
-        <IconButton
-          onClick={() => navigate(`/flats/${params.row.id}`)}
-        >
+        <IconButton onClick={() => navigate(`/flats/${params.row.id}`)}>
           <Visibility className="action__icon" />
         </IconButton>
       ),
-      headerClassName: 'header-style',
-      cellClassName: 'cell-style'
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
     },
   ];
 
@@ -174,8 +234,8 @@ function FlatsTable({ tableType }) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
-      headerClassName: 'header-style',
-      cellClassName: 'cell-style',
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
       width: 170,
       renderCell: (params) => {
         const isOwner = params.row.userUid === currentUser.uid;
@@ -200,8 +260,8 @@ function FlatsTable({ tableType }) {
       {
         field: "edit",
         headerName: "Edit",
-        headerClassName: 'header-style',
-        cellClassName: 'cell-style',
+        headerClassName: "header-style",
+        cellClassName: "cell-style",
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Edit className="action__icon" />
@@ -211,8 +271,8 @@ function FlatsTable({ tableType }) {
       {
         field: "delete",
         headerName: "Delete",
-        headerClassName: 'header-style',
-        cellClassName: 'cell-style',
+        headerClassName: "header-style",
+        cellClassName: "cell-style",
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
             <Delete className="action__icon" />
@@ -226,8 +286,8 @@ function FlatsTable({ tableType }) {
     columns.push({
       field: "favorite",
       headerName: "Delete Favorite",
-      headerClassName: 'header-style',
-      cellClassName: 'cell-style',
+      headerClassName: "header-style",
+      cellClassName: "cell-style",
       width: 186,
       renderCell: (params) => (
         <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
@@ -238,7 +298,7 @@ function FlatsTable({ tableType }) {
   }
 
   return (
-    <div style={{ height: 375, width: "80%", margin: "auto" }}>
+    <div style={{ height: 390, width: "80%", margin: "auto" }}>
       <DataGrid
         rows={flats}
         columns={columns}
@@ -254,12 +314,14 @@ function FlatsTable({ tableType }) {
       />
 
       {/* Modal for Editing Flat */}
-      <EditFlat
-        open={isEditModalOpen}
-        onClose={handleCloseEditModal}
-        flatId={editFlatId}
-        onUpdate={handleUpdateFlat}
-      />
+      {editFlatId && (
+        <EditFlat
+          open={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          flatId={editFlatId}
+          onUpdate={handleUpdateFlat}
+        />
+      )}
     </div>
   );
 }

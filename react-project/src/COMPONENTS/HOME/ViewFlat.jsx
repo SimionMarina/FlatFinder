@@ -3,21 +3,18 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
-import {
-  Typography,
-  TextField,
-  Button,
-  Container,
-  Grid,
-} from "@mui/material";
-import './ViewFlat.css';
+import { Typography, TextField, Button, Container, Grid } from "@mui/material";
+import "./Home.css";
 import Header from "../HEADER/Header";
+import EditFlat from "./EditFlat";
 
 function ViewFlat() {
   const { flatId } = useParams();
   const [flat, setFlat] = useState(null);
   const [message, setMessage] = useState("");
-  const [owner, setOwner] = useState(null); 
+  const [owner, setOwner] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editFlatId, setEditFlatId] = useState(null);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -28,7 +25,7 @@ function ViewFlat() {
           const flatData = flatDoc.data();
           setFlat(flatData);
 
-          // Obține informațiile proprietarului
+          // Fetch the owner's information
           const ownerDoc = await getDoc(doc(db, "users", flatData.userUid));
           if (ownerDoc.exists()) {
             setOwner(ownerDoc.data());
@@ -46,7 +43,24 @@ function ViewFlat() {
     fetchFlatAndOwner();
   }, [flatId]);
 
+  const handleEdit = () => {
+    setEditFlatId(flatId);
+    setIsEditModalOpen(true);
+  };
 
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditFlatId(null);
+  };
+
+  const handleUpdateFlat = async () => {
+    const flatDoc = await getDoc(doc(db, "flats", flatId));
+    if (flatDoc.exists()) {
+      setFlat(flatDoc.data()); // Refresh flat details
+    }
+
+    handleCloseEditModal();
+  };
 
   const handleSendMessage = async () => {
     if (!currentUser || !flat) {
@@ -86,9 +100,15 @@ function ViewFlat() {
       <div className="background__container">
         <Header />
 
-        <Container sx={{ marginTop: "50px", color: "white", backdropFilter: "blur(5px)" }}>
+        <Container
+          sx={{
+            marginTop: "50px",
+            color: "white",
+            backdropFilter: "blur(5px)",
+          }}
+        >
           <Typography variant="h6" gutterBottom sx={{ marginBottom: 0 }}>
-            Flat Owner: {owner.fullName} {/* Afișează numele proprietarului */}
+            Flat Owner: {owner.fullName} {/*Display the owner's name*/}
           </Typography>
         </Container>
         <Container
@@ -169,7 +189,7 @@ function ViewFlat() {
           </Grid>
         </Container>
         <Container sx={{ padding: 0 }}>
-          {flat.uid !== currentUser.uid && (
+          {flat.userUid !== currentUser.uid ? (
             <Container
               sx={{
                 width: "100%",
@@ -182,7 +202,11 @@ function ViewFlat() {
                 padding: 0,
               }}
             >
-              <Typography variant="h5" gutterBottom sx={{ color: "red", paddingTop: "10px" }}>
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ color: "red", paddingTop: "10px" }}
+              >
                 Send a message to the owner
               </Typography>
               <TextField
@@ -193,14 +217,53 @@ function ViewFlat() {
                 rows={2}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                style={{ marginBottom: "16px", border: "2px solid black", borderRadius: "7px" }}
+                style={{
+                  marginBottom: "16px",
+                  border: "2px solid black",
+                  borderRadius: "7px",
+                }}
               />
-              <Button variant="contained" onClick={handleSendMessage} fullWidth style={{height:"45px"}}>
+              <Button
+                variant="contained"
+                onClick={handleSendMessage}
+                fullWidth
+                style={{ height: "45px" }}
+              >
                 Send Message
+              </Button>
+            </Container>
+          ) : (
+            <Container
+              sx={{
+                width: "40%",
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                color: "white",
+                backdropFilter: "blur(5px)",
+                padding: 0,
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={handleEdit}
+                fullWidth
+                style={{ height: "45px" }}
+              >
+                Edit Flat
               </Button>
             </Container>
           )}
         </Container>
+        {/* Modal for Editing Flat */}
+        <EditFlat
+          open={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          flatId={editFlatId}
+          onUpdate={handleUpdateFlat}
+        />
       </div>
     </>
   );

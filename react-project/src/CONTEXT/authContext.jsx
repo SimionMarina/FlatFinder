@@ -42,7 +42,11 @@ export function AuthProvider({ children }) {
     if (!user) throw new Error("No user is currently logged in.");
 
     // Reauthenticate using the email and the provided password
-    const credential = await signInWithEmailAndPassword(auth, user.email, password);
+    const credential = await signInWithEmailAndPassword(
+      auth,
+      user.email,
+      password
+    );
     return credential;
   }
 
