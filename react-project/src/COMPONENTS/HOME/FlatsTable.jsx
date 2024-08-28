@@ -238,7 +238,7 @@ function FlatsTable({ tableType }) {
   }
 
   return (
-    <div style={{ height: 375, width: "80%", margin: "auto" }}>
+    <div style={{ height: 375, width: "77%", margin: "auto" }}>
       <DataGrid
         rows={flats}
         columns={columns}

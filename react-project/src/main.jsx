@@ -12,6 +12,7 @@ import FirstView from './COMPONENTS/FIRST_VIEW/FirstView.jsx'
 import Profile from './COMPONENTS/PROFILE/Profile.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
 import DeleteAccount from './COMPONENTS/HOME/DeleteAccount.jsx'
+import AllUsers from './COMPONENTS/HOME/AllUsers.jsx'
 
 
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/profile-update",
     element: <Profile></Profile>
+  },
+  {
+    path: "/all-users",
+    element: <AllUsers></AllUsers>
   }
 ])
 
