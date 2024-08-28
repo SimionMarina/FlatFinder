@@ -25,7 +25,7 @@ import {
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
 import EditFlat from "./EditFlat";
-import "./FlatsTable.css";
+import "./Home.css";
 
 function FlatsTable({ tableType }) {
   const [flats, setFlats] = useState([]);
