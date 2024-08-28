@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -8,7 +9,7 @@ import {
   DialogTitle,
   Stack,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
 } from "@mui/material";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -19,9 +20,15 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
   useEffect(() => {
     const fetchFlatData = async () => {
       if (flatId) {
-        const flatDoc = await getDoc(doc(db, "flats", flatId));
-        if (flatDoc.exists()) {
-          setFlatData(flatDoc.data());
+        try {
+          const flatDoc = await getDoc(doc(db, "flats", flatId));
+          if (flatDoc.exists()) {
+            setFlatData(flatDoc.data());
+          } else {
+            console.error("Flat not found");
+          }
+        } catch (error) {
+          console.error("Error fetching flat details:", error);
         }
       }
     };
@@ -37,7 +44,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
   const handleSave = async () => {
     try {
       await updateDoc(doc(db, "flats", flatId), flatData);
-      onUpdate();
+      onUpdate(); // Refresh the parent component
       onClose();
     } catch (error) {
       console.error("Error updating flat: ", error);
@@ -68,7 +75,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
             type="text"
             fullWidth
             variant="outlined"
-            value={flatData.city || ''}
+            value={flatData.city || ""}
             onChange={handleChange}
           />
           <TextField
@@ -79,7 +86,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
             type="text"
             fullWidth
             variant="outlined"
-            value={flatData.streetName || ''}
+            value={flatData.streetName || ""}
             onChange={handleChange}
           />
           <TextField
@@ -90,7 +97,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
             type="number"
             fullWidth
             variant="outlined"
-            value={flatData.streetNumber || ''}
+            value={flatData.streetNumber || ""}
             onChange={handleChange}
           />
         </Stack>
@@ -104,7 +111,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
           fullWidth
           variant="outlined"
           sx={{ marginTop: 2 }}
-          value={flatData.areaSize || ''}
+          value={flatData.areaSize || ""}
           onChange={handleChange}
         />
 
@@ -112,7 +119,11 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
           control={
             <Checkbox
               checked={flatData.hasAc || false}
-              onChange={(e) => handleChange({ target: { name: 'hasAc', value: e.target.checked } })}
+              onChange={(e) =>
+                handleChange({
+                  target: { name: "hasAc", value: e.target.checked },
+                })
+              }
               name="hasAc"
               color="primary"
             />
@@ -130,7 +141,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
           fullWidth
           variant="outlined"
           sx={{ marginTop: 2 }}
-          value={flatData.yearBuild || ''}
+          value={flatData.yearBuild || ""}
           onChange={handleChange}
         />
         <TextField
@@ -142,7 +153,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
           fullWidth
           variant="outlined"
           sx={{ marginTop: 2 }}
-          value={flatData.rentPrice || ''}
+          value={flatData.rentPrice || ""}
           onChange={handleChange}
         />
         <TextField
@@ -157,7 +168,7 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
             shrink: true,
           }}
           sx={{ marginTop: 2 }}
-          value={flatData.dateAvailable || ''}
+          value={flatData.dateAvailable || ""}
           onChange={handleChange}
         />
       </DialogContent>

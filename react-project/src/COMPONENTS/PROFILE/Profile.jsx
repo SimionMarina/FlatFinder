@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button,Container, Typography } from '@mui/material';
-import { useAuth } from '../../CONTEXT/authContext';
-import Header from '../HEADER/Header';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import { doc, setDoc} from 'firebase/firestore';
-import { db } from '../../firebase';
+import { useState } from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Container,
+  Typography,
+} from "@mui/material";
+import { useAuth } from "../../CONTEXT/authContext";
+import Header from "../HEADER/Header";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 function Profile() {
   const { currentUser } = useAuth();
@@ -25,65 +34,76 @@ function Profile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const handleSave = async () => {
-  
-    try{
-      const userDocRef = doc(db,"users", currentUser.uid)
-      await setDoc(userDocRef, formData, { merge:true })
-      
+    try {
+      const userDocRef = doc(db, "users", currentUser.uid);
+      await setDoc(userDocRef, formData, { merge: true });
+
       handleClose();
       window.location.reload();
-  
-     } catch(error) {
-      console.log(`ERROR IS:${error}`)
-     }
+    } catch (error) {
+      console.log(`ERROR IS:${error}`);
+    }
   };
 
   return (
     <>
-     <div className='background__container'>
+      <div className="background__container">
         <Header></Header>
         <Container
           sx={{
-            width: '60vw',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            marginTop: '140px',
-            backdropFilter:"blur(10px)",
-            color:"white",
-            padding:"20px"
+            width: "60vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            marginTop: "140px",
+            backdropFilter: "blur(10px)",
+            color: "white",
+            padding: "20px",
           }}
         >
           <h3>Account data</h3>
           <Container
             sx={{
-              display: 'flex',
-              color:"white",
-              flexDirection:"row",
-              justifyContent:"center",
-              alignItems:"center",
+              display: "flex",
+              color: "white",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <PermIdentityIcon sx={{ fontSize: '200px', fontWeight: '100', color:"wheat" }} />
-            <Container >
+            <PermIdentityIcon
+              sx={{ fontSize: "200px", fontWeight: "100", color: "wheat" }}
+            />
+            <Container>
               <Typography>Name: {currentUser.fullName}</Typography>
               <Typography>Email: {currentUser.email}</Typography>
               <Typography>Birth date: {currentUser.birthDate}</Typography>
-              <Button variant="contained" onClick={handleUpdateMyProfile} style={{marginTop:"30px", color:"black", backgroundColor:"wheat", fontSize:"14px", fontFamily:"inherit"}} className='update__profile__button'>
+              <Button
+                variant="contained"
+                onClick={handleUpdateMyProfile}
+                style={{
+                  marginTop: "30px",
+                  color: "black",
+                  backgroundColor: "wheat",
+                  fontSize: "14px",
+                  fontFamily: "inherit",
+                }}
+                className="update__profile__button"
+              >
                 Update data
               </Button>
             </Container>
           </Container>
         </Container>
-  
+
         {/* Modalul pentru actualizarea datelor */}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Update Profile</DialogTitle>
@@ -126,7 +146,7 @@ function Profile() {
             </Button>
           </DialogActions>
         </Dialog>
-     </div>
+      </div>
     </>
   );
 }

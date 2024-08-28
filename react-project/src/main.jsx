@@ -11,8 +11,12 @@ import ForgotPassword from './COMPONENTS/AUTH/ForgotPassword.jsx'
 import FirstView from './COMPONENTS/FIRST_VIEW/FirstView.jsx'
 import Profile from './COMPONENTS/PROFILE/Profile.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
+<<<<<<< HEAD
 import DeleteAccount from './COMPONENTS/HOME/DeleteAccount.jsx'
 import AllUsers from './COMPONENTS/HOME/AllUsers.jsx'
+=======
+import DeleteAccount from './COMPONENTS/PROFILE/DeleteAccount.jsx'
+>>>>>>> 0b55d7ae1b853d3cebe3d044a6c98af86d1775bf
 
 
 const router = createBrowserRouter([
