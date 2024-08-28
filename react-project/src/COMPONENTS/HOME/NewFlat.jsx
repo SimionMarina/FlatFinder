@@ -132,7 +132,7 @@ export default function NewFlat() {
               margin="dense"
               name="streetNumber"
               label="Street Number"
-              type="number"
+              type="string"
               fullWidth
               variant="outlined"
             />

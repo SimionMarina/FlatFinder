@@ -20,7 +20,6 @@ import {
   Edit,
   Favorite,
   FavoriteBorder,
-  FlashOffTwoTone,
   Visibility,
 } from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
@@ -88,8 +87,8 @@ function FlatsTable({ tableType }) {
     };
 
     fetchFlats();
-  }, [tableType, currentUser, role,flats]);
-
+  }, [tableType, currentUser, role]);
+  
   const handleEdit = (id) => {
     setEditFlatId(id);
     setIsEditModalOpen(true);
