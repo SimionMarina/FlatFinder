@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import {
   collection,
@@ -27,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 import EditFlat from "./EditFlat";
 import "./Home.css";
 
-function FlatsTable({ tableType }) {
+function FlatsTable({ tableType, refetchFlag }) {
   const [flats, setFlats] = useState([]);
   const { currentUser } = useAuth();
   const [role, setRole] = useState("user");
@@ -35,59 +34,60 @@ function FlatsTable({ tableType }) {
   const [editFlatId, setEditFlatId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
+  const fetchFlats = async () => {
+    let foundFlats;
+    let searchFlats;
+    if (tableType === "all") {
+      searchFlats = query(collection(db, "flats"));
+      foundFlats = await getDocs(searchFlats);
+    } else if (tableType === "myFlats" && currentUser) {
+      searchFlats = query(
+        collection(db, "flats"),
+        where("userUid", "==", currentUser.uid)
+      );
+      foundFlats = await getDocs(searchFlats);
+    } else if (tableType === "favorites" && currentUser) {
+      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+      const userData = userDoc.data();
+      if (userData.favorites && userData.favorites.length > 0) {
+        searchFlats = query(
+          collection(db, "flats"),
+          where(documentId(), "in", userData.favorites)
+        );
+        foundFlats = await getDocs(searchFlats);
+      } else {
+        searchFlats = null;
+        foundFlats = null;
+      }
+    }
+
+    if (foundFlats) {
+      const flatsList = foundFlats.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setFlats(flatsList);
+    } else {
+      setFlats([]);
+    }
+
+    if (currentUser) {
+      const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+      const userData = userDoc.data();
+      if (userData?.favorites.length > 0) {
+        setFavorites(userData.favorites);
+      }
+    }
+  };
 
   useEffect(() => {
     if (currentUser) {
       setRole(currentUser.role || "user");
     }
-    const fetchFlats = async () => {
-      let foundFlats;
-      let searchFlats;
-      if (tableType === "all") {
-        searchFlats = query(collection(db, "flats"));
-        foundFlats = await getDocs(searchFlats);
-      } else if (tableType === "myFlats" && currentUser) {
-        searchFlats = query(
-          collection(db, "flats"),
-          where("userUid", "==", currentUser.uid)
-        );
-        foundFlats = await getDocs(searchFlats);
-      } else if (tableType === "favorites" && currentUser) {
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        const userData = userDoc.data();
-        if (userData.favorites && userData.favorites.length > 0) {
-          searchFlats = query(
-            collection(db, "flats"),
-            where(documentId(), "in", userData.favorites)
-          );
-          foundFlats = await getDocs(searchFlats);
-        } else {
-          searchFlats = null;
-          foundFlats = null;
-        }
-      }
-
-      if (foundFlats) {
-        const flatsList = foundFlats.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setFlats(flatsList);
-      } else {
-        setFlats([]);
-      }
-
-      if (currentUser) {
-        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-        const userData = userDoc.data();
-        if (userData?.favorites.length > 0) {
-          setFavorites(userData.favorites);
-        }
-      }
-    };
+   
 
     fetchFlats();
-  }, [tableType, currentUser, role]);
+  }, [tableType, currentUser, role, refetchFlag]);
   
   const handleEdit = (id) => {
     setEditFlatId(id);
@@ -95,6 +95,7 @@ function FlatsTable({ tableType }) {
   };
 
   const handleCloseEditModal = () => {
+    fetchFlats();
     setIsEditModalOpen(false);
     setEditFlatId(null);
   };
