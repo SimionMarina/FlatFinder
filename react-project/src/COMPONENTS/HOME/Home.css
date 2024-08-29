@@ -10,8 +10,8 @@
 
 .cell-style {
   background: rgba(255, 255, 255, 0); /* Fundal semitransparent pentru celule */
-  backdrop-filter: blur(5px); /* Efect de blur pe fundalul celulelor */
-  -webkit-backdrop-filter: blur(5px); /* Compatibilitate cu browserele WebKit */
+  /* backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px);  */
   font-size: 14px;   /* Modifică mărimea fontului */
   color: #ffffff;    /* Culoarea textului */
   font-family: 'Courier New', Courier, monospace;
@@ -22,8 +22,6 @@
 /* Stiluri pentru zona de paginare și sumar */
 .MuiDataGrid-footerContainer {
   background: rgba(255, 255, 255, 0.0); /* Fundal semitransparent */
-  backdrop-filter: blur(5px); /* Efect de blur */
-  -webkit-backdrop-filter: blur(5px); /* Compatibilitate cu browserele WebKit */
   color: #ff0000; /* Culoarea textului */
   font-size: 16px;
 

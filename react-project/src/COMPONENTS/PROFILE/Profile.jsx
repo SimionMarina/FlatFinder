@@ -64,8 +64,9 @@ function Profile() {
             alignItems: "center",
             flexDirection: "column",
             marginTop: "140px",
-            backdropFilter: "blur(10px)",
-            color: "white",
+            backgroundColor: "rgba(242, 238, 233, 0.7)", 
+            borderRadius:"50px",
+            color: "rgb(82, 22, 139)",
             padding: "20px",
           }}
         >
@@ -73,14 +74,14 @@ function Profile() {
           <Container
             sx={{
               display: "flex",
-              color: "white",
+              color: "black",
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <PermIdentityIcon
-              sx={{ fontSize: "200px", fontWeight: "100", color: "wheat" }}
+              sx={{ fontSize: "200px", fontWeight: "100", color: "rgb(82, 22, 139)" }}
             />
             <Container>
               <Typography>Name: {currentUser.fullName}</Typography>
@@ -92,7 +93,8 @@ function Profile() {
                 style={{
                   marginTop: "30px",
                   color: "black",
-                  backgroundColor: "wheat",
+                  border:"2px solid black",
+                  backgroundColor: "blueviolet",
                   fontSize: "14px",
                   fontFamily: "inherit",
                 }}
@@ -107,6 +109,7 @@ function Profile() {
         {/* Modalul pentru actualizarea datelor */}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Update Profile</DialogTitle>
+
           <DialogContent>
             <TextField
               autoFocus
