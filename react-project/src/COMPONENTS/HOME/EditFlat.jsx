@@ -44,12 +44,13 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
   const handleSave = async () => {
     try {
       await updateDoc(doc(db, "flats", flatId), flatData);
-      onUpdate(); // Refresh the parent component
+      onUpdate(flatData); // Trimite datele actualizate către componenta părinte
       onClose();
     } catch (error) {
       console.error("Error updating flat: ", error);
     }
   };
+  
 
   return (
     <Dialog

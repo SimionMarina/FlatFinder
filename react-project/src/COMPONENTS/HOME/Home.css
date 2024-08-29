@@ -55,14 +55,14 @@
   right: 30px;
   padding: 35px !important;
   border-radius: 100%;
-  border: 1px solid rgb(255, 255, 255);
-  background-color: wheat;
+  border: 1px solid rgb(21, 2, 2);
+  background-color: rgb(39, 38, 38);
   width: 100px;
   height: 100px;
 }
 
 .add_flat_box:hover {
-  background-color: black;
+  background-color: wheat;
 }
 
 
@@ -73,7 +73,7 @@
   transform: translate(-50%, -50%);
   width: auto;
   border: none;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   font-size: 50px;
   padding: 0;
   margin: 0 !important;
@@ -81,7 +81,7 @@
 }
 
 .add_flat_box > .add_flat_button:hover {
-color: aliceblue;
+color: rgb(0, 0, 0);
 }
 
 

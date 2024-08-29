@@ -13,6 +13,7 @@ import Profile from './COMPONENTS/PROFILE/Profile.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
 import DeleteAccount from './COMPONENTS/PROFILE/DeleteAccount.jsx'
 import AllUsers from './COMPONENTS/HOME/AllUsers.jsx'
+import UsersProfile from './COMPONENTS/PROFILE/UsersProfile.jsx'
 
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/all-users",
     element: <AllUsers></AllUsers>
+  },
+  {
+    path: "/users-profile/:userUId",
+    element: <UsersProfile></UsersProfile>
   }
 ])
 

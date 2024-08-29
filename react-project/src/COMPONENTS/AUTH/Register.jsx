@@ -101,6 +101,7 @@ function Register() {
           email: formData.email,
           role: "user",
           favorites: [],
+          uid: user.user.uid
         });
 
         // Resetează datele formularului

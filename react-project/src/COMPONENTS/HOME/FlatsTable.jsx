@@ -102,17 +102,20 @@ function FlatsTable({ tableType }) {
   const handleUpdateFlat = async (updatedFlat) => {
     try {
       const flatDocRef = doc(db, "flats", updatedFlat.id);
-      await updateDoc(flatDocRef, {
-        ...updatedFlat,
-      });
-      setFlats(
-        flats.map((flat) => (flat.id === updatedFlat.id ? updatedFlat : flat))
+      await updateDoc(flatDocRef, updatedFlat);
+  
+      // Actualizează starea flats imediat după ce flat-ul a fost actualizat în Firestore
+      setFlats((prevFlats) =>
+        prevFlats.map((flat) => (flat.id === updatedFlat.id ? updatedFlat : flat))
       );
+  
       handleCloseEditModal();
     } catch (error) {
       console.error("Error updating flat: ", error);
     }
   };
+  
+  
 
   const handleDelete = async (id) => {
     try {
@@ -316,11 +319,12 @@ function FlatsTable({ tableType }) {
       {/* Modal for Editing Flat */}
       {editFlatId && (
         <EditFlat
-          open={isEditModalOpen}
-          onClose={handleCloseEditModal}
-          flatId={editFlatId}
-          onUpdate={handleUpdateFlat}
-        />
+        open={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        flatId={editFlatId}
+        onUpdate={handleUpdateFlat}
+      />
+      
       )}
     </div>
   );
