@@ -9,6 +9,7 @@ import { useAuth } from "../../CONTEXT/authContext";
 function Home() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const [refetchFlag, setRefetchFlag] = useState(false);
   const [tableType, setTableType] = useState("all");
 
   const handleTableTypeChange = (type) => {
@@ -63,8 +64,8 @@ function Home() {
             Favorite flats
           </Button>
         </Container>
-        <FlatsTable tableType={tableType} />
-        <NewFlat />
+        <FlatsTable tableType={tableType} refetchFlag={refetchFlag}/>
+        <NewFlat setRefetchFlag={setRefetchFlag}/>
       </div>
     </div>
   );
