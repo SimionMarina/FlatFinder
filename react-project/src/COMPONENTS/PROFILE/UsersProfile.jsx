@@ -166,12 +166,10 @@ function UsersProfile() {
                     <DataGrid
                         rows={userData.flats}
                         columns={columns}
-                        density='comfortable'
-                        f
-                        pageSize={3}
+                        pageSize={5}
                         rowsPerPageOptions={[5, 10]}
                         disableSelectionOnClick
-                        sx={{ overflow: 'clip', backdropFilter:"blur(8px)" }}
+                        sx={{ overflow: 'clip', }}
                     />
                 </Box>
     
