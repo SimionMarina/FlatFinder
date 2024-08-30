@@ -88,18 +88,19 @@ export default function NewFlat({setRefetchFlag}) {
       </div>
 
       <Dialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleSubmit,
-        }}
-      >
-        <DialogTitle>Add New Flat</DialogTitle>
+  open={open}
+  TransitionComponent={Transition}
+  keepMounted
+  onClose={handleClose}
+  PaperProps={{
+    component: "form",
+    onSubmit: handleSubmit,
+    sx: { backgroundColor: "#f2eee9", borderRadius:"30px" } // modal background
+  }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }} 
+        >
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText sx={{margin:"5px", color:"blue", fontFamily:"inherit", fontSize:"20px"}}>
             To add a new flat, please complete all fields.
           </DialogContentText>
           <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
@@ -112,6 +113,7 @@ export default function NewFlat({setRefetchFlag}) {
               type="text"
               fullWidth
               variant="outlined"
+              
             />
             <TextField
               required
@@ -193,8 +195,8 @@ export default function NewFlat({setRefetchFlag}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Add Flat</Button>
+          <Button onClick={handleClose} sx={{color:"red"}}>Cancel</Button>
+          <Button type="submit"sx={{color:"green"}}>Add Flat</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

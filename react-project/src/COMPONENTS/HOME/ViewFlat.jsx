@@ -100,163 +100,173 @@ function ViewFlat() {
       <div className="background__container">
         <Header />
 
-        <Container
-          sx={{
-            marginTop: "50px",
-            color: "white",
-            backdropFilter: "blur(5px)",
-          }}
-        >
-          <Typography variant="h6" gutterBottom sx={{ marginBottom: 0 }}>
-            Flat Owner: {owner.fullName} {/*Display the owner's name*/}
-          </Typography>
-        </Container>
-        <Container
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            color: "white",
-            backdropFilter: "blur(5px)",
-          }}
-        >
-          <Typography variant="h5" gutterBottom>
-            Flat Details:
-          </Typography>
-          <Grid container width={"60%"}>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Address:
-              </Typography>
+        <div className="backdrop__container" style={{
+          display:"flex",
+          justifyContent:"center",
+          alignItems:"center",
+          flexDirection:"column",
+          width: "60vw",
+          margin: "70px 300px",
+          backgroundColor: "rgba(242, 238, 233, 0.7)", 
+          borderRadius:"50px",
+          padding: "20px ",
+        }}>
+          <Container
+            sx={{
+              // marginTop: "20px",
+              color: "white",
+              // width:"300px",
+            }}
+          >
+            <Typography variant="h6" gutterBottom sx={{ marginBottom: 0, color:"rgb(82, 22, 139)",fontFamily:"inherit", fontSize:"22px"}}>
+              Flat Owner: {owner.fullName} {/*Display the owner's name*/}
+            </Typography>
+          </Container>
+          <Container
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              color: "black",
+              fontFamily:"inherit",
+            }}
+          >
+            <Typography variant="h5" gutterBottom sx={{fontFamily:"inherit"}}>
+              Flat Details:
+            </Typography>
+            <Grid container width={"60%"} sx={{marginLeft:"100px"}}>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Address:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  {flat.city}, {flat.streetName} {flat.streetNumber}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Area Size:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  {flat.areaSize}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Has AC:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  {flat.hasAc ? "Yes" : "No"}{" "}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Year Built:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  {flat.yearBuild}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Rent Price:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  ${flat.rentPrice}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  Date Available:
+                </Typography>
+              </Grid>
+              <Grid item xs={8}>
+                <Typography variant="body1" sx={{fontFamily:"inherit", fontSize:"18px"}}>
+                  {flat.dateAvailable}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                {flat.city}, {flat.streetName} {flat.streetNumber}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Area Size:
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                {flat.areaSize}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Has AC:
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                {flat.hasAc ? "Yes" : "No"}{" "}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Year Built:
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                {flat.yearBuild}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Rent Price:
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                ${flat.rentPrice}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="body1" className="flat_details">
-                Date Available:
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="body1" className="flat_details">
-                {flat.dateAvailable}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Container>
-        <Container sx={{ padding: 0 }}>
-          {flat.userUid !== currentUser.uid ? (
-            <Container
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                color: "white",
-                backdropFilter: "blur(5px)",
-                padding: 0,
-              }}
-            >
-              <Typography
-                variant="h5"
-                gutterBottom
-                sx={{ color: "red", paddingTop: "10px" }}
-              >
-                Send a message to the owner
-              </Typography>
-              <TextField
-                className="send__message__textfield"
-                label="Your Message"
-                fullWidth
-                multiline
-                rows={2}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                style={{
-                  marginBottom: "16px",
-                  border: "2px solid black",
-                  borderRadius: "7px",
+          </Container>
+          <Container sx={{ padding: 0 }}>
+            {flat.userUid !== currentUser.uid ? (
+              <Container
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  padding: 0,
                 }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleSendMessage}
-                fullWidth
-                style={{ height: "45px" }}
               >
-                Send Message
-              </Button>
-            </Container>
-          ) : (
-            <Container
-              sx={{
-                width: "40%",
-                marginTop: "20px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                color: "white",
-                backdropFilter: "blur(5px)",
-                padding: 0,
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={handleEdit}
-                fullWidth
-                style={{ height: "45px" }}
+                <Typography
+                  variant="h5"
+                  gutterBottom
+                  sx={{ color: "rgb(82, 22, 139)", paddingTop: "10px",fontFamily:"inherit", fontSize:"22px"}}
+                >
+                  Send a message to the owner
+                </Typography>
+                <TextField
+                  className="send__message__textfield"
+                  label="Your Message"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  style={{
+                    marginBottom: "16px",
+                    border: "2px solid black",
+                    borderRadius: "7px",
+                  
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={handleSendMessage}
+                  fullWidth
+                  style={{ height: "45px", backgroundColor:"blueviolet", border:"2px solid black", color:"black", fontFamily:"inherit" }}
+                >
+                  Send Message
+                </Button>
+              </Container>
+            ) : (
+              <Container
+                sx={{
+                  width: "40%",
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  color: "white",
+                  padding: 0,
+                }}
               >
-                Edit Flat
-              </Button>
-            </Container>
-          )}
-        </Container>
+                <Button
+                  variant="contained"
+                  onClick={handleEdit}
+                  fullWidth
+                  style={{ height: "45px", width:"270%", backgroundColor:"blueviolet", border:"2px solid black", color:"black", fontFamily:"inherit", fontSize:"16px" }}
+                >
+                  Edit Flat
+                </Button>
+              </Container>
+            )}
+          </Container>
+        </div>
         {/* Modal for Editing Flat */}
         <EditFlat
           open={isEditModalOpen}

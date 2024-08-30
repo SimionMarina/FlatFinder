@@ -34,9 +34,9 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("all")}
             sx={{
-              backgroundColor: tableType === "all" ? "red" : "gray",
-              border: "none",
-              "&:hover": { backgroundColor: "brown" },
+              backgroundColor: tableType === "all" ? "blueviolet" : "gray",
+              border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
+              "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}
           >
             All flats
@@ -45,9 +45,9 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("myFlats")}
             sx={{
-              backgroundColor: tableType === "myFlats" ? "red" : "gray",
-              border: "none",
-              "&:hover": { backgroundColor: "brown" },
+              backgroundColor: tableType === "myFlats" ? "blueviolet" : "gray",
+              border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
+              "&:hover": { backgroundColor: "rgb(109, 98, 129)" , color:"wheat"},
             }}
           >
             My flats
@@ -56,9 +56,9 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("favorites")}
             sx={{
-              backgroundColor: tableType === "favorites" ? "red" : "gray",
-              border: "none",
-              "&:hover": { backgroundColor: "brown" },
+              backgroundColor: tableType === "favorites" ? "blueviolet" : "gray",
+              border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
+              "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}
           >
             Favorite flats

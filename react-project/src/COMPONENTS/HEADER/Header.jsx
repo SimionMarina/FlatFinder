@@ -86,7 +86,7 @@ export default function Header() {
               <div>
                 {userLoggedIn ? (
                   <>
-                    <div>
+                    <div className="greetings__users">
                       Hello, {currentUser ? currentUser.fullName : "User"}
                     </div>
                   </>
@@ -98,18 +98,24 @@ export default function Header() {
           )}
           {/* Company Logo */}
           <div className="logo__content" style={{ flexGrow: 1, textAlign: 'center' }}>
-            <Typography variant="h6">
+            <Typography variant="h6" className="color-fade">
               <i className="bx bxs-home-heart"></i>
             </Typography>
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: "none", sm: "block", margin: "10px" } }}
+              className="color-fade"
+              sx={{ display: { xs: "none", sm: "block", margin: "10px",   fontFamily: "Baskervville SC",
+                fontWeight: 400,
+                fontStyle: "normal", fontSize:26 } }}
             >
               FlatFinder
             </Typography>
           </div>
+
+
+
         </div>
 
         <div className="navigation__buttons"
@@ -123,31 +129,34 @@ export default function Header() {
         >
           {/* Navigation Buttons */}
           <Button
-            className="navbar__home__button"
+            className="navbar__home__button navbar__button__text"
             color="inherit"
             component={Link}
             onClick={() => {
               navigate("/");
             }}
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1,fontFamily: "Cormorant Upright", fontSize:"16px"           ,fontWeight: 300,
+              fontStyle: "normal" }}
           >
             Home
           </Button>
           <Button
-            className="navbar__inbox__button"
+            className="navbar__inbox__button navbar__button__text"
             color="inherit"
             component={Link}
             onClick={() => {
               navigate("/inbox");
             }}
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1,fontFamily: "Cormorant Upright", fontSize:"16px"           ,fontWeight: 300,
+              fontStyle: "normal" }}
           >
             Inbox
           </Button>
 
           {/* All Users Button (Admin Only) */}
           {currentUser && role === "admin" && (
-            <Button className="navbar__allUsers__button" color="inherit" component={Link} to="/all-users" sx={{ flexGrow: 1, whiteSpace: 'nowrap' }}>
+            <Button className="navbar__allUsers__button navbar__button__text" color="inherit" component={Link} to="/all-users" sx={{ flexGrow: 1, whiteSpace: 'nowrap', fontFamily: "Cormorant Upright", fontSize:"16px"           ,fontWeight: 300,
+              fontStyle: "normal" }}>
               All Users
             </Button>
           )}
@@ -184,6 +193,7 @@ export default function Header() {
           sx={{ marginTop: "40px" }}
         >
           <MenuItem
+          sx={{ fontFamily: "inherit", fontSize:"18px" }}
             onClick={() => {
               handleClose();
               navigate("/profile-update");
@@ -192,6 +202,7 @@ export default function Header() {
             My Profile
           </MenuItem>
           <MenuItem
+          sx={{ fontFamily: "inherit", fontSize:"18px" }}
             onClick={() => {
               doSignOut().then(() => {
                 navigate("/login");
@@ -201,6 +212,7 @@ export default function Header() {
             Logout
           </MenuItem>
           <MenuItem
+          sx={{ fontFamily: "inherit", fontSize:"18px" }}
             onClick={() => {
               handleClose();
               setIsModalOpen(true); // Deschide modalul

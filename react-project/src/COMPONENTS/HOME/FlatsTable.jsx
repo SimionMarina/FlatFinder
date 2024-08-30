@@ -177,14 +177,14 @@ function FlatsTable({ tableType, refetchFlag }) {
     },
     {
       field: "streetName",
-      headerName: "Street Name",
-      width: 150,
+      headerName: "St. Name",
+      width: 130,
       headerClassName: "header-style",
       cellClassName: "cell-style",
     },
     {
       field: "streetNumber",
-      headerName: "St. Nr.",
+      headerName: "St. No.",
       headerClassName: "header-style",
       cellClassName: "cell-style",
       width: 100,
@@ -194,6 +194,8 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "Area Size",
       headerClassName: "header-style",
       cellClassName: "cell-style",
+      width: 108,
+
     },
     {
       field: "hasAc",
@@ -206,31 +208,35 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "Year Built",
       headerClassName: "header-style",
       cellClassName: "cell-style",
+      width: 112,
+
     },
     {
       field: "rentPrice",
       headerName: "Rent Price",
       headerClassName: "header-style",
       cellClassName: "cell-style",
-      width: 100,
+      width: 113,
     },
     {
       field: "dateAvailable",
       headerName: "Date Available",
       headerClassName: "header-style",
       cellClassName: "cell-style",
-      width: 130,
+      width: 140,
     },
     {
       field: "view",
       headerName: "View",
       renderCell: (params) => (
         <IconButton onClick={() => navigate(`/flats/${params.row.id}`)}>
-          <Visibility className="action__icon" />
+          <Visibility className="action__icon__view" />
         </IconButton>
       ),
       headerClassName: "header-style",
       cellClassName: "cell-style",
+      width: 80,
+
     },
   ];
 
@@ -240,7 +246,7 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "Favorite",
       headerClassName: "header-style",
       cellClassName: "cell-style",
-      width: 170,
+      width: 100,
       renderCell: (params) => {
         const isOwner = params.row.userUid === currentUser.uid;
         if (!isOwner) {
@@ -249,7 +255,7 @@ function FlatsTable({ tableType, refetchFlag }) {
               {favorites.includes(params.row.id) ? (
                 <Favorite style={{ color: "red" }} />
               ) : (
-                <FavoriteBorder className="action__icon" />
+                <FavoriteBorder className="action__icon__favorite" />
               )}
             </IconButton>
           );
@@ -266,9 +272,10 @@ function FlatsTable({ tableType, refetchFlag }) {
         headerName: "Edit",
         headerClassName: "header-style",
         cellClassName: "cell-style",
+        width: 80,
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
-            <Edit className="action__icon" />
+            <Edit className="action__icon__edit" />
           </IconButton>
         ),
       },
@@ -277,9 +284,10 @@ function FlatsTable({ tableType, refetchFlag }) {
         headerName: "Delete",
         headerClassName: "header-style",
         cellClassName: "cell-style",
+        width: 90,
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Delete className="action__icon" />
+            <Delete className="action__icon__delete" />
           </IconButton>
         ),
       }
@@ -292,7 +300,7 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "Delete Favorite",
       headerClassName: "header-style",
       cellClassName: "cell-style",
-      width: 186,
+      width: 140,
       renderCell: (params) => (
         <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
           <HeartBrokenIcon style={{ color: "red" }} />
@@ -304,6 +312,14 @@ function FlatsTable({ tableType, refetchFlag }) {
   return (
     <div style={{ height: 375, width: "80%", margin: "auto" }}>
       <DataGrid
+      sx={{
+        '.MuiDataGrid-menuIcon': {
+          visibility: 'visible !important',
+          width: "auto !important"
+        },
+       overflow: 'clip', backgroundColor: "rgba(242, 238, 233, 0.4)"
+
+      }}
         rows={flats}
         columns={columns}
         pageSize={5}

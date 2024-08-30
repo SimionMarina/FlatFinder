@@ -12,44 +12,47 @@
 
 
 /* FlatsTable.css */
-.header-style {
+.header-style-allUsers {
     /* font-style: italic; */
     font-weight: bold; /* Modifică greutatea fontului */
     font-size: 17px;   /* Modifică mărimea fontului */
-    color: #ff0000;    /* Culoarea textului */
+    color: rgb(82, 22, 139);
     font-family: 'Courier New', Courier, monospace;
 
   }
   
-  .cell-style {
-    background: rgba(255, 255, 255, 0); /* Fundal semitransparent pentru celule */
+  .header-style-table {
+    background-color: rgb(82, 22, 139);
+    color:aliceblue
+  }
+
+  .cell-style-allUsers {
     font-size: 14px;   /* Modifică mărimea fontului */
-    color: #ffffff;    /* Culoarea textului */
+    color: #000000;    /* Culoarea textului */
+    font-weight: bold;
     font-family: 'Courier New', Courier, monospace;
   }
   
+
 
 
 /* Stiluri pentru zona de paginare și sumar */
 .MuiDataGrid-footerContainer {
-    background: rgba(255, 255, 255, 0.0); /* Fundal semitransparent */
-    backdrop-filter: blur(5px); /* Efect de blur */
-    -webkit-backdrop-filter: blur(5px); /* Compatibilitate cu browserele WebKit */
-    color: #ff0000; /* Culoarea textului */
-    font-size: 16px;
+  color: rgb(0, 18, 92);
+  font-size: 16px;
 
-  }
-  
+}
+
 .MuiTablePagination-displayedRows {
-    margin-top: 15px;
-    color: #ff0000; /* Culoarea textului */
-    font-size: 20px;
+  margin-top: 15px;
+  color: rgb(0, 18, 92);
+  font-size: 20px;
 
 
 }
 
 .MuiTablePagination-actions {
-    color: #ff0000; /* Culoarea textului */
+  color: rgb(0, 18, 92) ;
 
 }
 
@@ -63,5 +66,11 @@
     padding: 20px;
     color: white;
     text-align: center;
+    color:rgb(82, 22, 139);
 
+}
+
+.view__icon__allusers {
+  cursor: pointer;
+  color: rgb(0, 25, 127) ;
 }
