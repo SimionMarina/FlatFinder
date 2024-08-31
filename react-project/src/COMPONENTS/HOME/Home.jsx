@@ -28,13 +28,13 @@ function Home() {
       <div className="background__overlay"></div>
       <Header />
       <div className="hero__section__home">
-        <Container sx={{ display: "flex", gap: "5px", padding: "20px" }}>
+        <Container sx={{ display: "flex", gap: "5px", padding: "20px 0", marginLeft: "8.5%" }}>
           <Button
             className="table__buttons"
             variant="contained"
             onClick={() => handleTableTypeChange("all")}
             sx={{
-              backgroundColor: tableType === "all" ? "blueviolet" : "gray",
+              backgroundColor: tableType === "all" ? "blueviolet" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}
@@ -45,7 +45,7 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("myFlats")}
             sx={{
-              backgroundColor: tableType === "myFlats" ? "blueviolet" : "gray",
+              backgroundColor: tableType === "myFlats" ? "blueviolet" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)" , color:"wheat"},
             }}
@@ -56,7 +56,7 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("favorites")}
             sx={{
-              backgroundColor: tableType === "favorites" ? "blueviolet" : "gray",
+              backgroundColor: tableType === "favorites" ? "blueviolet" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}

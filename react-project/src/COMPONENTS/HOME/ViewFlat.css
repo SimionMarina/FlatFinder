@@ -1,26 +1,27 @@
-/* .flat_details{
-  padding: 5px;
+.main__container {
+  width: 90vw;
+  height: 85vh;
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+}
+.backdrop__container {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: 60%;
+  background-color: rgb(220, 222, 224, 255);
+  box-shadow: 0 60px 80px rgba(0, 0, 0, 0.6), 0 45px 26px rgba(0, 0, 0, 0.14);
+  border-radius: 50px;
+  padding: 20px;
+}
+
+.flat__details__container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: black;
   font-family: inherit;
 }
-
-.send__message__textfield .MuiOutlinedInput-root {
-  border: 2px solid black;
-  border-radius: 7px;
-}
-
-.send__message__textfield .MuiOutlinedInput-input::placeholder {
-  color: #ff5733; 
-  font-style: italic;
-  opacity: 1; 
-}
-
-.send__message__textfield .MuiOutlinedInput-input {
-  color: white; 
-}
-
-.send__message__textfield .MuiInputLabel-root {
-  color: #ff5733; 
-}
-.asdf {
-  color:rgb(109, 98, 129)
-} */

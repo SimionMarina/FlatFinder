@@ -25,6 +25,7 @@ import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
 import EditFlat from "./EditFlat";
 import "./Home.css";
+import "./FlatsTable.css";
 
 function FlatsTable({ tableType, refetchFlag }) {
   const [flats, setFlats] = useState([]);
@@ -34,6 +35,7 @@ function FlatsTable({ tableType, refetchFlag }) {
   const [editFlatId, setEditFlatId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
+
   const fetchFlats = async () => {
     let foundFlats;
     let searchFlats;
@@ -84,11 +86,10 @@ function FlatsTable({ tableType, refetchFlag }) {
     if (currentUser) {
       setRole(currentUser.role || "user");
     }
-   
 
     fetchFlats();
   }, [tableType, currentUser, role, refetchFlag]);
-  
+
   const handleEdit = (id) => {
     setEditFlatId(id);
     setIsEditModalOpen(true);
@@ -104,19 +105,19 @@ function FlatsTable({ tableType, refetchFlag }) {
     try {
       const flatDocRef = doc(db, "flats", updatedFlat.id);
       await updateDoc(flatDocRef, updatedFlat);
-  
+
       // Actualizează starea flats imediat după ce flat-ul a fost actualizat în Firestore
       setFlats((prevFlats) =>
-        prevFlats.map((flat) => (flat.id === updatedFlat.id ? updatedFlat : flat))
+        prevFlats.map((flat) =>
+          flat.id === updatedFlat.id ? updatedFlat : flat
+        )
       );
-  
+
       handleCloseEditModal();
     } catch (error) {
       console.error("Error updating flat: ", error);
     }
   };
-  
-  
 
   const handleDelete = async (id) => {
     try {
@@ -171,59 +172,42 @@ function FlatsTable({ tableType, refetchFlag }) {
     {
       field: "city",
       headerName: "City",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 130,
+      flex: 1,
     },
     {
       field: "streetName",
       headerName: "St. Name",
-      width: 130,
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
+      flex: 1,
     },
     {
       field: "streetNumber",
       headerName: "St. No.",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 100,
+      flex: 1,
     },
     {
       field: "areaSize",
       headerName: "Area Size",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 108,
-
+      flex: 1,
     },
     {
       field: "hasAc",
       headerName: "Has AC",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
+      flex: 1,
     },
     {
       field: "yearBuild",
       headerName: "Year Built",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 112,
-
+      flex: 1,
     },
     {
       field: "rentPrice",
       headerName: "Rent Price",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 113,
+      flex: 1,
     },
     {
       field: "dateAvailable",
       headerName: "Date Available",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 140,
+      flex: 1,
     },
     {
       field: "view",
@@ -233,10 +217,7 @@ function FlatsTable({ tableType, refetchFlag }) {
           <Visibility className="action__icon__view" />
         </IconButton>
       ),
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 80,
-
+      flex: 1,
     },
   ];
 
@@ -244,9 +225,6 @@ function FlatsTable({ tableType, refetchFlag }) {
     columns.push({
       field: "favorite",
       headerName: "Favorite",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 100,
       renderCell: (params) => {
         const isOwner = params.row.userUid === currentUser.uid;
         if (!isOwner) {
@@ -262,6 +240,7 @@ function FlatsTable({ tableType, refetchFlag }) {
         }
         return null;
       },
+      flex: 1,
     });
   }
 
@@ -270,27 +249,23 @@ function FlatsTable({ tableType, refetchFlag }) {
       {
         field: "edit",
         headerName: "Edit",
-        headerClassName: "header-style",
-        cellClassName: "cell-style",
-        width: 80,
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
             <Edit className="action__icon__edit" />
           </IconButton>
         ),
-      },
+      flex: 1,
+    },
       {
         field: "delete",
         headerName: "Delete",
-        headerClassName: "header-style",
-        cellClassName: "cell-style",
-        width: 90,
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
             <Delete className="action__icon__delete" />
           </IconButton>
         ),
-      }
+      flex: 1,
+    }
     );
   }
 
@@ -298,50 +273,43 @@ function FlatsTable({ tableType, refetchFlag }) {
     columns.push({
       field: "favorite",
       headerName: "Delete Favorite",
-      headerClassName: "header-style",
-      cellClassName: "cell-style",
-      width: 140,
       renderCell: (params) => (
         <IconButton onClick={() => handleDeleteFavorite(params.row.id)}>
           <HeartBrokenIcon style={{ color: "red" }} />
         </IconButton>
       ),
+      flex: 1,
     });
   }
 
   return (
-    <div style={{ height: 375, width: "80%", margin: "auto" }}>
+    <div style={{ height: 500, width: "80%", margin: "auto" }}>
       <DataGrid
-      sx={{
-        '.MuiDataGrid-menuIcon': {
-          visibility: 'visible !important',
-          width: "auto !important"
-        },
-       overflow: 'clip', backgroundColor: "rgba(242, 238, 233, 0.4)"
-
-      }}
+      className="custom__class"
+        
+        autoHeight
+        autosizeOnMount
         rows={flats}
         columns={columns}
-        pageSize={5}
+        pageSize={8}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 8,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[8]}
       />
 
       {/* Modal for Editing Flat */}
       {editFlatId && (
         <EditFlat
-        open={isEditModalOpen}
-        onClose={handleCloseEditModal}
-        flatId={editFlatId}
-        onUpdate={handleUpdateFlat}
-      />
-      
+          open={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          flatId={editFlatId}
+          onUpdate={handleUpdateFlat}
+        />
       )}
     </div>
   );

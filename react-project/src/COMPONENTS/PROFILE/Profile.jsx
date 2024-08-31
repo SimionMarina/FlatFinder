@@ -10,14 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../../CONTEXT/authContext";
+import { doSignOut } from "../../auth";
 import Header from "../HEADER/Header";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import { doc, setDoc } from "firebase/firestore";
+import Modal from "react-modal";
+import { doc, setDoc, getFirestore, deleteDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
+import showToastr from "../../SERVICES/toaster-service";
+import { ToastContainer } from "react-toastify";
 
 function Profile() {
   const { currentUser } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: currentUser.fullName,
     email: currentUser.email,
@@ -52,8 +59,29 @@ function Profile() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const db = getFirestore();
+      const userDoc = doc(db, "users", currentUser.uid);
+
+      // Șterge documentul utilizatorului din Firestore
+      await deleteDoc(userDoc);
+
+      // Deconectează utilizatorul
+      await doSignOut();
+      setIsModalOpen(false);
+
+      showToastr("success", "account deleted");
+      setTimeout(() => {
+        navigate("/register");
+      }, 2000);
+    } catch (error) {
+      console.error("Eroare la ștergerea contului:", error);
+    }
+  };
   return (
     <>
+      <ToastContainer></ToastContainer>
       <div className="background__container">
         <Header></Header>
         <Container
@@ -64,8 +92,8 @@ function Profile() {
             alignItems: "center",
             flexDirection: "column",
             marginTop: "140px",
-            backgroundColor: "rgba(242, 238, 233, 0.7)", 
-            borderRadius:"50px",
+            backgroundColor: "rgba(242, 238, 233, 0.7)",
+            borderRadius: "50px",
             color: "rgb(82, 22, 139)",
             padding: "20px",
           }}
@@ -81,7 +109,11 @@ function Profile() {
             }}
           >
             <PermIdentityIcon
-              sx={{ fontSize: "200px", fontWeight: "100", color: "rgb(82, 22, 139)" }}
+              sx={{
+                fontSize: "200px",
+                fontWeight: "100",
+                color: "rgb(82, 22, 139)",
+              }}
             />
             <Container>
               <Typography>Name: {currentUser.fullName}</Typography>
@@ -93,7 +125,7 @@ function Profile() {
                 style={{
                   marginTop: "30px",
                   color: "black",
-                  border:"2px solid black",
+                  border: "2px solid black",
                   backgroundColor: "blueviolet",
                   fontSize: "14px",
                   fontFamily: "inherit",
@@ -101,6 +133,23 @@ function Profile() {
                 className="update__profile__button"
               >
                 Update data
+              </Button>
+              <Button
+                onClick={() => {
+                  handleClose();
+                  setIsModalOpen(true); // Deschide modalul
+                }}
+                style={{
+                  marginTop: "30px",
+                  marginLeft: "20px",
+                  color: "black",
+                  border: "2px solid black",
+                  backgroundColor: "red",
+                  fontSize: "14px",
+                  fontFamily: "inherit",
+                }}
+              >
+                Delete Account
               </Button>
             </Container>
           </Container>
@@ -150,6 +199,28 @@ function Profile() {
           </DialogActions>
         </Dialog>
       </div>
+      {/* Modal pentru confirmarea ștergerii contului */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Confirm Delete Account"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+          },
+        }}
+      >
+        <h2>Are you sure you want to delete your account?</h2>
+        <div>
+          <Button onClick={handleDelete}>Yes</Button>
+          <Button onClick={() => setIsModalOpen(false)}>No</Button>
+        </div>
+      </Modal>
     </>
   );
 }

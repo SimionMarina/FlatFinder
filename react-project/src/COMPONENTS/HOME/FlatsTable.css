@@ -1,0 +1,27 @@
+.custom__class .MuiDataGrid-row{
+  border-bottom: 1px solid #c3c4c4;
+  border-top: 2px solid #c3c4c4;
+  font-size: 16px;
+}
+.custom__class .MuiDataGrid-cell{
+  border-bottom: 1px solid #c3c4c4;
+
+}
+.custom__class .MuiDataGrid-columnHeader{
+  background-color: rgb(220, 222, 224, 255);
+ 
+  font-size: 16px;
+}
+
+.custom__class .MuiDataGrid-menuIcon{
+  visibility: visible;
+  width: auto;
+}
+.custom__class .MuiDataGrid-footerContainer{
+  color: white;
+  font-size: 16px;
+}
+.custom__class  {
+  overflow: clip;
+  background-color: rgb(220, 222, 224, 255);
+}
