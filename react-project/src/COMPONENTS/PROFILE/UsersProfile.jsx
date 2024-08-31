@@ -103,33 +103,32 @@ function UsersProfile() {
 
     // Definirea coloanelor pentru DataGrid
     const columns = [
-        { field: 'id', headerName: 'ID', width: 100 , headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'city', headerName: 'City', width: 150,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'streetName', headerName: 'Street Name', width: 180,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'streetNumber', headerName: 'Street Number', width: 130,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'areaSize', headerName: 'Area Size', width: 130,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'rentPrice', headerName: 'Rent Price', width: 130,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'yearBuild', headerName: 'Year Built', width: 130,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'dateAvailable', headerName: 'Date Available', width: 180,headerClassName: "header-style", cellClassName: "cell-style", },
-        { field: 'hasAc', headerName: 'Has AC',headerClassName: "header-style", cellClassName: "cell-style" ,width: 130, renderCell: (params) => (params.value ? 'Yes' : 'No') },
+        { field: 'id', headerName: 'ID', width: 100 , headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'city', headerName: 'City', width: 150,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'streetName', headerName: 'Street Name', width: 180,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'streetNumber', headerName: 'Street Number', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'areaSize', headerName: 'Area Size', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'rentPrice', headerName: 'Rent Price', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'yearBuild', headerName: 'Year Built', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'dateAvailable', headerName: 'Date Available', width: 180,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'hasAc', headerName: 'Has AC',headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table" ,width: 130, renderCell: (params) => (params.value ? 'Yes' : 'No') },
     ];
 
     return (
         <div>
             <div className='background__container'>
                 <Header></Header>
-                <Typography variant="h4" sx={{color:"red",  margin:"50px 150px 0px 150px", fontFamily:"Times New Roman", backdropFilter:"blur(8px)",padding:"10px", textAlign:"center"}}>Profile of {userData.fullName}</Typography>
-                <div style={{display:"flex", flexDirection:"column", backdropFilter:"blur(8px)", margin:"0 135px", }}>
+                <Typography variant="h4" sx={{color: "rgb(82, 22, 139)",  margin:"70px 135px 0", fontFamily:"inherit", backgroundColor:"rgba(255,255,255,0.6)", borderTopLeftRadius: "40px", borderTopRightRadius: "40px",padding:"10px", textAlign:"center"}}>Profile of {userData.fullName}</Typography>
+                <div style={{display:"flex", flexDirection:"column", backgroundColor:"rgba(255,255,255,0.6)", margin:"0 135px", }}>
                     <div className='users__details' 
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        color:"white",
-                        backdropFilter: "blur(8px)",
-                        margin: "0 140px 0 130px",
+                        color:"black",
+                        // margin: "0 140px 0 130px",
                         }}>
                         <div>
-                            <PersonOutlineIcon sx={{ fontSize:"160px", color:"wheat"}}></PersonOutlineIcon>
+                            <PersonOutlineIcon sx={{ fontSize:"160px", color:"rgb(82, 22, 139)"}}></PersonOutlineIcon>
                         </div>
                             <div>
                                 <Typography variant="h6" sx={{fontFamily:"inherit", mt:"15px"}}>UID: {userData.uid}</Typography>
@@ -144,7 +143,7 @@ function UsersProfile() {
                         <>
                             <Button 
                                 variant="contained" 
-                                sx={{backgroundColor:"green", fontFamily:"inherit"}}                                onClick={handleMakeAdmin}
+                                sx={{backgroundColor:"green", fontFamily:"inherit"}} onClick={handleMakeAdmin}
                             >
                                 Make Admin
                             </Button>
@@ -159,17 +158,23 @@ function UsersProfile() {
                     )}
                 </Box>
                             </div>
-                    <Typography variant="h5" sx={{color:"white", fontFamily:"inherit", padding:"10px"}}>User Flats:</Typography>
+                    <Typography variant="h5" sx={{color:"rgb(82, 22, 139)", fontFamily:"inherit", padding:"10px"}}>User Flats:</Typography>
                 </div>
                 
-                <Box sx={{ height: 300, width: '82.2%', margin: "auto", color:"white" }}>
+                <Box sx={{ height: 300, width: '82.5%', margin: "auto", }}>
                     <DataGrid
                         rows={userData.flats}
                         columns={columns}
                         pageSize={5}
+                        hideFooterPagination
                         rowsPerPageOptions={[5, 10]}
                         disableSelectionOnClick
-                        sx={{ overflow: 'clip', }}
+                        sx={{
+                            '.MuiDataGrid-menuIcon': {
+                              visibility: 'visible !important',
+                              width: 'auto !important',
+                            }, overflow: 'clip', backgroundColor: 'rgba(242, 238, 233, 0.6)',
+                        }}
                     />
                 </Box>
     

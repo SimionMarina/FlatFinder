@@ -10,8 +10,16 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family:'Times New Roman', Times, serif;
 
+}
+
+.greetings__users {
+  font-family: "Cormorant Upright", serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 22px;
+  
+  
 }
 
 .logo__content {
@@ -27,18 +35,49 @@
 
 .navigation__buttons {
     color: rgb(255, 255, 255);
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    
+    
 }
 
+
 .navbar__home__button:hover {
-    color: rgb(87, 86, 86);
+    color: rgb(165, 100, 225);
+   
 }
 
 .navbar__inbox__button:hover {
-    color: rgb(87, 86, 86);
+  color: rgb(165, 100, 225);
 }
 .navbar__allUsers__button:hover {
-    color: rgb(87, 86, 86);
+  color: rgb(165, 100, 225);
 }
 .navbar__profile__button:hover {
-    color: rgb(87, 86, 86);
+  color: rgb(165, 100, 225);
 }
+
+@keyframes colorFade {
+    0% {
+      color: #ff6ec4;
+    }
+    25% {
+      color: #31a2ac;
+    }
+    50% {
+      color: #ffdd57;
+    }
+    75% {
+      color: #3ad7f2;
+    }
+    100% {
+      color: #ff914d;
+    }
+  }
+  
+  .color-fade {
+    animation: colorFade 16s ease-in-out infinite;
+  }
+  

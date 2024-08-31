@@ -54,17 +54,28 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
 
   return (
     <Dialog
+    sx={{
+      backgroundColor:"rgba(0, 0, 0, 0.7)"
+    }}
       open={open}
       onClose={onClose}
       PaperProps={{
+        
         component: "form",
         onSubmit: (e) => {
           e.preventDefault();
           handleSave();
         },
+        sx: { backgroundColor: "#f2eee9", borderRadius:"30px" }
+
       }}
     >
-      <DialogTitle>Edit Flat</DialogTitle>
+      <DialogTitle sx={{
+        color:"blue",
+        fontFamily:"inherit",
+        fontSize:"22px"
+
+      }}>Edit Flat</DialogTitle>
       <DialogContent>
         <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
           <TextField
@@ -174,8 +185,8 @@ const EditFlat = ({ open, onClose, flatId, onUpdate }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button type="submit">Save</Button>
+        <Button onClick={onClose} sx={{color:"red"}}>Cancel</Button>
+        <Button type="submit" sx={{color:"green"}}>Save</Button>
       </DialogActions>
     </Dialog>
   );

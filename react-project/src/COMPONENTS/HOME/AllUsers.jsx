@@ -36,16 +36,16 @@ function AllUsers() {
   
    
   const columns = [
-    { field: 'fullName', headerName: 'Name', width: 170, headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: 'email', headerName: 'Email', width: 170, headerClassName: 'header-style', cellClassName: 'cell-style' },
-    { field: 'flatsCount', headerName: 'Flats', width: 90, headerClassName: 'header-style', cellClassName: 'cell-style'},
-    { field: 'role', headerName: 'Role', width: 90, headerClassName: 'header-style', cellClassName: 'cell-style'},
+    { field: 'fullName', headerName: 'Name', width: 170, headerClassName: 'header-style-allUsers', cellClassName: 'cell-style-allUsers' },
+    { field: 'email', headerName: 'Email', width: 170, headerClassName: 'header-style-allUsers', cellClassName: 'cell-style-allUsers' },
+    { field: 'flatsCount', headerName: 'Flats', width: 90, headerClassName: 'header-style-allUsers', cellClassName: 'cell-style-allUsers'},
+    { field: 'role', headerName: 'Role', width: 90, headerClassName: 'header-style-allUsers', cellClassName: 'cell-style-allUsers'},
     {
       field: "view",
       headerName: "View",
       renderCell: (params) => (
           <IconButton onClick={() => navigate(`/users-profile/${params.row.id}`)}>
-              <VisibilityIcon className="action__icon" />
+              <VisibilityIcon className="view__icon__allusers" />
           </IconButton>
       ),
       headerClassName: 'header-style',
@@ -64,17 +64,23 @@ function AllUsers() {
         <h1 className='hero__table__title'>All Users</h1>
 
         <div style={{ height: 375, width: "625px", margin: "auto" }}>
-        <DataGrid
-        rows={users}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        sx={{ overflow: 'clip' }}
-      />
+       <DataGrid
+  rows={users}
+  columns={columns}
+  initialState={{
+    pagination: {
+      paginationModel: { page: 0, pageSize: 5 },
+    },
+  }}
+  sx={{
+    '.MuiDataGrid-menuIcon': {
+      visibility: 'visible !important',
+      width: 'auto !important',
+    },
+    overflow: 'clip',
+    backgroundColor: 'rgba(242, 238, 233, 0.4)',
+  }}
+/>
     </div>
 
         </div>
