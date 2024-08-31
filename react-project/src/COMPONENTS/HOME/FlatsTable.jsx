@@ -304,6 +304,7 @@ function FlatsTable({ tableType, refetchFlag }) {
   return (
     <div style={{ height: 375, width: "80%", margin: "auto" }}>
       <DataGrid
+       density="standard"
         rows={flats}
         columns={columns}
         pageSize={5}
