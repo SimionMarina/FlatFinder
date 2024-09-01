@@ -13,7 +13,7 @@ import {
   Container,
 } from "@mui/material";
 import Header from "../HEADER/Header";
-
+import "./Inbox.css"
 const Inbox = () => {
   const [groupedMessages, setGroupedMessages] = useState({});
   const [flatDetails, setFlatDetails] = useState({});
@@ -93,19 +93,20 @@ const Inbox = () => {
 
   return (
     <>
+      <div className="background__container">
       <Header />
 
-      <Container sx={{ marginTop: "10px" }}>
-        <Typography variant="h4" gutterBottom>
-          Inbox
+      <Container>
+        <Typography sx={{display: "flex", justifyContent: "center"}} gutterBottom >
+          <h2 className="inbox__title">MESSAGES</h2>
         </Typography>
-        <Stack spacing={2}>
+        <Stack className="stack__container" spacing={2}>
           {Object.keys(groupedMessages).length === 0 ? (
-            <Typography>No messages found.</Typography>
+            <Typography color={"white"}>No messages found.</Typography>
           ) : (
             Object.keys(groupedMessages).map((senderUid) => (
-              <Card key={senderUid}>
-                <CardContent>
+              <Card className="card__container"  key={senderUid}>
+                <CardContent className="card__content">
                   <Typography variant="h6">
                     From: {groupedMessages[senderUid][0].senderName}
                   </Typography>
@@ -130,17 +131,24 @@ const Inbox = () => {
                     );
                   })}
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{
+                  display: "flex",
+                  justifyContent:"center",
+                  alignItems:"center",
+                }}>
                   <TextField
+                    heig
+                    className="message__input"
                     label="Reply"
                     variant="outlined"
-                    fullWidth
                     value={reply[senderUid] || ""}
                     onChange={(e) => handleReplyChange(senderUid, e.target.value)}
                   />
                   <Button
+                  sx={{
+                    background:"blueviolet"
+                  }}
                     variant="contained"
-                    color="primary"
                     onClick={() => handleSendReply(senderUid)}
                   >
                     Send Reply
@@ -151,6 +159,7 @@ const Inbox = () => {
           )}
         </Stack>
       </Container>
+      </div>
     </>
   );
 };

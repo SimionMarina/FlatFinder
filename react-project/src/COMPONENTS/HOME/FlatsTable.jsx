@@ -214,7 +214,7 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "View",
       renderCell: (params) => (
         <IconButton onClick={() => navigate(`/flats/${params.row.id}`)}>
-          <Visibility className="action__icon__view" />
+          <Visibility style={{color: "green"}} />
         </IconButton>
       ),
       flex: 1,
@@ -233,7 +233,7 @@ function FlatsTable({ tableType, refetchFlag }) {
               {favorites.includes(params.row.id) ? (
                 <Favorite style={{ color: "red" }} />
               ) : (
-                <FavoriteBorder className="action__icon__favorite" />
+                <FavoriteBorder style={{color: "red"}} />
               )}
             </IconButton>
           );
@@ -251,7 +251,7 @@ function FlatsTable({ tableType, refetchFlag }) {
         headerName: "Edit",
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
-            <Edit className="action__icon__edit" />
+            <Edit style={{color: "blue"}} />
           </IconButton>
         ),
       flex: 1,
@@ -261,7 +261,7 @@ function FlatsTable({ tableType, refetchFlag }) {
         headerName: "Delete",
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Delete className="action__icon__delete" />
+            <Delete style={{color: "red"}} />
           </IconButton>
         ),
       flex: 1,
@@ -286,7 +286,12 @@ function FlatsTable({ tableType, refetchFlag }) {
     <div style={{ height: 500, width: "80%", margin: "auto" }}>
       <DataGrid
       className="custom__class"
-        
+        sx={{
+          ".MuiDataGrid-menuIcon": {
+            visibility: "visible",
+            width: "auto"
+          }
+        }}
         autoHeight
         autosizeOnMount
         rows={flats}

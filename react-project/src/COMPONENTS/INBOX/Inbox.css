@@ -1,0 +1,24 @@
+.inbox__title{
+  color: white;
+  margin-top: 10px;
+}
+.stack__container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+.card__container{
+  width: 60%;
+  margin-top: 300px;
+  padding: 20px 20px 10px 20px;
+}
+.card__content{
+  background-color: rgba(241,243,244,255);
+}
+.message__input{
+  height: auto;
+  width: 50%;
+  line-height: 20px;
+}
+

@@ -6,7 +6,6 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
   Slide,
   Stack,
   Checkbox,
@@ -23,7 +22,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function NewFlat({setRefetchFlag}) {
+export default function NewFlat({ setRefetchFlag }) {
   const [open, setOpen] = React.useState(false);
   const [hasAc, setHasAc] = React.useState(false);
   const { currentUser } = useAuth();
@@ -88,19 +87,26 @@ export default function NewFlat({setRefetchFlag}) {
       </div>
 
       <Dialog
-  open={open}
-  TransitionComponent={Transition}
-  keepMounted
-  onClose={handleClose}
-  PaperProps={{
-    component: "form",
-    onSubmit: handleSubmit,
-    sx: { backgroundColor: "#f2eee9", borderRadius:"30px" } // modal background
-  }}
-        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }} 
-        >
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleSubmit,
+          sx: { backgroundColor: "#f2eee9", borderRadius: "30px" }, // modal background
+        }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+      >
         <DialogContent>
-          <DialogContentText sx={{margin:"5px", color:"blue", fontFamily:"inherit", fontSize:"20px"}}>
+          <DialogContentText
+            sx={{
+              margin: "5px",
+              color: "blue",
+              fontFamily: "inherit",
+              fontSize: "20px",
+            }}
+          >
             To add a new flat, please complete all fields.
           </DialogContentText>
           <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
@@ -113,7 +119,6 @@ export default function NewFlat({setRefetchFlag}) {
               type="text"
               fullWidth
               variant="outlined"
-              
             />
             <TextField
               required
@@ -195,8 +200,12 @@ export default function NewFlat({setRefetchFlag}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{color:"red"}}>Cancel</Button>
-          <Button type="submit"sx={{color:"green"}}>Add Flat</Button>
+          <Button onClick={handleClose} sx={{ color: "red" }}>
+            Cancel
+          </Button>
+          <Button type="submit" sx={{ color: "green" }}>
+            Add Flat
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

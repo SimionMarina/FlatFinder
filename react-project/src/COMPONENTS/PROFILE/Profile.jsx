@@ -92,13 +92,13 @@ function Profile() {
             alignItems: "center",
             flexDirection: "column",
             marginTop: "140px",
-            backgroundColor: "rgba(242, 238, 233, 0.7)",
+            backgroundColor: "rgb(220, 222, 224, 255)",
             borderRadius: "50px",
-            color: "rgb(82, 22, 139)",
+            color: "black",
             padding: "20px",
           }}
         >
-          <h3>Account data</h3>
+          <h2>Account data</h2>
           <Container
             sx={{
               display: "flex",
@@ -111,21 +111,25 @@ function Profile() {
             <PermIdentityIcon
               sx={{
                 fontSize: "200px",
-                fontWeight: "100",
-                color: "rgb(82, 22, 139)",
+                color: "blueviolet",
               }}
             />
             <Container>
-              <Typography>Name: {currentUser.fullName}</Typography>
-              <Typography>Email: {currentUser.email}</Typography>
-              <Typography>Birth date: {currentUser.birthDate}</Typography>
+              <Typography sx={{ fontSize: "18px" }}>
+                Name: {currentUser.fullName}
+              </Typography>
+              <Typography sx={{ fontSize: "18px" }}>
+                Email: {currentUser.email}
+              </Typography>
+              <Typography sx={{ fontSize: "18px" }}>
+                Birth date: {currentUser.birthDate}
+              </Typography>
               <Button
                 variant="contained"
                 onClick={handleUpdateMyProfile}
                 style={{
                   marginTop: "30px",
-                  color: "black",
-                  border: "2px solid black",
+                  color: "white",
                   backgroundColor: "blueviolet",
                   fontSize: "14px",
                   fontFamily: "inherit",
@@ -142,8 +146,7 @@ function Profile() {
                 style={{
                   marginTop: "30px",
                   marginLeft: "20px",
-                  color: "black",
-                  border: "2px solid black",
+                  color: "white",
                   backgroundColor: "red",
                   fontSize: "14px",
                   fontFamily: "inherit",
