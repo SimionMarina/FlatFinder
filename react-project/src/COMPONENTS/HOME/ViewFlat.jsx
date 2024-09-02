@@ -8,6 +8,10 @@ import "./Home.css";
 import Header from "../HEADER/Header";
 import EditFlat from "./EditFlat";
 import "./ViewFlat.css";
+import showToastr from "../../SERVICES/toaster-service";
+import { ToastContainer } from "react-toastify";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { useNavigate } from "react-router-dom";
 
 function ViewFlat() {
   const { flatId } = useParams();
@@ -17,6 +21,7 @@ function ViewFlat() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editFlatId, setEditFlatId] = useState(null);
   const { currentUser } = useAuth();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchFlatAndOwner = async () => {
@@ -85,12 +90,13 @@ function ViewFlat() {
           messages: arrayUnion(newMessage),
         });
         setMessage("");
-        alert("Message sent successfully!");
+        showToastr("success", "Message sent successfully!");
+
       } catch (error) {
         console.error("Error sending message:", error);
       }
     } else {
-      alert("Can't send a message without content!");
+      showToastr("error", "Can't send a message without content!");
     }
   };
 
@@ -98,8 +104,16 @@ function ViewFlat() {
 
   return (
     <>
+    <ToastContainer></ToastContainer>
       <div className="background__container">
         <Header />
+        <KeyboardReturnIcon
+                onClick={() => navigate("/")}
+                sx={{
+                 color:"gray",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
         <div className="main__container">
           <div className="backdrop__container">
             <Container

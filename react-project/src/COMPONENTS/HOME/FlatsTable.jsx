@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import EditFlat from "./EditFlat";
 import "./Home.css";
 import "./FlatsTable.css";
+import {Dialog, DialogContentText,Button} from '@mui/material'
 
 function FlatsTable({ tableType, refetchFlag }) {
   const [flats, setFlats] = useState([]);
@@ -34,6 +35,7 @@ function FlatsTable({ tableType, refetchFlag }) {
   const [favorites, setFavorites] = useState([]);
   const [editFlatId, setEditFlatId] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const navigate = useNavigate();
 
   const fetchFlats = async () => {
@@ -119,14 +121,26 @@ function FlatsTable({ tableType, refetchFlag }) {
     }
   };
 
-  const handleDelete = async (id) => {
+
+
+  const handleDeleteFlat = async (id) => {
     try {
       await deleteDoc(doc(db, "flats", id));
       setFlats(flats.filter((flat) => flat.id !== id));
+      handleCloseDeleteModal();
     } catch (error) {
       console.error("Error deleting flat: ", error);
     }
   };
+
+  const handleDelete =  (id) => {
+    setEditFlatId(id);
+   setDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false);
+  }
 
   const handleToggleFavorite = async (id) => {
     const userToUpdate = doc(db, "users", currentUser.uid);
@@ -316,6 +330,39 @@ function FlatsTable({ tableType, refetchFlag }) {
           onUpdate={handleUpdateFlat}
         />
       )}
+
+<Dialog
+        open={deleteModal}
+        keepMounted
+        onClose={handleCloseDeleteModal}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleDeleteFlat,
+          sx: { backgroundColor: "#f2eee9", borderRadius: "30px" }, // modal background
+        }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+      >
+          <DialogContentText
+            sx={{
+                display:"flex",
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center",
+                padding:"30px",
+                margin: "5px",
+                color: "#8a2be2",
+                fontFamily: "inherit",
+                fontSize: "20px",
+            }}
+          >
+            
+            Are you sure you want to delete this flat? 
+            <div>
+                <Button onClick={() => handleDeleteFlat(editFlatId)} sx={{color:"green",fontSize:"16px"}}>Yes</Button>
+                <Button onClick={handleCloseDeleteModal} sx={{color:"red",fontSize:"16px"}}>Cancel</Button>
+            </div>
+          </DialogContentText>
+    </Dialog>
     </div>
   );
 }

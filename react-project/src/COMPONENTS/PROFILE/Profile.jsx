@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   TextField,
   Button,
@@ -14,7 +15,7 @@ import { doSignOut } from "../../auth";
 import Header from "../HEADER/Header";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import Modal from "react-modal";
-import { doc, setDoc, getFirestore, deleteDoc } from "firebase/firestore";
+import { query, collection, where, getDocs, deleteDoc, doc, writeBatch,setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
 import showToastr from "../../SERVICES/toaster-service";
@@ -25,6 +26,7 @@ function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth(); 
   const [formData, setFormData] = useState({
     fullName: currentUser.fullName,
     email: currentUser.email,
@@ -59,26 +61,53 @@ function Profile() {
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      const db = getFirestore();
-      const userDoc = doc(db, "users", currentUser.uid);
+  const handleDelete = () => {
+    setIsModalOpen(true);
+  }
 
-      // Șterge documentul utilizatorului din Firestore
-      await deleteDoc(userDoc);
+  const handleCloseDeleteAccount = () => {
+    setIsModalOpen(false);
+  }
+
+
+  const handleDeletePermission = async () => {
+    try {
+      const batch = writeBatch(db);
+
+      // Documentul utilizatorului
+      const userDocRef = doc(db, "users", currentUser.uid);
+      batch.delete(userDocRef);
+
+      // Apartamentele asociate cu utilizatorul
+      const flatsQuery = query(collection(db, "flats"), where("userUid", "==", currentUser.uid));
+      const flatsSnapshot = await getDocs(flatsQuery);
+
+      if (flatsSnapshot.empty) {
+        console.log("No flats found for the user.");
+      } else {
+        console.log(`Found ${flatsSnapshot.size} flats to delete.`);
+        flatsSnapshot.docs.forEach(doc => {
+          console.log(`Deleting flat with ID: ${doc.id}`);
+          batch.delete(doc.ref);
+        });
+      }
+
+      // Execute batch
+      await batch.commit();
+      console.log("Batch commit successful.");
 
       // Deconectează utilizatorul
       await doSignOut();
       setIsModalOpen(false);
 
-      showToastr("success", "account deleted");
-      setTimeout(() => {
-        navigate("/register");
-      }, 2000);
+      // Redirecționează utilizatorul la pagina de login
+      navigate("/login");
     } catch (error) {
       console.error("Eroare la ștergerea contului:", error);
     }
   };
+
+
   return (
     <>
       <ToastContainer></ToastContainer>
@@ -130,6 +159,7 @@ function Profile() {
                 style={{
                   marginTop: "30px",
                   color: "white",
+                  border:"1px solid black",
                   backgroundColor: "blueviolet",
                   fontSize: "14px",
                   fontFamily: "inherit",
@@ -139,14 +169,12 @@ function Profile() {
                 Update data
               </Button>
               <Button
-                onClick={() => {
-                  handleClose();
-                  setIsModalOpen(true); // Deschide modalul
-                }}
+                onClick={handleDelete}
                 style={{
                   marginTop: "30px",
                   marginLeft: "20px",
                   color: "white",
+                  border:"1px solid black",
                   backgroundColor: "red",
                   fontSize: "14px",
                   fontFamily: "inherit",
@@ -203,27 +231,40 @@ function Profile() {
         </Dialog>
       </div>
       {/* Modal pentru confirmarea ștergerii contului */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Confirm Delete Account"
-        style={{
-          content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
-          },
+
+
+       <Dialog
+        open={isModalOpen}
+        keepMounted
+        onClose={handleCloseDeleteAccount}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleSave,
+          sx: { backgroundColor: "#f2eee9", borderRadius: "30px" }, // modal background
         }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
-        <h2>Are you sure you want to delete your account?</h2>
-        <div>
-          <Button onClick={handleDelete}>Yes</Button>
-          <Button onClick={() => setIsModalOpen(false)}>No</Button>
-        </div>
-      </Modal>
+          <DialogContentText
+            sx={{
+                display:"flex",
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center",
+                padding:"30px",
+                margin: "5px",
+                color: "#8a2be2",
+                fontFamily: "inherit",
+                fontSize: "20px",
+            }}
+          >
+            
+            Are you sure you want to delete your account? 
+            <div>
+                <Button onClick={handleDeletePermission} sx={{color:"green",fontSize:"16px"}}>Yes</Button>
+                <Button onClick={handleCloseDeleteAccount} sx={{color:"red",fontSize:"16px"}}>Cancel</Button>
+            </div>
+          </DialogContentText>
+    </Dialog>
     </>
   );
 }

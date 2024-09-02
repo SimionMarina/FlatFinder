@@ -3,16 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { collection, doc, getDoc, query, where, getDocs, updateDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase'; // Importă configurarea Firestore
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Snackbar, Alert } from '@mui/material';
+import { Typography, Box, Button, Snackbar, Alert,Dialog,DialogContentText } from '@mui/material';
 import Header from '../HEADER/Header';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 function UsersProfile() {
     const { userUId } = useParams(); // Obține `userUId` din URL
     const [userData, setUserData] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const navigate = useNavigate(); // Initializează funcția de navigare
+
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -46,23 +50,40 @@ function UsersProfile() {
         fetchUserData();
     }, [userUId]);
 
-    // Funcția pentru actualizarea rolului utilizatorului
-    const handleMakeAdmin = async () => {
+
+    const handleMakeAdmin = () => {
+        setIsDialogOpen(true);
+    };
+
+    const handleClose = () => {
+        setIsDialogOpen(false);
+    }
+
+    const handleSave = async () => {
         try {
             const userDocRef = doc(db, "users", userUId);
             await updateDoc(userDocRef, { role: 'admin' });
             setUserData(prevState => ({ ...prevState, role: 'admin' }));
             setSnackbarMessage('User role updated to admin');
             setOpenSnackbar(true);
+            handleClose();
         } catch (error) {
             console.error("Error updating user role:", error);
             setSnackbarMessage('Failed to update user role');
             setOpenSnackbar(true);
         }
-    };
+    }
 
     // Funcția pentru ștergerea utilizatorului
     const handleRemoveUser = async () => {
+        setIsRemoveDialogOpen(true);
+    };
+
+    const handleCloseRemoveDialog = () => {
+        setIsRemoveDialogOpen(false);
+    }
+
+    const handleSaveRemoveUser = async () => {
         try {
             const userDocRef = doc(db, "users", userUId);
             
@@ -94,7 +115,7 @@ function UsersProfile() {
             setSnackbarMessage('Failed to remove user');
             setOpenSnackbar(true);
         }
-    };
+    }
 
     // Returnează un loader până când datele sunt preluate
     if (!userData) {
@@ -118,8 +139,16 @@ function UsersProfile() {
         <div>
             <div className='background__container'>
                 <Header></Header>
-                <Typography variant="h4" sx={{color: "rgb(82, 22, 139)",  margin:"70px 135px 0", fontFamily:"inherit", backgroundColor:"rgba(255,255,255,0.6)", borderTopLeftRadius: "40px", borderTopRightRadius: "40px",padding:"10px", textAlign:"center"}}>Profile of {userData.fullName}</Typography>
-                <div style={{display:"flex", flexDirection:"column", backgroundColor:"rgba(255,255,255,0.6)", margin:"0 135px", }}>
+                <KeyboardReturnIcon
+                onClick={() => navigate("/all-users")}
+                sx={{
+                 color:"gray",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
+
+                <Typography variant="h4" sx={{color: "rgb(82, 22, 139)",  margin:"0 135px 0", fontFamily:"inherit", backgroundColor:"#f1f3f4", borderTopLeftRadius: "40px", borderTopRightRadius: "40px",padding:"10px", textAlign:"center"}}>PROFILE OF {userData.fullName}</Typography>
+                <div style={{display:"flex", flexDirection:"column", backgroundColor:"#f1f3f4", margin:"0 135px", }}>
                     <div className='users__details' 
                     style={{
                         display: "flex",
@@ -143,7 +172,8 @@ function UsersProfile() {
                         <>
                             <Button 
                                 variant="contained" 
-                                sx={{backgroundColor:"green", fontFamily:"inherit"}} onClick={handleMakeAdmin}
+                                sx={{backgroundColor:"green", fontFamily:"inherit"}} 
+                                onClick={handleMakeAdmin}
                             >
                                 Make Admin
                             </Button>
@@ -158,7 +188,7 @@ function UsersProfile() {
                     )}
                 </Box>
                             </div>
-                    <Typography variant="h5" sx={{color:"rgb(82, 22, 139)", fontFamily:"inherit", padding:"10px"}}>User Flats:</Typography>
+                    <Typography variant="h5" sx={{color:"rgb(82, 22, 139)", fontFamily:"inherit", padding:"10px"}}>USER FLATS:</Typography>
                 </div>
                 
                 <Box sx={{ height: 300, width: '82.5%', margin: "auto", }}>
@@ -166,6 +196,7 @@ function UsersProfile() {
                         rows={userData.flats}
                         columns={columns}
                         pageSize={5}
+                        density='compact'
                         hideFooterPagination
                         rowsPerPageOptions={[5, 10]}
                         disableSelectionOnClick
@@ -173,11 +204,76 @@ function UsersProfile() {
                             '.MuiDataGrid-menuIcon': {
                               visibility: 'visible !important',
                               width: 'auto !important',
-                            }, overflow: 'clip', backgroundColor: 'rgba(242, 238, 233, 0.6)',
+                            }, overflow: 'clip', backgroundColor: 'white',
                         }}
                     />
                 </Box>
-    
+
+                <Dialog
+        open={isDialogOpen}
+        keepMounted
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleSave,
+          sx: { backgroundColor: "#f2eee9", borderRadius: "30px" }, // modal background
+        }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+      >
+          <DialogContentText
+            sx={{
+                display:"flex",
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center",
+                padding:"30px",
+                margin: "5px",
+                color: "#8a2be2",
+                fontFamily: "inherit",
+                fontSize: "20px",
+            }}
+          >
+            
+            Are you sure you want to make this user admin? 
+            <div>
+                <Button onClick={handleSave} sx={{color:"green",fontSize:"16px"}}>Yes</Button>
+                <Button onClick={handleClose} sx={{color:"red",fontSize:"16px"}}>Cancel</Button>
+            </div>
+          </DialogContentText>
+    </Dialog>
+
+    <Dialog
+        open={isRemoveDialogOpen}
+        keepMounted
+        onClose={handleCloseRemoveDialog}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleSave,
+          sx: { backgroundColor: "#f2eee9", borderRadius: "30px" }, // modal background
+        }}
+        sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+      >
+          <DialogContentText
+            sx={{
+                display:"flex",
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center",
+                padding:"30px",
+                margin: "5px",
+                color: "#8a2be2",
+                fontFamily: "inherit",
+                fontSize: "20px",
+            }}
+          >
+            
+            Are you sure you want to remove this user? 
+            <div>
+                <Button onClick={handleSaveRemoveUser} sx={{color:"green",fontSize:"16px"}}>Yes</Button>
+                <Button onClick={handleCloseRemoveDialog} sx={{color:"red",fontSize:"16px"}}>Cancel</Button>
+            </div>
+          </DialogContentText>
+    </Dialog>
                 
     
                 {/* Snackbar pentru mesaje */}

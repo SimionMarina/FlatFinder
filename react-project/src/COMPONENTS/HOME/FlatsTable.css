@@ -21,3 +21,27 @@
   overflow: clip;
   background-color: rgba(241,243,244,255);
 }
+
+/* FlatsTable.css */
+@media (max-width: 768px) {
+  .MuiDataGrid-root {
+    font-size: 0.75rem; /* Micșorează dimensiunea fontului */
+  }
+
+  .MuiDataGrid-columnSeparator {
+    display: none; /* Ascunde separatoarele coloanelor */
+  }
+
+  .MuiDataGrid-cell {
+    padding: 8px; /* Micșorează paddingul în celule */
+  }
+
+  .MuiDataGrid-footerContainer {
+    display: none; /* Ascunde footer-ul tabelului pe ecrane mici */
+  }
+
+  .custom__class {
+    width: 100% !important; /* Asigură că tabelul se întinde pe întreaga lățime a containerului */
+    overflow-x: auto; /* Permite derularea orizontală dacă este necesar */
+  }
+}

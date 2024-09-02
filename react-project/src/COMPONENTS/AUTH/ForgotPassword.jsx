@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   };
 
   const handleReset = (event) => {
-    event.preventDefault(); // Previne trimiterea formularului
+    event.preventDefault(); 
 
     if (email.trim()) {
       showToastr("success", "A link to reset your password has been sent to your email address.");

@@ -13,12 +13,18 @@ import {
   Container,
 } from "@mui/material";
 import Header from "../HEADER/Header";
-import "./Inbox.css"
+import "./Inbox.css";
+import showToastr from "../../SERVICES/toaster-service";
+import { ToastContainer } from "react-toastify";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { useNavigate } from "react-router-dom";
+
 const Inbox = () => {
   const [groupedMessages, setGroupedMessages] = useState({});
   const [flatDetails, setFlatDetails] = useState({});
   const [reply, setReply] = useState({});
   const { currentUser } = useAuth();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -85,7 +91,7 @@ const Inbox = () => {
         messages: arrayUnion(replyMessage),
       });
       setReply({ ...reply, [senderUid]: "" }); // Clear the reply input
-      alert("Reply sent successfully!");
+      showToastr("success", "Reply sent successfully!");
     } catch (error) {
       console.error("Error sending reply:", error);
     }
@@ -93,8 +99,16 @@ const Inbox = () => {
 
   return (
     <>
+          <ToastContainer></ToastContainer>
       <div className="background__container">
       <Header />
+      <KeyboardReturnIcon
+                onClick={() => navigate("/")}
+                sx={{
+                 color:"gray",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
 
       <Container>
         <Typography sx={{display: "flex", justifyContent: "center"}} gutterBottom >

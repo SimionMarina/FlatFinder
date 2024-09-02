@@ -34,7 +34,7 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("all")}
             sx={{
-              backgroundColor: tableType === "all" ? "blueviolet" : "rgb(220,222,224,255)",
+              backgroundColor: tableType === "all" ? "#8a2be2" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}
@@ -45,7 +45,7 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("myFlats")}
             sx={{
-              backgroundColor: tableType === "myFlats" ? "blueviolet" : "rgb(220,222,224,255)",
+              backgroundColor: tableType === "myFlats" ? "#8a2be2" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)" , color:"wheat"},
             }}
@@ -56,7 +56,7 @@ function Home() {
             variant="contained"
             onClick={() => handleTableTypeChange("favorites")}
             sx={{
-              backgroundColor: tableType === "favorites" ? "blueviolet" : "rgb(220,222,224,255)",
+              backgroundColor: tableType === "favorites" ? "#8a2be2" : "rgb(220,222,224,255)",
               border: "1px solid black", color:"black", fontFamily:"inherit", fontSize:"16px",
               "&:hover": { backgroundColor: "rgb(109, 98, 129)",color:"wheat" },
             }}

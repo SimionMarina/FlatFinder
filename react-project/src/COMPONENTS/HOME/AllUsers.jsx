@@ -8,6 +8,7 @@ import { db } from '../../firebase';
 import { IconButton } from "@mui/material";
 import '../PROFILE/UsersProfile';
 import { useNavigate,Link } from 'react-router-dom';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 
 
@@ -48,8 +49,8 @@ function AllUsers() {
               <VisibilityIcon className="view__icon__allusers" />
           </IconButton>
       ),
-      headerClassName: 'header-style',
-      cellClassName: 'cell-style'
+      headerClassName: 'header-style-allUsers',
+      cellClassName: 'cell-style-allUsers'
   }
   
 ];
@@ -60,8 +61,15 @@ function AllUsers() {
     <>
       <div className='backgroud__container'>
         <Header></Header>
+        <KeyboardReturnIcon
+                onClick={() => navigate("/")}
+                sx={{
+                 color:"gray",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
        <div className='hero__content'> 
-        <h1 className='hero__table__title'>All Users</h1>
+        <h1 className='hero__table__title'>ALL USERS</h1>
 
         <div style={{ height: 375, width: "625px", margin: "auto" }}>
        <DataGrid
@@ -78,7 +86,7 @@ function AllUsers() {
       width: 'auto !important',
     },
     overflow: 'clip',
-    backgroundColor: 'rgba(242, 238, 233, 0.4)',
+    backgroundColor: 'rgba(241,243,244,255)',
   }}
 />
     </div>
