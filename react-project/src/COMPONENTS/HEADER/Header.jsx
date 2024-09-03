@@ -15,6 +15,12 @@ import { useAuth } from "../../CONTEXT/authContext";
 import { doSignOut } from "../../auth";
 import "boxicons/css/boxicons.min.css";
 import Modal from "react-modal";
+import MenuIcon from "@mui/icons-material/Menu";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+
 
 Modal.setAppElement("#root"); // Set the root element for accessibility
 
@@ -23,6 +29,15 @@ export default function Header() {
   const { currentUser, userLoggedIn } = useAuth();
   const [role, setRole] = useState("user");
   const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+const toggleDrawer = (open) => (event) => {
+  if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    return;
+  }
+  setDrawerOpen(open);
+};
+
 
   useEffect(() => {
     if (currentUser) {
@@ -210,6 +225,44 @@ export default function Header() {
             Logout
           </MenuItem>
         </Menu>
+
+        {/* Burger Menu Icon for small screens */}
+      <IconButton
+        edge="start"
+        color="inherit"
+        aria-label="menu"
+        onClick={toggleDrawer(true)}
+        sx={{ display: { xs: "block", sm: "none" } }}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <List>
+          <ListItem button component={Link} to="/" onClick={toggleDrawer(false)}>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button component={Link} to="/inbox" onClick={toggleDrawer(false)}>
+            <ListItemText primary="Inbox" />
+          </ListItem>
+          {currentUser && role === "admin" && (
+            <ListItem button component={Link} to="/all-users" onClick={toggleDrawer(false)}>
+              <ListItemText primary="All Users" />
+            </ListItem>
+          )}
+          <ListItem button component={Link} to="/profile-update" onClick={toggleDrawer(false)}>
+            <ListItemText primary="My Profile" />
+          </ListItem>
+          <ListItem button onClick={() => {
+            doSignOut().then(() => {
+              navigate("/login");
+              toggleDrawer(false)();
+            });
+          }}>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+      </Drawer>
       </Toolbar>
     </AppBar>
   );

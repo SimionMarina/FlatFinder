@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
 import showToastr from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import './Profile.css'
 
 function Profile() {
   const { currentUser } = useAuth();
@@ -113,21 +115,17 @@ function Profile() {
       <ToastContainer></ToastContainer>
       <div className="background__container">
         <Header></Header>
+        <KeyboardReturnIcon
+                onClick={() => navigate("/")}
+                sx={{
+                 color:"gray",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
         <Container
-          sx={{
-            width: "60vw",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            marginTop: "140px",
-            backgroundColor: "rgb(220, 222, 224, 255)",
-            borderRadius: "50px",
-            color: "black",
-            padding: "20px",
-          }}
+        className="profile__hero__container"
         >
-          <h2>Account data</h2>
+          <h2 style={{textAlign:"center"}}>Account data</h2>
           <Container
             sx={{
               display: "flex",
@@ -154,31 +152,15 @@ function Profile() {
                 Birth date: {currentUser.birthDate}
               </Typography>
               <Button
+                className="update__profile__button"
                 variant="contained"
                 onClick={handleUpdateMyProfile}
-                style={{
-                  marginTop: "30px",
-                  color: "white",
-                  border:"1px solid black",
-                  backgroundColor: "blueviolet",
-                  fontSize: "14px",
-                  fontFamily: "inherit",
-                }}
-                className="update__profile__button"
               >
                 Update data
               </Button>
               <Button
+                className="delete__accout__button"
                 onClick={handleDelete}
-                style={{
-                  marginTop: "30px",
-                  marginLeft: "20px",
-                  color: "white",
-                  border:"1px solid black",
-                  backgroundColor: "red",
-                  fontSize: "14px",
-                  fontFamily: "inherit",
-                }}
               >
                 Delete Account
               </Button>

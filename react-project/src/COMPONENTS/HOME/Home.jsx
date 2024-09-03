@@ -5,6 +5,7 @@ import FlatsTable from "./FlatsTable";
 import { Container, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../CONTEXT/authContext";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 function Home() {
   const { currentUser } = useAuth();
@@ -27,8 +28,15 @@ function Home() {
       <div className="background__image"></div>
       <div className="background__overlay"></div>
       <Header />
+      <KeyboardReturnIcon
+                onClick={() => navigate("/FirstView")}
+                sx={{
+                 color:"#f1f3f4",
+                 margin:"10px 20px",
+                 cursor:"pointer"
+                }}></KeyboardReturnIcon>
       <div className="hero__section__home">
-        <Container sx={{ display: "flex", gap: "5px", padding: "20px 0", marginLeft: "8.5%" }}>
+        <Container sx={{ display: "flex", gap: "5px", paddingBottom: "10px", marginLeft: "8.5%" }}>
           <Button
             className="table__buttons"
             variant="contained"

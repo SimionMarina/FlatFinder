@@ -85,3 +85,8 @@
     animation: colorFade 16s ease-in-out infinite;
   }
   
+  @media screen and (max-width:610px) {
+    .navigation__buttons {
+      display: none;
+    }
+  }
