@@ -11,7 +11,6 @@ import ForgotPassword from './COMPONENTS/AUTH/ForgotPassword.jsx'
 import FirstView from './COMPONENTS/FIRST_VIEW/FirstView.jsx'
 import Profile from './COMPONENTS/PROFILE/Profile.jsx'
 import { AuthProvider } from './CONTEXT/authContext.jsx'
-// import DeleteAccount from './COMPONENTS/PROFILE/DeleteAccount.jsx'
 import AllUsers from './COMPONENTS/HOME/AllUsers.jsx'
 import UsersProfile from './COMPONENTS/PROFILE/UsersProfile.jsx'
 
@@ -45,10 +44,6 @@ const router = createBrowserRouter([
     path: "/FirstView",
     element:<FirstView></FirstView>
   },
-  // {
-  //   path: "/delete-account",
-  //   element:<DeleteAccount></DeleteAccount>
-  // },
   {
     path: "/profile-update",
     element: <Profile></Profile>
