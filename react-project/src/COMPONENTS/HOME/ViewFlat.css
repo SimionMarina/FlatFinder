@@ -26,3 +26,61 @@
   color: black;
   font-family: inherit;
 }
+
+
+@media screen and (max-width:850px) {
+  
+
+  .css-1o126ay-MuiTypography-root {
+  font-size: 14px !important;
+  }
+
+  .css-zmmh5f-MuiTypography-root{
+  font-size: 16px !important;
+  font-weight: bold !important;
+
+  }
+
+}
+
+@media screen and (max-width:666px) {
+  .css-12f8iyf-MuiTypography-root {
+  font-size: 20px !important;
+  }
+  .flat__details__container {
+    justify-content: start;
+    align-items: start;
+  }
+
+  .css-1wnbequ-MuiTypography-root {
+  font-size: 18px !important;
+
+  }
+
+  .css-13ywqhf-MuiContainer-root {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .css-1rem14q-MuiGrid-root {
+    margin-left: 0 !important;
+  }
+  .css-1o126ay-MuiTypography-root {
+    width: 300px;
+    margin-left: 20px;
+    margin-bottom: 0;
+  }
+
+  .css-1rem14q-MuiGrid-root {
+    /* display: flex !important;
+    flex-direction: column !important; 
+    gap: 10px !important; */
+   } 
+
+   .sendMessage__button{
+    height: 30px !important;
+    font-size: 10px !important;
+   }
+   .send__message__textfield {
+    margin-bottom: 10px !important;
+   }
+}

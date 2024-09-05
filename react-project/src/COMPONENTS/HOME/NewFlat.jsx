@@ -15,7 +15,7 @@ import { ToastContainer } from "react-toastify";
 import showToastr from "../../SERVICES/toaster-service";
 import { useAuth } from "../../CONTEXT/authContext";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase"; // Firebase configuration and initialization
+import { db } from "../../firebase"; 
 import "./Home.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {

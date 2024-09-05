@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import "boxicons/css/boxicons.min.css";
-// import Box from "@mui/material/Box";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import FormControl from "@mui/material/FormControl";
@@ -17,7 +16,6 @@ import { validationRules } from "../../VALIDATIONS/validation";
 import showToastr from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-
 import { useAuth } from "../../CONTEXT/authContext";
 import { doCreateUserWithEmailAndPassword } from "../../auth";
 import { db } from "../../firebase";
@@ -87,14 +85,13 @@ function Register() {
     if (!isReg) {
       setIsReg(true);
       try {
-        // Crează utilizatorul în Firebase Authentication
         const user = await doCreateUserWithEmailAndPassword(
           formData.email,
           formData.password
         );
         console.log("User UID:", user.user.uid);
 
-        // Adaugă datele utilizatorului în Firestore
+        // Add user data in Firestore
         await setDoc(doc(db, "users", user.user.uid), {
           fullName: formData.fullName,
           birthDate: formData.birthDate,
@@ -104,7 +101,7 @@ function Register() {
           uid: user.user.uid
         });
 
-        // Resetează datele formularului
+        // Reset form data
         setFormData({
           fullName: "",
           email: "",
@@ -113,18 +110,15 @@ function Register() {
           confirmPassword: "",
         });
 
-        // Afișează mesajul de succes
         showToastr(
           "success",
           "Registration successful! You are being redirected."
         );
 
-        // Navighează către pagina principală după un mic delay pentru a permite afișarea mesajului
         setTimeout(() => {
           navigate("/FirstView");
-        }, 2000); // 2 secunde pentru a afișa mesajul de succes
+        }, 2000); 
       } catch (error) {
-        // Gestionează erorile
         if (error.code === "auth/email-already-in-use") {
           showToastr(
             "error",
@@ -278,7 +272,6 @@ function Register() {
                   <Checkbox {...label} className="checkbox" />
                   Accept Terms&Conditions
                 </p>
-                {/* <p className='forgot__password'>Forgot Password?</p> */}
               </div>
 
               <Stack direction="row" spacing={2}>

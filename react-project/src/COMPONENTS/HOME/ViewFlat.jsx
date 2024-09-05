@@ -105,7 +105,7 @@ function ViewFlat() {
   return (
     <>
     <ToastContainer></ToastContainer>
-      <div className="background__container">
+      <div className="background__container__home">
         <Header />
         <KeyboardReturnIcon
                 onClick={() => navigate("/")}
@@ -118,9 +118,7 @@ function ViewFlat() {
           <div className="backdrop__container">
             <Container
               sx={{
-                // marginTop: "20px",
                 color: "white",
-                // width:"300px",
               }}
             >
               <Typography
@@ -282,6 +280,7 @@ function ViewFlat() {
                     }}
                   />
                   <Button
+                  className="sendMessage__button"
                     variant="contained"
                     onClick={handleSendMessage}
                     fullWidth

@@ -76,11 +76,9 @@ function Profile() {
     try {
       const batch = writeBatch(db);
 
-      // Documentul utilizatorului
       const userDocRef = doc(db, "users", currentUser.uid);
       batch.delete(userDocRef);
 
-      // Apartamentele asociate cu utilizatorul
       const flatsQuery = query(collection(db, "flats"), where("userUid", "==", currentUser.uid));
       const flatsSnapshot = await getDocs(flatsQuery);
 
@@ -94,15 +92,12 @@ function Profile() {
         });
       }
 
-      // Execute batch
       await batch.commit();
       console.log("Batch commit successful.");
 
-      // Deconectează utilizatorul
       await doSignOut();
       setIsModalOpen(false);
 
-      // Redirecționează utilizatorul la pagina de login
       navigate("/login");
     } catch (error) {
       console.error("Eroare la ștergerea contului:", error);
@@ -113,7 +108,7 @@ function Profile() {
   return (
     <>
       <ToastContainer></ToastContainer>
-      <div className="background__container">
+      <div className="background__container__home">
         <Header></Header>
         <KeyboardReturnIcon
                 onClick={() => navigate("/")}
@@ -168,7 +163,6 @@ function Profile() {
           </Container>
         </Container>
 
-        {/* Modalul pentru actualizarea datelor */}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Update Profile</DialogTitle>
 
@@ -212,7 +206,6 @@ function Profile() {
           </DialogActions>
         </Dialog>
       </div>
-      {/* Modal pentru confirmarea ștergerii contului */}
 
 
        <Dialog

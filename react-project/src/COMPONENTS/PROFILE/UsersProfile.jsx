@@ -1,20 +1,20 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { collection, doc, getDoc, query, where, getDocs, updateDoc, deleteDoc, writeBatch } from 'firebase/firestore';
-import { db } from '../../firebase'; // Importă configurarea Firestore
+import { db } from '../../firebase'; 
 import { DataGrid } from '@mui/x-data-grid';
 import { Typography, Box, Button, Snackbar, Alert,Dialog,DialogContentText } from '@mui/material';
 import Header from '../HEADER/Header';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 function UsersProfile() {
-    const { userUId } = useParams(); // Obține `userUId` din URL
+    const { userUId } = useParams(); 
     const [userData, setUserData] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const navigate = useNavigate(); // Initializează funcția de navigare
+    const navigate = useNavigate(); 
 
 
 
@@ -23,7 +23,6 @@ function UsersProfile() {
             if (userUId) {
                 console.log(userUId);
                 try {
-                    // Referință la documentul utilizatorului
                     const userDocRef = doc(db, "users", userUId);
                     const userDoc = await getDoc(userDocRef);
 
@@ -31,9 +30,8 @@ function UsersProfile() {
                         const userData = { uid: userUId, ...userDoc.data() };
                         const flatsQuery = query(collection(db, "flats"), where("userUid", "==", userUId));
                         const flatsSnapshot = await getDocs(flatsQuery);
-                        // Include ID-ul documentului în datele utilizatorului
                         const flatsData = flatsSnapshot.docs.map(doc => ({
-                            id: doc.id, // Adaugă ID-ul documentului
+                            id: doc.id,
                             ...doc.data()
                         }));
 
@@ -74,7 +72,6 @@ function UsersProfile() {
         }
     }
 
-    // Funcția pentru ștergerea utilizatorului
     const handleRemoveUser = async () => {
         setIsRemoveDialogOpen(true);
     };
@@ -87,13 +84,10 @@ function UsersProfile() {
         try {
             const userDocRef = doc(db, "users", userUId);
             
-            // Crează un batch de operații
             const batch = writeBatch(db);
             
-            // Șterge documentul utilizatorului
             batch.delete(userDocRef);
 
-            // Șterge apartamentele asociate cu utilizatorul
             const flatsQuery = query(collection(db, "flats"), where("userUid", "==", userUId));
             const flatsSnapshot = await getDocs(flatsQuery);
 
@@ -108,8 +102,7 @@ function UsersProfile() {
             setOpenSnackbar(true);
             setUserData(null); // Reset userData after deletion
 
-            // Navighează înapoi la pagina cu toți utilizatorii
-            navigate('/all-users'); // Înlocuiește cu ruta reală pentru lista de utilizatori
+            navigate('/all-users');
         } catch (error) {
             console.error("Error removing user:", error);
             setSnackbarMessage('Failed to remove user');
@@ -117,19 +110,17 @@ function UsersProfile() {
         }
     }
 
-    // Returnează un loader până când datele sunt preluate
     if (!userData) {
         return <Typography variant="h6">Loading user data...</Typography>;
     }
 
-    // Definirea coloanelor pentru DataGrid
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 , headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
-        { field: 'city', headerName: 'City', width: 150,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
-        { field: 'streetName', headerName: 'Street Name', width: 180,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
-        { field: 'streetNumber', headerName: 'Street Number', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
-        { field: 'areaSize', headerName: 'Area Size', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
-        { field: 'rentPrice', headerName: 'Rent Price', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'city', headerName: 'City', width: 100,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'streetName', headerName: 'Street Name', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'streetNumber', headerName: 'Street No.', width: 120,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'areaSize', headerName: 'Area Size', width: 110,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
+        { field: 'rentPrice', headerName: 'Rent Price', width: 125,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
         { field: 'yearBuild', headerName: 'Year Built', width: 130,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
         { field: 'dateAvailable', headerName: 'Date Available', width: 180,headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table", },
         { field: 'hasAc', headerName: 'Has AC',headerClassName: "header-style-allUsers header-style-table", cellClassName: "cell-style-allUsers cell-style-table" ,width: 130, renderCell: (params) => (params.value ? 'Yes' : 'No') },
@@ -137,7 +128,7 @@ function UsersProfile() {
 
     return (
         <div>
-            <div className='background__container'>
+            <div className='background__container__home'>
                 <Header></Header>
                 <KeyboardReturnIcon
                 onClick={() => navigate("/all-users")}
@@ -154,7 +145,6 @@ function UsersProfile() {
                         display: "flex",
                         flexDirection: "row",
                         color:"black",
-                        // margin: "0 140px 0 130px",
                         }}>
                         <div>
                             <PersonOutlineIcon sx={{ fontSize:"160px", color:"rgb(82, 22, 139)"}}></PersonOutlineIcon>
@@ -166,7 +156,6 @@ function UsersProfile() {
                                 <Typography variant="h6" sx={{fontFamily:"inherit"}}>Role: {userData.role}</Typography>
                             </div>
                        
-    {/* Butoane de acțiune */}
     <Box sx={{ display: 'flex', gap: 2, textAlign:"center", height:"50px", marginTop:"100px" }}>
                     {userData.role === 'user' && (
                         <>

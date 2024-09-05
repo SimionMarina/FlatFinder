@@ -24,9 +24,9 @@ function Home() {
   }, [currentUser, navigate]);
 
   return (
-    <div className="background__container">
+    <div className="background__container__home">
       <div className="background__image"></div>
-      <div className="background__overlay"></div>
+      <div className="background__overlay__home"></div>
       <Header />
       <KeyboardReturnIcon
                 onClick={() => navigate("/FirstView")}

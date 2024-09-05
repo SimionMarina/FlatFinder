@@ -108,7 +108,6 @@ function FlatsTable({ tableType, refetchFlag }) {
       const flatDocRef = doc(db, "flats", updatedFlat.id);
       await updateDoc(flatDocRef, updatedFlat);
 
-      // Actualizează starea flats imediat după ce flat-ul a fost actualizat în Firestore
       setFlats((prevFlats) =>
         prevFlats.map((flat) =>
           flat.id === updatedFlat.id ? updatedFlat : flat

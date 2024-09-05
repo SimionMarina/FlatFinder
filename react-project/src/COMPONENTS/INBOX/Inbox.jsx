@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../CONTEXT/authContext";
-import { db } from "../../firebase"; // Firebase configuration and initialization
+import { db } from "../../firebase"; 
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import {
   Typography,
@@ -100,7 +100,7 @@ const Inbox = () => {
   return (
     <>
           <ToastContainer></ToastContainer>
-      <div className="background__container">
+      <div className="background__container__home">
       <Header />
       <KeyboardReturnIcon
                 onClick={() => navigate("/")}
@@ -116,7 +116,7 @@ const Inbox = () => {
         </Typography>
         <Stack className="stack__container" spacing={2}>
           {Object.keys(groupedMessages).length === 0 ? (
-            <Typography color={"white"}>No messages found.</Typography>
+            <Typography sx={{color:"red", backgroundColor:"rgba(0,0,0,0.7)", padding:"10px 20px"}}>No messages found.</Typography>
           ) : (
             Object.keys(groupedMessages).map((senderUid) => (
               <Card className="card__container"  key={senderUid}>

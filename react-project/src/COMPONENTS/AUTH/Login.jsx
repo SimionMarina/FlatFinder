@@ -21,7 +21,7 @@ import { db } from "../../firebase";
 
 function Login() {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useAuth(); // Folosește corect contextul de autentificare
+  const { currentUser, setCurrentUser } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -62,7 +62,6 @@ function Login() {
     if (!isSigningIn) {
       setIsSigningIn(true);
       try {
-        // Autentifică utilizatorul
         const userCredential = await doSignInWithEmailAndPassword(
           formData.email,
           formData.password
@@ -70,7 +69,6 @@ function Login() {
         const user = userCredential.user;
         console.log("User:", user);
 
-        // Preia datele utilizatorului din Firestore
         const userDoc = doc(db, "users", user.uid);
         const userSnapshot = await getDoc(userDoc);
 
@@ -78,14 +76,11 @@ function Login() {
           const userData = userSnapshot.data();
           console.log("User data:", userData);
 
-          // Setează utilizatorul în contextul de autentificare
           setCurrentUser(userData);
 
-          // Navighează către pagina principală
           navigate("/FirstView");
           showToastr("success", "Login successful!");
         } else {
-          // Utilizatorul nu există în Firestore, tratează eroarea
           showToastr("error", "User data not found.");
         }
       } catch (error) {
