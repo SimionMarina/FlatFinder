@@ -106,7 +106,7 @@ const Inbox = () => {
   return (
     <>
       <ToastContainer></ToastContainer>
-      <div className="background__container__home">
+      <div className="background__container__inbox">
         <Header />
         <KeyboardReturnIcon
           onClick={() => navigate("/")}

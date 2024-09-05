@@ -49,7 +49,8 @@ function Home() {
           >
             All flats
           </Button>
-          <Button
+          <Button      
+            className="table__buttons"
             variant="contained"
             onClick={() => handleTableTypeChange("myFlats")}
             sx={{
@@ -61,6 +62,7 @@ function Home() {
             My flats
           </Button>
           <Button
+            className="table__buttons"
             variant="contained"
             onClick={() => handleTableTypeChange("favorites")}
             sx={{

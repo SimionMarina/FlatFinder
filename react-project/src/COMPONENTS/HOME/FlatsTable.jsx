@@ -309,15 +309,15 @@ function FlatsTable({ tableType, refetchFlag }) {
         autosizeOnMount
         rows={flats}
         columns={columns}
-        pageSize={8}
+        pageSize={5}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 8,
+              pageSize: 5,
             },
           },
         }}
-        pageSizeOptions={[8]}
+        pageSizeOptions={[5]}
       />
 
       {/* Modal for Editing Flat */}

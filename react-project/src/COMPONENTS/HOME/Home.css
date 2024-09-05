@@ -57,3 +57,31 @@ color: rgb(0, 0, 0);
 .add_flat_box > .add_flat_button:hover{
   border: none;
 }
+
+@media screen and (max-width:460px) {
+  .css-6nhr7p-MuiContainer-root {
+    margin-left:0 !important;
+  }
+
+  .table__buttons{
+    font-size: 12px !important;
+    padding: 10px 20px !important;
+  }
+  
+}
+
+@media screen and (max-width:400px) {
+  .table__buttons{
+    font-size: 12px !important;
+    padding: 10px 10px !important;
+  }
+
+  
+}
+
+@media screen and (max-width:330px) {
+  .table__buttons{
+    font-size: 12px !important;
+    padding: 10px 7px !important;
+  }
+}

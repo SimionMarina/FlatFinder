@@ -309,6 +309,7 @@ function ViewFlat() {
                   }}
                 >
                   <Button
+                  className="editFlat__button"
                     variant="contained"
                     onClick={handleEdit}
                     fullWidth
