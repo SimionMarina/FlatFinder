@@ -142,6 +142,154 @@ function Register() {
 
       <div className="background__division">
         <div className="image__section">
+        <div className="formSection__responsive">
+      <div>
+              <h1 className="form__title">Register</h1>
+              <div className="inputs__side">
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    First Name & Last Name
+                  </InputLabel>
+                  <Input
+                    name="fullName"
+                    type="text"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <AccountCircleIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    Email
+                  </InputLabel>
+                  <Input
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <EmailIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    BirthDate
+                  </InputLabel>
+                  <Input
+                    name="birthDate"
+                    value={formData.birthDate}
+                    onChange={handleChange}
+                    type="date"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <CalendarMonthIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    Password
+                  </InputLabel>
+                  <Input
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    type="password"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <LockIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    Confirm Password
+                  </InputLabel>
+                  <Input
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    type="password"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <LockIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
+              <div className="remember__forgot">
+                <p className="checkbox__text">
+                  <Checkbox {...label} className="checkbox" />
+                  Accept Terms&Conditions
+                </p>
+              </div>
+
+              <Stack direction="row" spacing={2}>
+                <Button
+                  className="login__button"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    width: "100%",
+                    height: "50px",
+                  }}
+                  onClick={handleClick}
+                >
+                  Register
+                </Button>
+              </Stack>
+
+              <div className="separator">
+                <div className="line"></div>
+                <p className="text register__separator__text">or</p>
+              </div>
+
+              <div className="icon-container">
+                <img src={GoogleIcon} className="icon" alt="Google Icon" />
+                Sign Up With Google
+              </div>
+
+              <div className="navigate">
+                <p className="no__account"> Already have an account?</p>
+                <Link to="/login" className="navigate__button">
+                  Sign In here
+                </Link>
+              </div>
+            </div>
+      </div>
+
           <h2 className="hero__title">Turn Your Ideas into Reality</h2>
           <p className="hero__paragraph">
             Start for free and get attractive offers from the community
@@ -309,7 +457,9 @@ function Register() {
           </div>
         </div>
       </div>
+      
     </div>
+    
   );
 }
 

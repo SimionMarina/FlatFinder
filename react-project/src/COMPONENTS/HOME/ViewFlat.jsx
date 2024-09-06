@@ -146,7 +146,7 @@ function ViewFlat() {
                 <Grid item xs={4}>
                   <Typography
                     variant="body1"
-                    sx={{ fontFamily: "inherit", fontSize: "18px" }}
+                    sx={{ fontFamily: "inherit", fontSize: "18px",mr:"10px" }}
                   >
                     Address:
                   </Typography>

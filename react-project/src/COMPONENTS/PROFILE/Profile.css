@@ -50,4 +50,22 @@
 
    
   }
+
+  @media screen and (max-width: 480px) {
+    .css-qscxtw-MuiTypography-root{
+      font-size: 15px !important;
+    }
+
+    .delete__accout__button {
+      margin-left: 0px !important;
+      padding: 5px 4px !important;
+    }
+    .css-1dku0el-MuiSvgIcon-root {
+      display: none !important;
+    }
+    .css-1ol58f9-MuiContainer-root {
+      padding: 0 !important;
+    }
+  }
+
   

@@ -6,6 +6,10 @@
     /* background-color: #f4f4f4; */
 }
 
+.formSection__responsive {
+    display: none;
+}
+
 .background__division {
     display: flex;
     flex-direction: row;
@@ -206,8 +210,19 @@ transition: background-color 0.5s ease, color 1s ease;
     margin-bottom: 0;
     text-decoration: none;
     border: none;
-    color: #060606;
+    color:#0D6EFD;
 
+
+}
+
+.navigate__button:hover {
+    color: rgb(86, 86, 86);
+} 
+
+
+.form__title {
+    color:black;
+    text-align: center;
 }
 
 .forgot__password:hover {
@@ -218,4 +233,83 @@ transition: background-color 0.5s ease, color 1s ease;
 
 .navigate__button {
     text-decoration: none;
+}
+
+@media screen and (max-width:1246px) {
+    .image__section {
+        height: auto;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .form__section {
+        display: none;
+    }
+    .image__section {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero__paragraph {
+        display: none;
+    }
+    .hero__title {
+        display: none;
+    }
+
+    .formSection__responsive {
+        display: flex;
+        background: linear-gradient(to top,  rgba(183,183,183,255) 15%,rgba(244,244,244,255) 55%); 
+        border-radius: 20px;
+        width: 60%;
+        padding: 20px;
+        justify-content: center;
+
+    }
+    .no__account {
+        color:black
+    }
+
+    .checkbox__text{
+        color:black;
+    }
+
+}
+
+@media screen and (max-width:510px) {
+    .formSection__responsive {
+        width: 90%;
+    }
+    .inputs__side {
+        width: 350px;
+    }
+   
+
+}
+
+@media screen and (max-width:465px) {
+    .inputs__side {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width:350px) {
+    .inputs__side {
+        width: 100%;
+    }
+
+    .login__noAccount {
+        margin-top: 10px;
+        font-size: 13px;
+    }
+    .login__remember__forgot {
+        font-size: 12px;
+    }
+    .forgot__password {
+        margin-top: 3px;
+
+    }
 }

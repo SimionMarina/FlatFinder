@@ -98,6 +98,95 @@ function Login() {
 
       <div className="background__division">
         <div className="image__section">
+          <div className="formSection__responsive">
+          <div>
+            <h1 className="form__title">Login</h1>
+              <div className="inputs__side">
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    Email
+                  </InputLabel>
+                  <Input
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    type="email"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <EmailIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl variant="standard" sx={{ width: "100%" }}>
+                  <InputLabel
+                    htmlFor="input-with-icon-adornment"
+                    sx={{ color: "black" }}
+                  >
+                    Password
+                  </InputLabel>
+                  <Input
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    type="password"
+                    id="input-with-icon-adornment"
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <LockIcon sx={{ color: "black" }} />
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </div>
+              <div className="remember__forgot login__remember__forgot">
+                <p className="checkbox__text">
+                  <Checkbox className="checkbox" />
+                  Remember me
+                </p>
+                <p className="forgot__password"><Link to='/ForgotPassword' className="forgot__password">Forgot Password?</Link></p>
+              </div>
+
+              <Stack direction="row" spacing={2}>
+                <Button
+                  onClick={handleClick}
+                  className="login__button"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    width: "100%",
+                    height: "50px",
+                  }}
+                >
+                  Log In
+                </Button>
+              </Stack>
+
+              <div className="separator">
+                <div className="line"></div>
+                <p className="text">or</p>
+              </div>
+
+              <div className="icon-container">
+                <img src={GoogleIcon} className="icon" alt="Google Icon" />
+                Sign In With Google
+              </div>
+
+              <div className="navigate login__noAccount">
+                <p className="no__account">Don`t have an account?`</p>
+                <Link to="/register" className="navigate__button">
+                  Sign Up Here
+                </Link>
+              </div>
+            </div>
+          </div>
+
+
           <h2 className="hero__title">Turn Your Ideas into Reality</h2>
           <p className="hero__paragraph">
             Start for free and get attractive offers from the community

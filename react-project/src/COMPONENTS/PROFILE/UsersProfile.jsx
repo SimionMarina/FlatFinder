@@ -3,10 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { collection, doc, getDoc, query, where, getDocs, updateDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase'; 
 import { DataGrid } from '@mui/x-data-grid';
-import { Typography, Box, Button, Snackbar, Alert,Dialog,DialogContentText } from '@mui/material';
+import { Typography, Box, Button, Snackbar, Alert,Dialog,DialogContentText,Paper } from '@mui/material';
 import Header from '../HEADER/Header';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import './UsersProfile.css'
+
+const paginationModel = { page: 0, pageSize: 5 };
+
 function UsersProfile() {
     const { userUId } = useParams(); 
     const [userData, setUserData] = useState(null);
@@ -128,77 +132,75 @@ function UsersProfile() {
 
     return (
         <div>
-            <div className='background__container__home'>
+            <div className='background__container__usersProfile'>
                 <Header></Header>
                 <KeyboardReturnIcon
                 onClick={() => navigate("/all-users")}
                 sx={{
-                 color:"gray",
+                 color:"white",
                  margin:"10px 20px",
                  cursor:"pointer"
                 }}></KeyboardReturnIcon>
 
-                <Typography variant="h4" sx={{color: "rgb(82, 22, 139)",  margin:"0 135px 0", fontFamily:"inherit", backgroundColor:"#f1f3f4", borderTopLeftRadius: "40px", borderTopRightRadius: "40px",padding:"10px", textAlign:"center"}}>PROFILE OF {userData.fullName}</Typography>
-                <div style={{display:"flex", flexDirection:"column", backgroundColor:"#f1f3f4", margin:"0 135px", }}>
-                    <div className='users__details' 
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        color:"black",
-                        }}>
-                        <div>
-                            <PersonOutlineIcon sx={{ fontSize:"160px", color:"rgb(82, 22, 139)"}}></PersonOutlineIcon>
-                        </div>
+                <div className='eachUserProfile__details'>
+                    <Typography variant="h4" >PROFILE OF {userData.fullName}</Typography>
+                    <div className='information__container' style={{display:"flex", flexDirection:"column", backgroundColor:"#f1f3f4", margin:"0 135px", }}>
+                        <div className='users__details' 
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            color:"black",
+                            }}>
                             <div>
-                                <Typography variant="h6" sx={{fontFamily:"inherit", mt:"15px"}}>UID: {userData.uid}</Typography>
-                                <Typography variant="h6" sx={{fontFamily:"inherit"}}>Email: {userData.email}</Typography>
-                                <Typography variant="h6" sx={{fontFamily:"inherit"}}>Birth Date: {userData.birthDate}</Typography>
-                                <Typography variant="h6" sx={{fontFamily:"inherit"}}>Role: {userData.role}</Typography>
+                                <PersonOutlineIcon sx={{ fontSize:"160px", color:"rgb(82, 22, 139)"}}></PersonOutlineIcon>
                             </div>
-                       
-    <Box sx={{ display: 'flex', gap: 2, textAlign:"center", height:"50px", marginTop:"100px" }}>
-                    {userData.role === 'user' && (
-                        <>
-                            <Button 
-                                variant="contained" 
-                                sx={{backgroundColor:"green", fontFamily:"inherit"}} 
-                                onClick={handleMakeAdmin}
-                            >
-                                Make Admin
-                            </Button>
-                            <Button 
-                                variant="contained" 
-                                sx={{backgroundColor:"red",fontFamily:"inherit"}}
-                                onClick={handleRemoveUser}
-                            >
-                                Remove User
-                            </Button>
-                        </>
-                    )}
-                </Box>
-                            </div>
-                    <Typography variant="h5" sx={{color:"rgb(82, 22, 139)", fontFamily:"inherit", padding:"10px"}}>USER FLATS:</Typography>
+                                <div className='hero__information'>
+                                    <Typography className='specific__information' variant="h6" sx={{fontFamily:"inherit", mt:"15px"}}>UID: {userData.uid}</Typography>
+                                    <Typography className='specific__information' variant="h6" sx={{fontFamily:"inherit"}}>Email: {userData.email}</Typography>
+                                    <Typography className='specific__information' variant="h6" sx={{fontFamily:"inherit"}}>Birth Date: {userData.birthDate}</Typography>
+                                    <Typography className='specific__information' variant="h6" sx={{fontFamily:"inherit"}}>Role: {userData.role}</Typography>
+                                </div>
+                           
+                            <Box sx={{ display: 'flex', gap: 2, textAlign:"center", height:"50px", marginTop:"100px" }}>
+                            {userData.role === 'user' && (
+                            <>
+                                <Button 
+                                    variant="contained" 
+                                    sx={{backgroundColor:"green", fontFamily:"inherit"}} 
+                                    onClick={handleMakeAdmin}
+                                >
+                                    Make Admin
+                                </Button>
+                                <Button 
+                                    variant="contained" 
+                                    sx={{backgroundColor:"red",fontFamily:"inherit"}}
+                                    onClick={handleRemoveUser}
+                                >
+                                    Remove User
+                                </Button>
+                            </>
+                        )}
+                    </Box>
+                                </div>
+                        <Typography variant="h5" sx={{color:"rgb(82, 22, 139)", fontFamily:"inherit", padding:"10px"}}>USER FLATS:</Typography>
+                    </div>
                 </div>
                 
-                <Box sx={{ height: 300, width: '82.5%', margin: "auto", }}>
-                    <DataGrid
-                        rows={userData.flats}
-                        columns={columns}
-                        pageSize={5}
-                        density='compact'
-                        hideFooterPagination
-                        rowsPerPageOptions={[5, 10]}
-                        disableSelectionOnClick
-                        sx={{
-                            '.MuiDataGrid-menuIcon': {
-                              visibility: 'visible !important',
-                              width: 'auto !important',
-                            }, overflow: 'clip', backgroundColor: 'white',
-                        }}
-                    />
-                </Box>
+                
 
-                <Dialog
+                
+
+        <Paper sx={{ width: '100%', maxWidth: '1120px', overflowX: 'auto', display:"flex", justifyContent:"center",alignItems:"center",margin:"auto",height:"370px" }}>
+      <DataGrid
+       rows={userData.flats}
+       columns={columns}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
+        sx={{ border: 0 }}
+      />
+    </Paper>
+
+        <Dialog
         open={isDialogOpen}
         keepMounted
         onClose={handleClose}

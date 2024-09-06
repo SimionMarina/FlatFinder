@@ -89,4 +89,14 @@
     .navigation__buttons {
       display: none;
     }
+    
+  }
+
+  @media screen and (max-width:400px) {
+    .logo__content {
+      display: none;
+    }
+    .greetings__users {
+      font-size: 15px;
+    }
   }

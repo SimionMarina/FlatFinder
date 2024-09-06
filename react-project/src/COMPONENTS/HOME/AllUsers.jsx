@@ -77,6 +77,11 @@ function AllUsers() {
                 }}
                 autoHeight
                 sx={{
+                 
+                '.MuiDataGrid-menuIcon': {
+                    visibility: 'visible !important',
+                    width: 'auto !important',
+                }, overflow: 'clip', backgroundColor: 'white',
                     border: 0,
                     backgroundColor: 'rgba(241,243,244,255)',
                 }}
