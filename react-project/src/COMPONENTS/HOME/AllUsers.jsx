@@ -81,7 +81,7 @@ function AllUsers() {
                 '.MuiDataGrid-menuIcon': {
                     visibility: 'visible !important',
                     width: 'auto !important',
-                }, overflow: 'clip', backgroundColor: 'white',
+                }, overflow: 'clip',
                     border: 0,
                     backgroundColor: 'rgba(241,243,244,255)',
                 }}

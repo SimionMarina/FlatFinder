@@ -27,7 +27,7 @@ body {
 
 .hero__section {
   position: relative;
-  z-index: 2;
+  z-index: 22;
   display: flex;
   flex-direction: column;
   justify-content: center;

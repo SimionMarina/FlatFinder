@@ -37,9 +37,6 @@ const validateEmail = (inputValue) => {
     
 };
 
-
-
-
 const validateBirthDate = (inputValue) => {
     let validationResponse = true;
 
@@ -71,7 +68,6 @@ const validateBirthDate = (inputValue) => {
     return validationResponse;
 };
 
-
 const validatePassword = (inputValue) => {
     let validationResponse = true;
     if (!inputValue) {
@@ -95,11 +91,6 @@ const validateConfirmPassword = (inputValue, passwordValue) => {
     }
     return validationResponse;
 };
-
-
-
-
-
 
 export const validationRules = {
     fullName: validateFullName,

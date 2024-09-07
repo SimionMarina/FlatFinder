@@ -50,7 +50,6 @@ function Register() {
   };
 
   const handleClick = async () => {
-    console.log(formData);
     let validationResponse = true;
 
     // Validate Full Name
@@ -89,8 +88,6 @@ function Register() {
           formData.email,
           formData.password
         );
-        console.log("User UID:", user.user.uid);
-
         // Add user data in Firestore
         await setDoc(doc(db, "users", user.user.uid), {
           fullName: formData.fullName,
@@ -98,16 +95,7 @@ function Register() {
           email: formData.email,
           role: "user",
           favorites: [],
-          uid: user.user.uid
-        });
-
-        // Reset form data
-        setFormData({
-          fullName: "",
-          email: "",
-          birthDate: "",
-          password: "",
-          confirmPassword: "",
+          uid: user.user.uid,
         });
 
         showToastr(
@@ -116,8 +104,8 @@ function Register() {
         );
 
         setTimeout(() => {
-          navigate("/FirstView");
-        }, 2000); 
+          navigate("/login");
+        }, 2000);
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {
           showToastr(
@@ -142,8 +130,8 @@ function Register() {
 
       <div className="background__division">
         <div className="image__section">
-        <div className="formSection__responsive">
-      <div>
+          <div className="formSection__responsive">
+            <div>
               <h1 className="form__title">Register</h1>
               <div className="inputs__side">
                 <FormControl variant="standard" sx={{ width: "100%" }}>
@@ -288,7 +276,7 @@ function Register() {
                 </Link>
               </div>
             </div>
-      </div>
+          </div>
 
           <h2 className="hero__title">Turn Your Ideas into Reality</h2>
           <p className="hero__paragraph">
@@ -457,9 +445,7 @@ function Register() {
           </div>
         </div>
       </div>
-      
     </div>
-    
   );
 }
 
