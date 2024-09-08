@@ -88,7 +88,6 @@ function FlatsTable({ tableType, refetchFlag }) {
     if (currentUser) {
       setRole(currentUser.role || "user");
     }
-
     fetchFlats();
   }, [tableType, currentUser, role, refetchFlag]);
 

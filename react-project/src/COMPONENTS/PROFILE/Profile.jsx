@@ -14,11 +14,9 @@ import { useAuth } from "../../CONTEXT/authContext";
 import { doSignOut } from "../../auth";
 import Header from "../HEADER/Header";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import Modal from "react-modal";
-import { query, collection, where, getDocs, deleteDoc, doc, writeBatch,setDoc } from "firebase/firestore";
+import { query, collection, where, getDocs, doc, writeBatch,setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
-import showToastr from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import './Profile.css'
@@ -28,7 +26,6 @@ function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { logout } = useAuth(); 
   const [formData, setFormData] = useState({
     fullName: currentUser.fullName,
     email: currentUser.email,
