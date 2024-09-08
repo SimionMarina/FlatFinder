@@ -23,10 +23,10 @@ import {
 } from "@mui/icons-material";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useNavigate } from "react-router-dom";
-import EditFlat from "./EditFlat";
+import EditFlat from "../HOME ACTIONS/EditFlat";
 import "./Home.css";
 import "./FlatsTable.css";
-import {Dialog, DialogContentText,Button} from '@mui/material'
+import { Dialog, DialogContentText, Button } from "@mui/material";
 
 function FlatsTable({ tableType, refetchFlag }) {
   const [flats, setFlats] = useState([]);
@@ -120,8 +120,6 @@ function FlatsTable({ tableType, refetchFlag }) {
     }
   };
 
-
-
   const handleDeleteFlat = async (id) => {
     try {
       await deleteDoc(doc(db, "flats", id));
@@ -132,14 +130,14 @@ function FlatsTable({ tableType, refetchFlag }) {
     }
   };
 
-  const handleDelete =  (id) => {
+  const handleDelete = (id) => {
     setEditFlatId(id);
-   setDeleteModal(true);
+    setDeleteModal(true);
   };
 
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
-  }
+  };
 
   const handleToggleFavorite = async (id) => {
     const userToUpdate = doc(db, "users", currentUser.uid);
@@ -227,7 +225,7 @@ function FlatsTable({ tableType, refetchFlag }) {
       headerName: "View",
       renderCell: (params) => (
         <IconButton onClick={() => navigate(`/flats/${params.row.id}`)}>
-          <Visibility style={{color: "green"}} />
+          <Visibility style={{ color: "green" }} />
         </IconButton>
       ),
       flex: 1,
@@ -246,7 +244,7 @@ function FlatsTable({ tableType, refetchFlag }) {
               {favorites.includes(params.row.id) ? (
                 <Favorite style={{ color: "red" }} />
               ) : (
-                <FavoriteBorder style={{color: "red"}} />
+                <FavoriteBorder style={{ color: "red" }} />
               )}
             </IconButton>
           );
@@ -264,21 +262,21 @@ function FlatsTable({ tableType, refetchFlag }) {
         headerName: "Edit",
         renderCell: (params) => (
           <IconButton onClick={() => handleEdit(params.row.id)}>
-            <Edit style={{color: "blue"}} />
+            <Edit style={{ color: "blue" }} />
           </IconButton>
         ),
-      flex: 1,
-    },
+        flex: 1,
+      },
       {
         field: "delete",
         headerName: "Delete",
         renderCell: (params) => (
           <IconButton onClick={() => handleDelete(params.row.id)}>
-            <Delete style={{color: "red"}} />
+            <Delete style={{ color: "red" }} />
           </IconButton>
         ),
-      flex: 1,
-    }
+        flex: 1,
+      }
     );
   }
 
@@ -298,12 +296,12 @@ function FlatsTable({ tableType, refetchFlag }) {
   return (
     <div style={{ height: 500, width: "80%", margin: "auto" }}>
       <DataGrid
-      className="custom__class"
+        className="custom__class"
         sx={{
           ".MuiDataGrid-menuIcon": {
             visibility: "visible",
-            width: "auto"
-          }
+            width: "auto",
+          },
         }}
         autoHeight
         autosizeOnMount
@@ -330,7 +328,7 @@ function FlatsTable({ tableType, refetchFlag }) {
         />
       )}
 
-<Dialog
+      <Dialog
         open={deleteModal}
         keepMounted
         onClose={handleCloseDeleteModal}
@@ -341,27 +339,36 @@ function FlatsTable({ tableType, refetchFlag }) {
         }}
         sx={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       >
-          <DialogContentText
-            sx={{
-                display:"flex",
-                flexDirection:"column",
-                justifyContent:"center",
-                alignItems:"center",
-                padding:"30px",
-                margin: "5px",
-                color: "#8a2be2",
-                fontFamily: "inherit",
-                fontSize: "20px",
-            }}
-          >
-            
-            Are you sure you want to delete this flat? 
-            <div>
-                <Button onClick={() => handleDeleteFlat(editFlatId)} sx={{color:"green",fontSize:"16px"}}>Yes</Button>
-                <Button onClick={handleCloseDeleteModal} sx={{color:"red",fontSize:"16px"}}>Cancel</Button>
-            </div>
-          </DialogContentText>
-    </Dialog>
+        <DialogContentText
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "30px",
+            margin: "5px",
+            color: "#8a2be2",
+            fontFamily: "inherit",
+            fontSize: "20px",
+          }}
+        >
+          Are you sure you want to delete this flat?
+          <div>
+            <Button
+              onClick={() => handleDeleteFlat(editFlatId)}
+              sx={{ color: "green", fontSize: "16px" }}
+            >
+              Yes
+            </Button>
+            <Button
+              onClick={handleCloseDeleteModal}
+              sx={{ color: "red", fontSize: "16px" }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </DialogContentText>
+      </Dialog>
     </div>
   );
 }

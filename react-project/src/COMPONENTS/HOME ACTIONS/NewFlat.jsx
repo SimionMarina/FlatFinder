@@ -16,7 +16,7 @@ import showToastr from "../../SERVICES/toaster-service";
 import { useAuth } from "../../CONTEXT/authContext";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase"; 
-import "./Home.css";
+import "../HOME/Home.css";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

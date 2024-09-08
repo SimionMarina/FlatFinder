@@ -4,13 +4,13 @@ import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuth } from "../../CONTEXT/authContext";
 import { Typography, TextField, Button, Container, Grid } from "@mui/material";
-import "./Home.css";
+import "../HOME/Home.css";
 import Header from "../HEADER/Header";
 import EditFlat from "./EditFlat";
 import "./ViewFlat.css";
 import showToastr from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import { useNavigate } from "react-router-dom";
 
 function ViewFlat() {
@@ -21,7 +21,7 @@ function ViewFlat() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editFlatId, setEditFlatId] = useState(null);
   const { currentUser } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFlatAndOwner = async () => {
@@ -91,7 +91,6 @@ function ViewFlat() {
         });
         setMessage("");
         showToastr("success", "Message sent successfully!");
-
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -104,16 +103,17 @@ function ViewFlat() {
 
   return (
     <>
-    <ToastContainer></ToastContainer>
+      <ToastContainer></ToastContainer>
       <div className="background__container__home">
         <Header />
         <KeyboardReturnIcon
-                onClick={() => navigate("/")}
-                sx={{
-                 color:"gray",
-                 margin:"10px 20px",
-                 cursor:"pointer"
-                }}></KeyboardReturnIcon>
+          onClick={() => navigate("/")}
+          sx={{
+            color: "gray",
+            margin: "10px 20px",
+            cursor: "pointer",
+          }}
+        ></KeyboardReturnIcon>
         <div className="main__container">
           <div className="backdrop__container">
             <Container
@@ -146,7 +146,7 @@ function ViewFlat() {
                 <Grid item xs={4}>
                   <Typography
                     variant="body1"
-                    sx={{ fontFamily: "inherit", fontSize: "18px",mr:"10px" }}
+                    sx={{ fontFamily: "inherit", fontSize: "18px", mr: "10px" }}
                   >
                     Address:
                   </Typography>
@@ -280,7 +280,7 @@ function ViewFlat() {
                     }}
                   />
                   <Button
-                  className="sendMessage__button"
+                    className="sendMessage__button"
                     variant="contained"
                     onClick={handleSendMessage}
                     fullWidth
@@ -309,7 +309,7 @@ function ViewFlat() {
                   }}
                 >
                   <Button
-                  className="editFlat__button"
+                    className="editFlat__button"
                     variant="contained"
                     onClick={handleEdit}
                     fullWidth

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import NewFlat from "./NewFlat";
+import NewFlat from "../HOME ACTIONS/NewFlat";
 import Header from "../HEADER/Header";
 import FlatsTable from "./FlatsTable";
 import { Container, Button } from "@mui/material";

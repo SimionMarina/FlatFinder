@@ -4,12 +4,12 @@ import Login from "./COMPONENTS/AUTH/Login.jsx";
 import Register from "./COMPONENTS/AUTH/Register.jsx";
 import Home from "./COMPONENTS/HOME/Home.jsx";
 import Inbox from "./COMPONENTS/INBOX/Inbox.jsx";
-import ViewFlat from "./COMPONENTS/HOME/ViewFlat.jsx";
+import ViewFlat from "./COMPONENTS/HOME ACTIONS/ViewFlat.jsx";
 import ForgotPassword from "./COMPONENTS/AUTH/ForgotPassword.jsx";
 import FirstView from "./COMPONENTS/FIRST_VIEW/FirstView.jsx";
 import Profile from "./COMPONENTS/PROFILE/Profile.jsx";
 import { AuthProvider } from "./CONTEXT/authContext.jsx";
-import AllUsers from "./COMPONENTS/HOME/AllUsers.jsx";
+import AllUsers from "./COMPONENTS/ADMIN ONLY/AllUsers.jsx";
 import UsersProfile from "./COMPONENTS/PROFILE/UsersProfile.jsx";
 import "./COMPONENTS/AUTH/Auth.css";
 
