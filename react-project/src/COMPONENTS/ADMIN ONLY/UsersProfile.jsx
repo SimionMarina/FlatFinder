@@ -20,7 +20,6 @@ import {
   Alert,
   Dialog,
   DialogContentText,
-  Paper,
 } from "@mui/material";
 import Header from "../HEADER/Header";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
