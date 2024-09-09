@@ -4,7 +4,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   width: 100%;
-  height: 100vh;
+  height: auto;
   position: relative;
 }
 .eachUserProfile__details {
@@ -93,6 +93,23 @@
 @media screen and (max-width: 800px) {
   .information__container {
     margin: 0 !important;
+  }
+}
+
+@media screen and (max-width: 690px) {
+  .css-1mk82sz {
+    display: flex !important;
+    flex-direction: column !important;
+    margin-top: 0 !important;
+  }
+  .css-jgtgqi-MuiSvgIcon-root {
+    display: none !important;
+  }
+
+  .admin__buttons {
+    font-size: 10px !important;
+    width: 10px;
+    height: 35px;
   }
 }
 @media screen and (max-width: 530px) {
