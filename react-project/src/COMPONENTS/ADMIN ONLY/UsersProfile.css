@@ -95,6 +95,23 @@
     margin: 0 !important;
   }
 }
+
+@media screen and (max-width: 690px) {
+  .css-1mk82sz {
+    display: flex !important;
+    flex-direction: column !important;
+    margin-top: 0 !important;
+  }
+  .css-jgtgqi-MuiSvgIcon-root {
+    display: none !important;
+  }
+
+  .admin__buttons {
+    font-size: 10px !important;
+    width: 10px;
+    height: 35px;
+  }
+}
 @media screen and (max-width: 530px) {
   .css-5lbw0b-MuiTypography-root {
     font-size: 25px !important;

@@ -241,6 +241,7 @@ function UsersProfile() {
                 {userData.role === "admin" && (
                   <>
                     <Button
+                    className="admin__buttons"
                       variant="contained"
                       sx={{ backgroundColor: "green", fontFamily: "inherit" }}
                       onClick={handleMakeAdmin}
@@ -248,7 +249,8 @@ function UsersProfile() {
                       Make Admin
                     </Button>
                     <Button
-                      variant="contained"
+                    className="admin__buttons"
+                    variant="contained"
                       sx={{ backgroundColor: "red", fontFamily: "inherit" }}
                       onClick={handleRemoveUser}
                     >
@@ -264,7 +266,7 @@ function UsersProfile() {
         <div className="user_flats_container">
           <Typography variant="h5">USER FLATS:</Typography>
         </div>
-        <div style={{ height: 500, width: "75%", margin: "auto" }}>
+        <div style={{ height: 500, width: "59.3%", margin: "auto" }}>
           <DataGrid
             className="custom__grid__class"
             rows={userData.flats}
