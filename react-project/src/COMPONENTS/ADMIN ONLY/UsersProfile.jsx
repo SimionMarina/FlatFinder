@@ -267,7 +267,7 @@ function UsersProfile() {
         <div className="user_flats_container">
           <Typography variant="h5">USER FLATS:</Typography>
         </div>
-        <div style={{ height: 500, width: "59%", margin: "auto" }}>
+        <div style={{ height: 500, width: "59.3%", margin: "auto" }}>
           <DataGrid
             className="custom__grid__class"
             rows={userData.flats}
