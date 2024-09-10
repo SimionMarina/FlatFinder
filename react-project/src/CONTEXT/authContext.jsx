@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
     return credential;
   }
 
-  const value = { currentUser, userLoggedIn, loading, reauthenticate };
+  const value = { currentUser, userLoggedIn, loading, reauthenticate,setCurrentUser };
 
   return (
     <AuthContext.Provider value={value}>

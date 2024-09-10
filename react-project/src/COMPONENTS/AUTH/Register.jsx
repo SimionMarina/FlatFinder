@@ -32,14 +32,14 @@ function Register() {
     confirmPassword: "",
   });
   const [isReg, setIsReg] = useState(false);
-  const { currentUser } = useAuth();
+  // const { currentUser } = useAuth();
 
-  useEffect(() => {
-    console.log(currentUser);
-    if (currentUser) {
-      navigate("/FirstView");
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log(currentUser);
+  //   if (currentUser) {
+  //     navigate("/FirstView");
+  //   }
+  // }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

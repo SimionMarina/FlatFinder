@@ -28,11 +28,11 @@ function Login() {
   });
   const [isSigningIn, setIsSigningIn] = useState(false);
 
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/FirstView");
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     navigate("/FirstView");
+  //   }
+  // }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
