@@ -141,6 +141,7 @@ function UsersProfile() {
     {
       field: "id",
       headerName: "ID",
+      flex:0.7
     },
     {
       field: "city",
@@ -149,6 +150,7 @@ function UsersProfile() {
     {
       field: "streetName",
       headerName: "Street Name",
+      flex:0.5,
     },
     {
       field: "streetNumber",
@@ -169,6 +171,7 @@ function UsersProfile() {
     {
       field: "dateAvailable",
       headerName: "Date Available",
+      flex:0.5,
     },
     {
       field: "hasAc",
