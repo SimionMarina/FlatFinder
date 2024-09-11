@@ -20,7 +20,6 @@ import {
   Alert,
   Dialog,
   DialogContentText,
-  Paper,
 } from "@mui/material";
 import Header from "../HEADER/Header";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -103,11 +102,8 @@ function UsersProfile() {
   const handleSaveRemoveUser = async () => {
     try {
       const userDocRef = doc(db, "users", userUId);
-
       const batch = writeBatch(db);
-
       batch.delete(userDocRef);
-
       const flatsQuery = query(
         collection(db, "flats"),
         where("userUid", "==", userUId)

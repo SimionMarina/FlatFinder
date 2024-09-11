@@ -79,7 +79,7 @@ function Login() {
           setCurrentUser(userData);
 
           navigate("/FirstView");
-          showToastr("success", "Login successful!");
+          // showToastr("success", "Login successful!");
         } else {
           showToastr("error", "User data not found.");
         }
