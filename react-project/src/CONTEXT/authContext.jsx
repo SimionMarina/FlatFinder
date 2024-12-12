@@ -1,10 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { useContext, useEffect, useState, createContext } from "react";
-import { auth } from "../firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -12,45 +9,64 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children, currentPath }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const allowedRoutes = ["/","/firstView"];
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, initializeUser);
-    return unSubscribe;
+    async function fetchData() {
+      console.log(currentPath);
+    if(!allowedRoutes.includes(currentPath))
+      return;
+      await initializeUser();
+    }
+    fetchData();
   }, []);
 
-  async function initializeUser(user) {
+  async function initializeUser() {
     setLoading(true);
-    if (user) {
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      const userData = userDoc.exists() ? userDoc.data() : {};
-      setCurrentUser({ ...user, ...userData });
-      setUserLoggedIn(true);
+    const token = localStorage.getItem("token");
+    // console.log("___________________________________")
+    // console.log(token);
+
+    if(token){
+      try{
+        const response = await axios.get("http://localhost:3000/verifyToken", {
+          headers: {Authorization: token},
+        });
+        console.log(response.data.user)
+        if(response.data && response.data.user){
+          setCurrentUser(response.data.user);
+          setUserLoggedIn(true);
+        } else {
+          logout();
+        }
+      } catch (error) {
+        console.log("Token validation failed:", error);
+        logout();
+      }
     } else {
-      setCurrentUser(null);
-      setUserLoggedIn(false);
+      logout();
     }
+
     setLoading(false);
   }
 
-  // Function to reauthenticate the user
-  async function reauthenticate(password) {
-    const user = auth.currentUser;
-    if (!user) throw new Error("No user is currently logged in.");
-
-    // Reauthenticate using the email and the provided password
-    const credential = await signInWithEmailAndPassword(
-      auth,
-      user.email,
-      password
-    );
-    return credential;
+  function logout() {
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+    setUserLoggedIn(false);
   }
 
-  const value = { currentUser, userLoggedIn, loading, reauthenticate,setCurrentUser };
+  const value = {
+    currentUser,
+    userLoggedIn,
+    loading,
+    logout,
+    setCurrentUser,
+  };
 
   return (
     <AuthContext.Provider value={value}>

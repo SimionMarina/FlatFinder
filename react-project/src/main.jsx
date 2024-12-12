@@ -12,7 +12,7 @@ import { AuthProvider } from "./CONTEXT/authContext.jsx";
 import AllUsers from "./COMPONENTS/ADMIN ONLY/AllUsers.jsx";
 import UsersProfile from "./COMPONENTS/ADMIN ONLY/UsersProfile.jsx";
 import "./COMPONENTS/AUTH/Auth.css";
-
+import RouteContext from "./COMPONENTS/routeContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -32,7 +32,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Home></Home>,
+    element: (
+      <RouteContext>
+        <Home></Home>
+      </RouteContext>
+    ),
   },
   {
     path: "/ForgotPassword",
@@ -40,7 +44,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/FirstView",
-    element: <FirstView></FirstView>,
+    element:
+    <RouteContext>
+      <FirstView></FirstView>
+    </RouteContext>
+    ,
   },
   {
     path: "/profile-update",

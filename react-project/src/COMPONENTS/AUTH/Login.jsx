@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "boxicons/css/boxicons.min.css";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
@@ -14,25 +14,15 @@ import { useNavigate, Link } from "react-router-dom";
 import showToastr from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
 import { validationRules } from "../../VALIDATIONS/validation";
-import { useAuth } from "../../CONTEXT/authContext";
-import { doSignInWithEmailAndPassword } from "../../auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [isSigningIn, setIsSigningIn] = useState(false);
-
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     navigate("/FirstView");
-  //   }
-  // }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +33,6 @@ function Login() {
   };
 
   const handleClick = async () => {
-    console.log(formData);
     let validationResponse = true;
 
     // Validate Email
@@ -61,31 +50,30 @@ function Login() {
 
     if (!isSigningIn) {
       setIsSigningIn(true);
+      const userCredentials = {
+        email: formData.email,
+        password: formData.password,
+      };
       try {
-        const userCredential = await doSignInWithEmailAndPassword(
-          formData.email,
-          formData.password
+        const response = await axios.post(
+          "http://localhost:3000/login",
+          userCredentials
         );
-        const user = userCredential.user;
-        console.log("User:", user);
 
-        const userDoc = doc(db, "users", user.uid);
-        const userSnapshot = await getDoc(userDoc);
+        if (response.data && response.data.token) {
+          //Save the token in localStorage
+          localStorage.setItem("token", response.data.token);
+          showToastr("success", "Login successful!");
 
-        if (userSnapshot.exists()) {
-          const userData = userSnapshot.data();
-          console.log("User data:", userData);
-
-          setCurrentUser(userData);
-
-          navigate("/FirstView");
-          // showToastr("success", "Login successful!");
+          setTimeout(() => {
+            navigate("/firstView");
+          }, 2000);
         } else {
-          showToastr("error", "User data not found.");
+          showToastr("error", "No token received. Login failed.");
         }
       } catch (error) {
-        console.error(error);
-        showToastr("error", "Login failed. Please check your credentials.");
+        console.error("Login error:", error);
+        showToastr("error", "Login failed.");
       } finally {
         setIsSigningIn(false);
       }
@@ -99,8 +87,8 @@ function Login() {
       <div className="background__division">
         <div className="image__section">
           <div className="formSection__responsive">
-          <div>
-            <h1 className="form__title">Login</h1>
+            <div>
+              <h1 className="form__title">Login</h1>
               <div className="inputs__side">
                 <FormControl variant="standard" sx={{ width: "100%" }}>
                   <InputLabel
@@ -149,7 +137,11 @@ function Login() {
                   <Checkbox className="checkbox" />
                   Remember me
                 </p>
-                <p className="forgot__password"><Link to='/ForgotPassword' className="forgot__password">Forgot Password?</Link></p>
+                <p className="forgot__password">
+                  <Link to="/ForgotPassword" className="forgot__password">
+                    Forgot Password?
+                  </Link>
+                </p>
               </div>
 
               <Stack direction="row" spacing={2}>
@@ -185,7 +177,6 @@ function Login() {
               </div>
             </div>
           </div>
-
 
           <h2 className="hero__title">Turn Your Ideas into Reality</h2>
           <p className="hero__paragraph">
@@ -256,7 +247,11 @@ function Login() {
                   <Checkbox className="checkbox" />
                   Remember me
                 </p>
-                <p className="forgot__password"><Link to='/ForgotPassword' className="forgot__password">Forgot Password?</Link></p>
+                <p className="forgot__password">
+                  <Link to="/ForgotPassword" className="forgot__password">
+                    Forgot Password?
+                  </Link>
+                </p>
               </div>
 
               <Stack direction="row" spacing={2}>

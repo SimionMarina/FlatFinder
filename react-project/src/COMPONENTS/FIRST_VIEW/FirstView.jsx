@@ -4,17 +4,18 @@ import "./FirstView.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../CONTEXT/authContext";
 function FirstView() {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
   const navigate = useNavigate();
   const handleStart = () => {
     navigate("/");
   };
-
+  
   useEffect(() => {
-    if (!currentUser) {
+    console.log(currentUser);
+    if (!loading && !currentUser) {
       navigate("/login");
     }
-  }, []);
+  }, [loading,currentUser,navigate]);
   return (
     <div className="background__container">
       <div className="background__image"></div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "boxicons/css/boxicons.min.css";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
@@ -13,13 +13,10 @@ import GoogleIcon from "../../assets/GOOGLE-ICON.svg";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { validationRules } from "../../VALIDATIONS/validation";
-import showToastr from "../../SERVICES/toaster-service";
+import showToaster from "../../SERVICES/toaster-service";
 import { ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../CONTEXT/authContext";
-import { doCreateUserWithEmailAndPassword } from "../../auth";
-import { db } from "../../firebase";
-import { setDoc, doc } from "firebase/firestore";
+import axios from "axios";
 
 function Register() {
   const label = [];
@@ -32,15 +29,7 @@ function Register() {
     confirmPassword: "",
   });
   const [isReg, setIsReg] = useState(false);
-  // const { currentUser } = useAuth();
-
-  // useEffect(() => {
-  //   console.log(currentUser);
-  //   if (currentUser) {
-  //     navigate("/FirstView");
-  //   }
-  // }, [currentUser]);
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -84,21 +73,34 @@ function Register() {
     if (!isReg) {
       setIsReg(true);
       try {
-        const user = await doCreateUserWithEmailAndPassword(
-          formData.email,
-          formData.password
-        );
+        // const user = await doCreateUserWithEmailAndPassword(
+        //   formData.email,
+        //   formData.password
+        // );
         // Add user data in Firestore
-        await setDoc(doc(db, "users", user.user.uid), {
+        // await setDoc(doc(db, "users", user.user.uid), {
+        //   fullName: formData.fullName,
+        //   birthDate: formData.birthDate,
+        //   email: formData.email,
+        //   role: "user",
+        //   favorites: [],
+        //   uid: user.user.uid,
+        // });
+        const newUser = {
+          email: formData.email,
+          password: formData.password,
           fullName: formData.fullName,
           birthDate: formData.birthDate,
-          email: formData.email,
-          role: "user",
-          favorites: [],
-          uid: user.user.uid,
-        });
-
-        showToastr(
+        };
+        axios
+          .post("http://localhost:3000/register", newUser)
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        showToaster(
           "success",
           "Registration successful! You are being redirected."
         );
@@ -108,7 +110,7 @@ function Register() {
         }, 2000);
       } catch (error) {
         if (error.code === "auth/email-already-in-use") {
-          showToastr(
+          showToaster(
             "error",
             "Email is already in use. Please use a different email."
           );

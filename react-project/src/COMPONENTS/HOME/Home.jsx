@@ -18,6 +18,7 @@ function Home() {
   };
 
   useEffect(() => {
+    console.log(currentUser);
     if (!currentUser) {
       navigate("/login");
     }
